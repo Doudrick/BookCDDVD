@@ -24,9 +24,7 @@ namespace BookCDDVD
 
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
-            //changes here
-
-            //also changes here
+            MessageBox.Show("edited!");
         }
     }
 }
