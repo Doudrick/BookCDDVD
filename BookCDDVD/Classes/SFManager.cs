@@ -1,9 +1,4 @@
-﻿// Serializable File (Persistent Object)  Class 
-// Responsible for all processing related to a Serializable File
-// Written in VB by Joseph Jupin     Fall 2009
-// Converted to CSharp by Frank Friedman   Ver 3  Spring 2016
-
-// Modified June 17, 2017 by Frank Friedman
+﻿
 
 using System;
 using System.Collections.Generic;
@@ -29,8 +24,7 @@ namespace BookCDDVD
             Stream thisFileStream;
             BinaryFormatter serializer = new BinaryFormatter();
 
-            //if (plist.Count() > 0)
-            if(true)
+            if (plist.getCount() > 0)
             {
                 try
                 {
@@ -38,7 +32,7 @@ namespace BookCDDVD
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("File open error: Owl Member List not written", "SFManager File Open");
+                    MessageBox.Show("File open error: Product List not written", "SFManager File Open");
                     MessageBox.Show(ex.ToString());
                     return false;
                 }  // end Try
@@ -46,11 +40,11 @@ namespace BookCDDVD
                 try
                 {
                     serializer.Serialize(thisFileStream, plist);
-                    MessageBox.Show("File write: Owl Member List was written to serializable file.");
+                    MessageBox.Show("File write: Product was written to serializable file.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("File write error: Owl Member List not written", "SFManager File Write");
+                    MessageBox.Show("File write error: Product List not written", "SFManager File Write");
                     MessageBox.Show(ex.ToString());
                     return false;
                 }
