@@ -1,20 +1,10 @@
-﻿// CD Classical Chamber Music Class
-// This is a node class (not inherited by any other class)
-// Responsible for all processing related to a CD Classical Chamber Music
-
-// Written in VB by Joseph Jupin     Fall 2009
-// Converted to CSharp by Frank Friedman     Spring 2016
-
-// Modified June 17, 2017 by Frank Friedman
-// Modified June 24, 2018 by Frank Friedman
-// Modified June 16, 2019 by Frank Friedman
-
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-// For serializati
+// For serializatization
 using System.Runtime.Serialization.Formatters.Binary;
 using BookCDDVD;
 
@@ -80,7 +70,7 @@ namespace BookCDDVD
         public override string ToString()
         {
             string s = base.ToString() + "\n";
-            s += "Instrument List:  " + hiddenInstrumentList;
+            s += "CDChamber Instrument List:  " + hiddenInstrumentList + "\n";
             return s;
         } //  end ToString
 

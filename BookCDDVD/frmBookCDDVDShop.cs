@@ -34,8 +34,8 @@ namespace BookCDDVD
         // this method load in all of the textboxes as read only
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
         {
-            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
-            MessageBox.Show(tester.ToString());
+            createTestProducts();
+        
             // set all textboxes to read only
             grpProduct.Visible = false;
         } // end frmBookCDDVDShop_Load
@@ -43,7 +43,6 @@ namespace BookCDDVD
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
-            hideGroups(grpBook);
 
             // disable CreateaBook button and enable all other new entry button
             disableCreateButton(btnCreateBook);
@@ -56,7 +55,6 @@ namespace BookCDDVD
         private void btnCreateBookCIS_Click(object sender, EventArgs e)
         {
             // hide every other group that are not BookCIS and Book
-            hideGroups(grpBook, grpBookCIS);
 
             // show group BookCIS and Book
             grpBookCIS.Visible = true;
@@ -134,6 +132,16 @@ namespace BookCDDVD
             txtCDOrchestraConductor.Clear();
             txtCDChamberInstrumentList.ResetText();
         }
+
+        private void createTestProducts()
+        {
+            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
+            MessageBox.Show(tester.ToString());
+            CDChamber testChamber = new CDChamber(83941, 20.37m, "Violins and Stuff", 100,  // For Product Constructor
+            "Black Heart Musik", "Some old dude", "Violins, Cellos");
+            MessageBox.Show(testChamber.ToString());
+            testProducts.Add(tester);
+            testProducts.Add(testChamber);
         
         private void hideGroups(GroupBox toShow)
         {
