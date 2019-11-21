@@ -106,11 +106,11 @@ namespace BookCDDVD
         // inherits Object by default.
         public override string ToString()
         {
-            string s = "Object Type      : " + base.ToString() + "\n";
-            s += "Product UPC      : " + hiddenUPC + "\n";
-            s += "Product Title    : " + Convert.ToDecimal(hiddenPrice) + "\n";
-            s += "Product Price    : " + hiddenTitle + "\n";
-            s += "Product Quantity : " + Convert.ToInt32(hiddenQuantity);
+            string s = "Object Type: " + base.ToString() + "\n";
+            s += "Product UPC: " + hiddenUPC + "\n";
+            s += "Product Title: " +hiddenTitle + "\n";
+            s += "Product Price: " + Convert.ToDecimal(hiddenPrice) + "\n";
+            s += "Product Quantity: " + Convert.ToInt32(hiddenQuantity) + "\n";
             return s;
         }  // end ToString
 

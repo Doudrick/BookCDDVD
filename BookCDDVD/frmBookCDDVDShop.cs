@@ -12,24 +12,19 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
-        List<GroupBox> test = new List<GroupBox>(6);
+        List<Product> testProducts = new List<Product>();
+
         public frmBookCDDVDShop()
         {
             InitializeComponent();
-            test.Add(grpBook);
-            test.Add(grpBookCIS);
-            test.Add(grpCDChamber);
-            test.Add(grpCDClassical);
-            test.Add(grpCDOrchestra);
-            test.Add(grpDVD);
 
         }
 
         // this method load in all of the textboxes as read only
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
         {
-            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
-            MessageBox.Show(tester.ToString());
+            createTestProducts();
+        
             // set all textboxes to read only
             txtProductUPC.ReadOnly = true;
             txtProductPrice.ReadOnly = true;
@@ -52,7 +47,6 @@ namespace BookCDDVD
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
-            hideGroups(grpBook);
 
             // disable CreateaBook button and enable all other new entry button
             btnCreateBook.Enabled = false;
@@ -77,7 +71,6 @@ namespace BookCDDVD
         private void btnCreateBookCIS_Click(object sender, EventArgs e)
         {
             // hide every other group that are not BookCIS and Book
-            hideGroups(grpBook, grpBookCIS);
 
             // show group BookCIS and Book
             grpBookCIS.Visible = true;
@@ -226,33 +219,16 @@ namespace BookCDDVD
             grpControlsNewEntry.Visible = true;
             grpProduct.Visible = true;
         }
-        private void hideGroups(GroupBox toShow)
+
+        private void createTestProducts()
         {
-            foreach (GroupBox i in test)
-            {
-                if (i == toShow)
-                {
-                    i.Visible = true;
-                }
-                else
-                {
-                    i.Visible = false;
-                }
-            }
-        }
-        private void hideGroups(GroupBox toShow, GroupBox alsoToShow)
-        {
-            foreach (GroupBox i in test)
-            {
-                if (i == toShow || i == alsoToShow)
-                {
-                    i.Visible = true;
-                }
-                else
-                {
-                    i.Visible = false;
-                }
-            }
+            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
+            MessageBox.Show(tester.ToString());
+            CDChamber testChamber = new CDChamber(83941, 20.37m, "Violins and Stuff", 100,  // For Product Constructor
+            "Black Heart Musik", "Some old dude", "Violins, Cellos");
+            MessageBox.Show(testChamber.ToString());
+            testProducts.Add(tester);
+            testProducts.Add(testChamber);
         }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD

@@ -39,37 +39,23 @@ namespace BookCDDVD
         public CDClassical(int UPC, decimal price, string title, int quantity,
             string label, string artists) : base(UPC, price, title, quantity)
         {
-            hiddenLabel = "";
-            hiddenArtists = "";
+            hiddenLabel = label;
+            hiddenArtists = artists;
         }  // end Employee Parameterized Constructor
 
 
         // Accessor/mutator for CD Label
-        public string CDClassicalLabel
+        public string getLabel()
         {
-            get
-            {
-                return hiddenLabel;
-            }  // end get
-            set   // (string value)
-            {
-                hiddenLabel = value;
-            }  // end get
-        }  // end Property
+            return hiddenLabel;
+        }
 
 
         // Accessor/mutator for CD Artists
-        public string CDClassicalArtists
+        public string getArtists()
         {
-            get
-            {
-                return hiddenArtists;
-            }  // end get
-            set   // (string value)
-            {
-                hiddenArtists = value;
-            }  // end get
-        }  // end Property
+            return hiddenArtists;
+        }
 
         // Save data from form to object
         public override void Save(frmBookCDDVDShop f)
@@ -95,7 +81,8 @@ namespace BookCDDVD
         public override string ToString()
         {
             string s = base.ToString() + "\n";
-            s += "CDClassical Info: " + hiddenArtists + hiddenArtists;
+            s += "CDClassical Label: " + hiddenLabel + "\n";
+            s += "CDClasical Artists: " + hiddenArtists + "\n";
             return s;
         }  // end ToString
 
