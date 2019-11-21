@@ -136,6 +136,7 @@
             this.btnCreateBookCIS.TabIndex = 3;
             this.btnCreateBookCIS.Text = "Create CIS Book";
             this.btnCreateBookCIS.UseVisualStyleBackColor = true;
+            this.btnCreateBookCIS.Click += new System.EventHandler(this.btnCreateBookCIS_Click);
             // 
             // btnCreateDVD
             // 
@@ -145,6 +146,7 @@
             this.btnCreateDVD.TabIndex = 4;
             this.btnCreateDVD.Text = "Create DVD";
             this.btnCreateDVD.UseVisualStyleBackColor = true;
+            this.btnCreateDVD.Click += new System.EventHandler(this.btnCreateDVD_Click);
             // 
             // btnCreateCDOrchestra
             // 
@@ -154,6 +156,7 @@
             this.btnCreateCDOrchestra.TabIndex = 5;
             this.btnCreateCDOrchestra.Text = "Create DVD Orchestra";
             this.btnCreateCDOrchestra.UseVisualStyleBackColor = true;
+            this.btnCreateCDOrchestra.Click += new System.EventHandler(this.btnCreateCDOrchestra_Click);
             // 
             // btnCreateCDChamber
             // 
@@ -163,6 +166,7 @@
             this.btnCreateCDChamber.TabIndex = 6;
             this.btnCreateCDChamber.Text = "Create CD Chamber";
             this.btnCreateCDChamber.UseVisualStyleBackColor = true;
+            this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);
             // 
             // btnClear
             // 
@@ -174,6 +178,7 @@
             this.btnClear.TabIndex = 7;
             this.btnClear.Text = "Clear Form";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnExit
             // 

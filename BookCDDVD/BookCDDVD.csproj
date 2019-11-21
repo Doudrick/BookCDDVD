@@ -56,7 +56,6 @@
       <DependentUpon>frmBookCDDVDShop.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Product.cs" />
-    <Compile Include="Classes\FormController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\SFManager.cs" />
