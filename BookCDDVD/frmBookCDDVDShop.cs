@@ -28,6 +28,8 @@ namespace BookCDDVD
         // this method load in all of the textboxes as read only
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
         {
+            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
+            MessageBox.Show(tester.ToString());
             // set all textboxes to read only
             txtProductUPC.ReadOnly = true;
             txtProductPrice.ReadOnly = true;

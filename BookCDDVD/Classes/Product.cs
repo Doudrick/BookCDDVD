@@ -54,59 +54,31 @@ namespace BookCDDVD
 
 
         // Accessor/Mutator for UPC
-        public int ProductUPC
+        public int getUPC()
         {
-            get
-            {
-                return hiddenUPC;
-            } //  end get
-            set   // (int value)
-            {
-                hiddenUPC = value;
-            }  // end get
-        }  // End Property
+            return hiddenUPC;
+        }
 
 
         // Accessor/Mutator for product price 
-        public decimal ProductPrice
+        public decimal getPrice()
         {
-            get
-            {
-                return hiddenPrice;
-            } //  end get
-            set
-            {
-                hiddenPrice = value;
-            }  // end get
-        }  // End Property
+            return hiddenPrice;
+        }
 
 
         // Accessor/mutator for product title
-        public string ProductTitle
+        public string getTitle()
         {
-            get
-            {
-                return hiddenTitle;
-            }  // end get
-            set   // (string value)
-            {
-                hiddenTitle = value;
-            }  // end get
-        }  // end Property
+            return hiddenTitle;
+        }
 
 
         // Accessor/mutator for product quantity
-        public int ProductQuantity
+        public int getQuantity()
         {
-            get
-            {
-                return hiddenQuantity;
-            }  // end get
-            set   // (DateTime value)
-            {
-                hiddenQuantity = value;
-            }  // end get
-        }  // end Property
+            return hiddenQuantity;
+        }
 
 
         // Save data from form to object
