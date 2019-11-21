@@ -16,6 +16,7 @@ namespace BookCDDVD
 
         List<GroupBox> groupCategories = new List<GroupBox>(6);
         List<Button> createButton = new List<Button>(5);
+        List<TextBox> textInput = new List<TextBox>(16);
         public frmBookCDDVDShop()
         {
             InitializeComponent();
@@ -31,6 +32,24 @@ namespace BookCDDVD
             createButton.Add(btnCreateDVD);
             createButton.Add(btnCreateCDOrchestra);
             createButton.Add(btnCreateCDChamber);
+            createButton.Add(btnInsert);
+            createButton.Add(btnExit);
+            createButton.Add(btnClear);
+
+            textInput.Add(txtProductUPC);
+            textInput.Add(txtProductPrice);
+            textInput.Add(txtProductTitle);
+            textInput.Add(txtProductQuantity);
+            textInput.Add(txtBookISBNLeft);
+            textInput.Add(txtBookISBNRight);
+            textInput.Add(txtBookAuthor);
+            textInput.Add(txtBookPages);
+            textInput.Add(txtDVDLeadActor);
+            textInput.Add(txtDVDReleaseDate);
+            textInput.Add(txtDVDRunTime);
+            textInput.Add(txtCDClassicalLabel);
+            textInput.Add(txtCDClassicalArtists);
+            textInput.Add(txtCDOrchestraConductor);
         }
 
         // this method load in all of the textboxes as read only
@@ -115,8 +134,10 @@ namespace BookCDDVD
             clearForm();
         } // end btnClear_Click
 
+        // this method clear all the textboxes
         private void clearForm()
         {
+            // clearing the textboxes
             txtProductUPC.Clear();
             txtProductPrice.Clear();
             txtProductTitle.Clear();
@@ -133,6 +154,16 @@ namespace BookCDDVD
             txtCDClassicalArtists.Clear();
             txtCDOrchestraConductor.Clear();
             txtCDChamberInstrumentList.ResetText();
+        } // end clearForm
+        
+        // this method search the group categories user is looking for and show them
+        private void hideGroups(GroupBox toShow)
+        {
+            // show the groupBox product
+            grpProduct.Visible = true;
+
+            // this for loops scan the categories and show the one user is looking for
+            foreach (GroupBox i in groupCategories)
         }
 
         private void createTestProducts()
@@ -150,6 +181,20 @@ namespace BookCDDVD
                 grpProduct.Visible = true;
                 foreach (GroupBox i in groupCategories)
                 {
+                    i.Visible = false;
+                } // end else
+            } // end foreach
+        } // end hideGroups
+
+        // this method is an overloading of the method above hideGroups
+        // it take in two parameter of two different groupbxoes
+        private void hideGroups(GroupBox toShow, GroupBox alsoToShow)
+        {
+            // show the product groupbox
+            grpProduct.Visible = true;
+
+            // this forloops search for two different group boxes user is looking for and show them
+            foreach (GroupBox i in groupCategories)
                     if (i == toShow)
                     {
                         i.Visible = true;
@@ -165,6 +210,16 @@ namespace BookCDDVD
                 grpProduct.Visible = true;
                 foreach (GroupBox i in groupCategories)
                 {
+                    i.Visible = false;
+                } // end else
+            } // end foreach
+        } // end hideGroups
+
+        // this method disable the button that was clicked for new entry
+        private void disableCreateButton(Button toDisable)
+        {
+            // this for loops search for the button user just click and disable it 
+            foreach (Button i in createButton)
                     if (i == toShow || i == alsoToShow)
                     {
                         i.Visible = true;
@@ -180,6 +235,43 @@ namespace BookCDDVD
             {
                 foreach (Button i in createButton)
                 {
+                    i.Enabled = true;
+                } // end else
+            } // end foreach
+        } // end disableCreateButton
+
+        private bool checkBook(TextBox Upc, TextBox Price, TextBox Title, 
+            TextBox Quantity, TextBox ISBNL, TextBox ISBNR, TextBox Author, TextBox Pages)
+        {
+            bool check = false;
+            int num = -1;
+            string checkUPC = Convert.ToString(Upc);
+            string checkPrice = Convert.ToString(Price);
+            string checkTitle = Convert.ToString(Title);
+            string checkQuantity = Convert.ToString(Quantity);
+            string checkISBNL = Convert.ToString(ISBNL);
+            string checkISBNR = Convert.ToString(ISBNR);
+            string checkAuthor = Convert.ToString(Author);
+            string checkPages = Convert.ToString(Pages);
+
+            if (!int.TryParse(checkUPC, out num))
+            {
+                check = false;      
+            } else if (!int.TryParse(checkPrice, out num))
+            {
+                MessageBox.Show("Please Enter a valid Price");
+            } else
+            {
+                
+            }
+            return check;
+        }
+
+        private void btnInsert_Click(object sender, EventArgs e)
+        {
+            checkBook(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity, txtBookISBNLeft,
+                txtBookISBNRight, txtBookAuthor, txtBookPages);
+        }
                     if (i == toDisable)
                     {
                         i.Enabled = false;
@@ -189,6 +281,5 @@ namespace BookCDDVD
                     }
                 }
             }
-     
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD

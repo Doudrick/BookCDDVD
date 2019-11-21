@@ -159,7 +159,7 @@
             this.btnCreateCDChamber.Text = "Create CD Chamber";
             this.btnCreateCDChamber.UseVisualStyleBackColor = true;
             this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);
-           
+            // 
             // grpControlsNewEntry
             // 
             this.grpControlsNewEntry.Controls.Add(this.btnCreateBook);
@@ -571,7 +571,7 @@
             this.btnInsert.TabIndex = 21;
             this.btnInsert.Text = "Insert";
             this.btnInsert.UseVisualStyleBackColor = true;
-            this.btnInsert.Visible = false;
+            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // btnExit
             // 
@@ -597,7 +597,7 @@
             this.Controls.Add(this.lblInstruction);
             this.Controls.Add(this.lblTitle);
             this.Name = "frmBookCDDVDShop";
-            this.Text = "BookCDDVDShop";
+            this.Text = " ";
             this.Load += new System.EventHandler(this.frmBookCDDVDShop_Load);
             this.grpControlsNewEntry.ResumeLayout(false);
             this.grpProduct.ResumeLayout(false);
