@@ -34,5 +34,13 @@ namespace BookCDDVD
             hiddenAuthor = author;
             hiddenPages = pages;
         }
+        public override string ToString()
+        {
+            string s = base.ToString() + "\n";
+            s += "Book ISBN: " + hiddenISBN1 + hiddenISBN2 + "\n";
+            s += "Book Author: " + hiddenAuthor + "\n";
+            s += "Book Pages: " + hiddenPages + "\n";
+            return s;
+        }  // end ToString
     }
 }
