@@ -69,6 +69,9 @@ namespace BookCDDVD
             txtBookISBNRight.ReadOnly = false;
             txtBookAuthor.ReadOnly = false;
             txtBookPages.ReadOnly = false;
+
+            // clear the form
+            clearForm();
         } // end btnCreateaBook
 
         // this method hide and enable textboxes for Create Book CIS button
@@ -103,6 +106,10 @@ namespace BookCDDVD
             txtBookAuthor.ReadOnly = false;
             txtBookPages.ReadOnly = false;
             txtBookCISCISArea.Enabled = true;
+
+            // clear the form
+            clearForm();
+
         } // end btnCreateaBookCIS
 
         // this method hide and enable textboxes for Create DVD button
@@ -134,6 +141,9 @@ namespace BookCDDVD
             txtDVDLeadActor.ReadOnly = false;
             txtDVDReleaseDate.ReadOnly = false;
             txtDVDRunTime.ReadOnly = false;
+
+            // clear the form
+            clearForm();
         } // end btnCreateaDVD
 
         // this method only show and enable textboxes for createa DVD Orchestra button
@@ -166,6 +176,9 @@ namespace BookCDDVD
             txtCDClassicalLabel.ReadOnly = false;
             txtCDClassicalArtists.ReadOnly = false;
             txtCDOrchestraConductor.ReadOnly = false;
+
+            // clear the form
+            clearForm();
         } // end btnCreateaCDOrchestra
 
         // this method only show and enable textboxes for createa CD Chamber button
@@ -200,12 +213,20 @@ namespace BookCDDVD
             txtCDClassicalArtists.ReadOnly = false;
             txtCDOrchestraConductor.ReadOnly = false;
             txtCDChamberInstrumentList.Enabled = true;
+
+            // clear the form
+            clearForm();
         } // end btnCreateCDChamber
 
         // this method clear all of the textboxes
         private void btnClear_Click(object sender, EventArgs e)
         {
             // clearing all the textboxes 
+            clearForm();
+        } // end btnClear_Click
+
+        private void clearForm()
+        {
             txtProductUPC.Clear();
             txtProductPrice.Clear();
             txtProductTitle.Clear();
@@ -222,6 +243,9 @@ namespace BookCDDVD
             txtCDClassicalArtists.Clear();
             txtCDOrchestraConductor.Clear();
             txtCDChamberInstrumentList.ResetText();
-        } // end btnClear_Click
+        }
+        private void btnFind_Click(object sender, EventArgs e)
+        {
+        }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
