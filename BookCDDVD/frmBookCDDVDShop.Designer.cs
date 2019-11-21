@@ -159,7 +159,7 @@
             this.btnCreateCDChamber.Text = "Create CD Chamber";
             this.btnCreateCDChamber.UseVisualStyleBackColor = true;
             this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);
-            // 
+           
             // grpControlsNewEntry
             // 
             this.grpControlsNewEntry.Controls.Add(this.btnCreateBook);
