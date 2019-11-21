@@ -12,6 +12,8 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
+        List<Product> testProducts = new List<Product>();
+
         List<GroupBox> groupCategories = new List<GroupBox>(6);
         List<Button> createButton = new List<Button>(5);
         public frmBookCDDVDShop()
@@ -142,50 +144,51 @@ namespace BookCDDVD
             MessageBox.Show(testChamber.ToString());
             testProducts.Add(tester);
             testProducts.Add(testChamber);
-        
-        private void hideGroups(GroupBox toShow)
-        {
-            grpProduct.Visible = true;
-            foreach (GroupBox i in groupCategories)
+        }
+            private void hideGroups(GroupBox toShow)
             {
-                if (i == toShow)
+                grpProduct.Visible = true;
+                foreach (GroupBox i in groupCategories)
                 {
-                    i.Visible = true;
-                }
-                else
-                {
-                    i.Visible = false;
+                    if (i == toShow)
+                    {
+                        i.Visible = true;
+                    }
+                    else
+                    {
+                        i.Visible = false;
+                    }
                 }
             }
-        }
-        private void hideGroups(GroupBox toShow, GroupBox alsoToShow)
-        {
-            grpProduct.Visible = true;
-            foreach (GroupBox i in groupCategories)
+            private void hideGroups(GroupBox toShow, GroupBox alsoToShow)
             {
-                if (i == toShow || i == alsoToShow)
+                grpProduct.Visible = true;
+                foreach (GroupBox i in groupCategories)
                 {
-                    i.Visible = true;
-                }
-                else
-                {
-                    i.Visible = false;
+                    if (i == toShow || i == alsoToShow)
+                    {
+                        i.Visible = true;
+                    }
+                    else
+                    {
+                        i.Visible = false;
+                    }
                 }
             }
-        }
 
-        private void disableCreateButton(Button toDisable)
-        {
-            foreach (Button i in createButton)
+            private void disableCreateButton(Button toDisable)
             {
-                if (i == toDisable)
+                foreach (Button i in createButton)
                 {
-                    i.Enabled = false;
-                } else
-                {
-                    i.Enabled = true;
+                    if (i == toDisable)
+                    {
+                        i.Enabled = false;
+                    } else
+                    {
+                        i.Enabled = true;
+                    }
                 }
-            } 
-        }
+            }
+     
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
