@@ -12,9 +12,17 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
+        List<GroupBox> test = new List<GroupBox>(6);
         public frmBookCDDVDShop()
         {
             InitializeComponent();
+            test.Add(grpBook);
+            test.Add(grpBookCIS);
+            test.Add(grpCDChamber);
+            test.Add(grpCDClassical);
+            test.Add(grpCDOrchestra);
+            test.Add(grpDVD);
+
         }
 
         // this method load in all of the textboxes as read only
@@ -42,15 +50,7 @@ namespace BookCDDVD
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
-            // hide every other group that is not Book
-            grpBookCIS.Visible = false;
-            grpDVD.Visible = false;
-            grpCDClassical.Visible = false;
-            grpCDOrchestra.Visible = false;
-            grpCDChamber.Visible = false;
-
-            // show Book group
-            grpBook.Visible = true;
+            hideGroups(grpBook);
 
             // disable CreateaBook button and enable all other new entry button
             btnCreateBook.Enabled = false;
@@ -78,15 +78,10 @@ namespace BookCDDVD
         private void btnCreateBookCIS_Click(object sender, EventArgs e)
         {
             // hide every other group that are not BookCIS and Book
-            grpBook.Visible = false;
-            grpDVD.Visible = false;
-            grpCDClassical.Visible = false;
-            grpCDOrchestra.Visible = false;
-            grpCDChamber.Visible = false;
+            hideGroups(grpBook, grpBookCIS);
 
             // show group BookCIS and Book
             grpBookCIS.Visible = true;
-            grpBook.Visible = true;
 
             // disable CreateaBookCIS button and enable all other new entry button
             btnCreateBook.Enabled = true;
@@ -244,8 +239,34 @@ namespace BookCDDVD
             txtCDOrchestraConductor.Clear();
             txtCDChamberInstrumentList.ResetText();
         }
-        private void btnFind_Click(object sender, EventArgs e)
+        
+        private void hideGroups(GroupBox toShow)
         {
+            foreach (GroupBox i in test)
+            {
+                if (i == toShow)
+                {
+                    i.Visible = true;
+                }
+                else
+                {
+                    i.Visible = false;
+                }
+            }
+        }
+        private void hideGroups(GroupBox toShow, GroupBox alsoToShow)
+        {
+            foreach (GroupBox i in test)
+            {
+                if (i == toShow || i == alsoToShow)
+                {
+                    i.Visible = true;
+                }
+                else
+                {
+                    i.Visible = false;
+                }
+            }
         }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD

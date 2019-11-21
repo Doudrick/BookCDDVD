@@ -35,18 +35,8 @@
             this.btnCreateDVD = new System.Windows.Forms.Button();
             this.btnCreateCDOrchestra = new System.Windows.Forms.Button();
             this.btnCreateCDChamber = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.btnEnterUPC = new System.Windows.Forms.Button();
-            this.btnFind = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnSaveEditUpdate = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.grpControlsNewEntry = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.grpFormControlDataProcessing = new System.Windows.Forms.GroupBox();
-            this.lblDataProcessing2 = new System.Windows.Forms.Label();
-            this.lblDataProcessing1 = new System.Windows.Forms.Label();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.grpCDChamber = new System.Windows.Forms.GroupBox();
             this.txtCDChamberInstrumentList = new System.Windows.Forms.ComboBox();
@@ -86,8 +76,12 @@
             this.lblTitle2 = new System.Windows.Forms.Label();
             this.lblPrice = new System.Windows.Forms.Label();
             this.lblUPC = new System.Windows.Forms.Label();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.btnInsert = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.grpControlsNewEntry.SuspendLayout();
-            this.grpFormControlDataProcessing.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
             this.grpCDOrchestra.SuspendLayout();
@@ -113,10 +107,8 @@
             this.lblInstruction.ForeColor = System.Drawing.Color.DarkRed;
             this.lblInstruction.Location = new System.Drawing.Point(75, 34);
             this.lblInstruction.Name = "lblInstruction";
-            this.lblInstruction.Size = new System.Drawing.Size(660, 13);
+            this.lblInstruction.Size = new System.Drawing.Size(0, 13);
             this.lblInstruction.TabIndex = 1;
-            this.lblInstruction.Text = "to CREATE a new Book, CIS Book, DVD, Orchestra CD or Chamber CD, always press a b" +
-    "utton below before typing.";
             // 
             // btnCreateBook
             // 
@@ -166,78 +158,8 @@
             this.btnCreateCDChamber.TabIndex = 6;
             this.btnCreateCDChamber.Text = "Create CD Chamber";
             this.btnCreateCDChamber.UseVisualStyleBackColor = true;
-            this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);
-            // 
-            // btnClear
-            // 
-            this.btnClear.BackColor = System.Drawing.Color.Red;
-            this.btnClear.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnClear.Location = new System.Drawing.Point(700, 172);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(75, 62);
-            this.btnClear.TabIndex = 7;
-            this.btnClear.Text = "Clear Form";
-            this.btnClear.UseVisualStyleBackColor = false;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.BackColor = System.Drawing.Color.Red;
-            this.btnExit.Location = new System.Drawing.Point(700, 254);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 62);
-            this.btnExit.TabIndex = 8;
-            this.btnExit.Text = "Exit";
-            this.btnExit.UseVisualStyleBackColor = false;
-            // 
-            // btnEnterUPC
-            // 
-            this.btnEnterUPC.BackColor = System.Drawing.Color.Lime;
-            this.btnEnterUPC.ForeColor = System.Drawing.Color.Black;
-            this.btnEnterUPC.Location = new System.Drawing.Point(6, 82);
-            this.btnEnterUPC.Name = "btnEnterUPC";
-            this.btnEnterUPC.Size = new System.Drawing.Size(156, 23);
-            this.btnEnterUPC.TabIndex = 9;
-            this.btnEnterUPC.Text = "Click HERE to enter a UPC";
-            this.btnEnterUPC.UseVisualStyleBackColor = false;
-            // 
-            // btnFind
-            // 
-            this.btnFind.Location = new System.Drawing.Point(181, 82);
-            this.btnFind.Name = "btnFind";
-            this.btnFind.Size = new System.Drawing.Size(88, 23);
-            this.btnFind.TabIndex = 10;
-            this.btnFind.Text = "Find/Display";
-            this.btnFind.UseVisualStyleBackColor = true;
-            this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(286, 82);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(82, 23);
-            this.btnEdit.TabIndex = 11;
-            this.btnEdit.Text = "Edit/Update";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveEditUpdate
-            // 
-            this.btnSaveEditUpdate.Location = new System.Drawing.Point(381, 82);
-            this.btnSaveEditUpdate.Name = "btnSaveEditUpdate";
-            this.btnSaveEditUpdate.Size = new System.Drawing.Size(117, 23);
-            this.btnSaveEditUpdate.TabIndex = 12;
-            this.btnSaveEditUpdate.Text = "Save Updates";
-            this.btnSaveEditUpdate.UseVisualStyleBackColor = true;
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(514, 82);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 13;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            // 
+            this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);,
+           
             // grpControlsNewEntry
             // 
             this.grpControlsNewEntry.Controls.Add(this.btnCreateBook);
@@ -245,7 +167,7 @@
             this.grpControlsNewEntry.Controls.Add(this.btnCreateDVD);
             this.grpControlsNewEntry.Controls.Add(this.btnCreateCDOrchestra);
             this.grpControlsNewEntry.Controls.Add(this.btnCreateCDChamber);
-            this.grpControlsNewEntry.Location = new System.Drawing.Point(72, 62);
+            this.grpControlsNewEntry.Location = new System.Drawing.Point(26, 25);
             this.grpControlsNewEntry.Name = "grpControlsNewEntry";
             this.grpControlsNewEntry.Size = new System.Drawing.Size(721, 58);
             this.grpControlsNewEntry.TabIndex = 15;
@@ -256,49 +178,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.SeaGreen;
-            this.label1.Location = new System.Drawing.Point(75, 138);
+            this.label1.Location = new System.Drawing.Point(174, 257);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(547, 13);
+            this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 16;
-            this.label1.Text = "To Find/SEARCH, Edit/UPDATE or DELETE, enter Product UPC and Select appropriate c" +
-    "ontrol at bottom of form.";
-            // 
-            // grpFormControlDataProcessing
-            // 
-            this.grpFormControlDataProcessing.Controls.Add(this.lblDataProcessing2);
-            this.grpFormControlDataProcessing.Controls.Add(this.lblDataProcessing1);
-            this.grpFormControlDataProcessing.Controls.Add(this.btnEnterUPC);
-            this.grpFormControlDataProcessing.Controls.Add(this.btnFind);
-            this.grpFormControlDataProcessing.Controls.Add(this.btnEdit);
-            this.grpFormControlDataProcessing.Controls.Add(this.btnDelete);
-            this.grpFormControlDataProcessing.Controls.Add(this.btnSaveEditUpdate);
-            this.grpFormControlDataProcessing.Location = new System.Drawing.Point(72, 520);
-            this.grpFormControlDataProcessing.Name = "grpFormControlDataProcessing";
-            this.grpFormControlDataProcessing.Size = new System.Drawing.Size(600, 119);
-            this.grpFormControlDataProcessing.TabIndex = 17;
-            this.grpFormControlDataProcessing.TabStop = false;
-            this.grpFormControlDataProcessing.Text = "Form Control for Data Processing";
-            // 
-            // lblDataProcessing2
-            // 
-            this.lblDataProcessing2.AutoSize = true;
-            this.lblDataProcessing2.ForeColor = System.Drawing.Color.Red;
-            this.lblDataProcessing2.Location = new System.Drawing.Point(3, 52);
-            this.lblDataProcessing2.Name = "lblDataProcessing2";
-            this.lblDataProcessing2.Size = new System.Drawing.Size(240, 13);
-            this.lblDataProcessing2.TabIndex = 19;
-            this.lblDataProcessing2.Text = "Press CLEAR FORM when operation is complete.";
-            // 
-            // lblDataProcessing1
-            // 
-            this.lblDataProcessing1.AutoSize = true;
-            this.lblDataProcessing1.ForeColor = System.Drawing.Color.Red;
-            this.lblDataProcessing1.Location = new System.Drawing.Point(3, 30);
-            this.lblDataProcessing1.Name = "lblDataProcessing1";
-            this.lblDataProcessing1.Size = new System.Drawing.Size(439, 13);
-            this.lblDataProcessing1.TabIndex = 18;
-            this.lblDataProcessing1.Text = "These Operations require entry of an Product UPC (see above) before they can be e" +
-    "xeuted.";
             // 
             // grpProduct
             // 
@@ -316,7 +199,7 @@
             this.grpProduct.Controls.Add(this.lblTitle2);
             this.grpProduct.Controls.Add(this.lblPrice);
             this.grpProduct.Controls.Add(this.lblUPC);
-            this.grpProduct.Location = new System.Drawing.Point(72, 172);
+            this.grpProduct.Location = new System.Drawing.Point(78, 133);
             this.grpProduct.Name = "grpProduct";
             this.grpProduct.Size = new System.Drawing.Size(600, 342);
             this.grpProduct.TabIndex = 18;
@@ -558,6 +441,7 @@
             this.txtBookISBNLeft.Name = "txtBookISBNLeft";
             this.txtBookISBNLeft.Size = new System.Drawing.Size(44, 20);
             this.txtBookISBNLeft.TabIndex = 4;
+            this.txtBookISBNLeft.Tag = "book";
             // 
             // lbldash
             // 
@@ -660,25 +544,62 @@
             this.lblUPC.TabIndex = 0;
             this.lblUPC.Text = "UPC";
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(501, 507);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 19;
+            this.btnClear.Text = "Clear Form";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Visible = false;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(364, 80);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 20;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.Location = new System.Drawing.Point(96, 507);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(75, 23);
+            this.btnInsert.TabIndex = 21;
+            this.btnInsert.Text = "Insert";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Visible = false;
+            // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(586, 507);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(75, 23);
+            this.btnExit.TabIndex = 22;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            // 
             // frmBookCDDVDShop
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(810, 646);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnInsert);
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.grpProduct);
-            this.Controls.Add(this.grpFormControlDataProcessing);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.grpControlsNewEntry);
-            this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.lblInstruction);
             this.Controls.Add(this.lblTitle);
             this.Name = "frmBookCDDVDShop";
             this.Text = "BookCDDVDShop";
             this.Load += new System.EventHandler(this.frmBookCDDVDShop_Load);
             this.grpControlsNewEntry.ResumeLayout(false);
-            this.grpFormControlDataProcessing.ResumeLayout(false);
-            this.grpFormControlDataProcessing.PerformLayout();
             this.grpProduct.ResumeLayout(false);
             this.grpProduct.PerformLayout();
             this.grpCDChamber.ResumeLayout(false);
@@ -724,13 +645,6 @@
         public System.Windows.Forms.Button btnCreateDVD;
         public System.Windows.Forms.Button btnCreateCDOrchestra;
         public System.Windows.Forms.Button btnCreateCDChamber;
-        public System.Windows.Forms.Button btnClear;
-        public System.Windows.Forms.Button btnExit;
-        public System.Windows.Forms.Button btnEnterUPC;
-        public System.Windows.Forms.Button btnFind;
-        public System.Windows.Forms.Button btnEdit;
-        public System.Windows.Forms.Button btnSaveEditUpdate;
-        public System.Windows.Forms.Button btnDelete;
         public System.Windows.Forms.TextBox txtBookPages;
         public System.Windows.Forms.TextBox txtBookAuthor;
         public System.Windows.Forms.TextBox txtBookISBNRight;
@@ -754,10 +668,12 @@
         public System.Windows.Forms.GroupBox grpCDClassical;
         public System.Windows.Forms.GroupBox grpControlsNewEntry;
         public System.Windows.Forms.Label label1;
-        public System.Windows.Forms.GroupBox grpFormControlDataProcessing;
-        public System.Windows.Forms.Label lblDataProcessing2;
-        public System.Windows.Forms.Label lblDataProcessing1;
         public System.Windows.Forms.GroupBox grpBook;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnInsert;
+        private System.Windows.Forms.Button btnExit;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 
