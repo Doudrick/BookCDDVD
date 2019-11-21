@@ -158,7 +158,7 @@
             this.btnCreateCDChamber.TabIndex = 6;
             this.btnCreateCDChamber.Text = "Create CD Chamber";
             this.btnCreateCDChamber.UseVisualStyleBackColor = true;
-            this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);,
+            this.btnCreateCDChamber.Click += new System.EventHandler(this.btnCreateCDChamber_Click);
            
             // grpControlsNewEntry
             // 
