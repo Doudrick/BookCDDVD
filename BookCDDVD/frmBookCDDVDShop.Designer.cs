@@ -42,7 +42,7 @@
             this.txtCDChamberInstrumentList = new System.Windows.Forms.ComboBox();
             this.lblInstruments = new System.Windows.Forms.Label();
             this.grpCDOrchestra = new System.Windows.Forms.GroupBox();
-            this.txtCDOrchestraConductor = new System.Windows.Forms.TextBox();
+            this.txtCDOrchestralConductor = new System.Windows.Forms.TextBox();
             this.lblConductor = new System.Windows.Forms.Label();
             this.grpCDClassical = new System.Windows.Forms.GroupBox();
             this.txtCDClassicalArtists = new System.Windows.Forms.TextBox();
@@ -236,7 +236,7 @@
             // 
             // grpCDOrchestra
             // 
-            this.grpCDOrchestra.Controls.Add(this.txtCDOrchestraConductor);
+            this.grpCDOrchestra.Controls.Add(this.txtCDOrchestralConductor);
             this.grpCDOrchestra.Controls.Add(this.lblConductor);
             this.grpCDOrchestra.Location = new System.Drawing.Point(18, 282);
             this.grpCDOrchestra.Name = "grpCDOrchestra";
@@ -245,12 +245,12 @@
             this.grpCDOrchestra.TabStop = false;
             this.grpCDOrchestra.Text = "CD Orchestral Music";
             // 
-            // txtCDOrchestraConductor
+            // txtCDOrchestralConductor
             // 
-            this.txtCDOrchestraConductor.Location = new System.Drawing.Point(66, 23);
-            this.txtCDOrchestraConductor.Name = "txtCDOrchestraConductor";
-            this.txtCDOrchestraConductor.Size = new System.Drawing.Size(211, 20);
-            this.txtCDOrchestraConductor.TabIndex = 21;
+            this.txtCDOrchestralConductor.Location = new System.Drawing.Point(66, 23);
+            this.txtCDOrchestralConductor.Name = "txtCDOrchestralConductor";
+            this.txtCDOrchestralConductor.Size = new System.Drawing.Size(211, 20);
+            this.txtCDOrchestralConductor.TabIndex = 21;
             // 
             // lblConductor
             // 
@@ -575,6 +575,7 @@
             // 
             // btnExit
             // 
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.Location = new System.Drawing.Point(586, 507);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
@@ -599,6 +600,7 @@
             this.Controls.Add(this.lblInstruction);
             this.Controls.Add(this.lblTitle);
             this.Name = "frmBookCDDVDShop";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = " ";
             this.Load += new System.EventHandler(this.frmBookCDDVDShop_Load);
             this.grpControlsNewEntry.ResumeLayout(false);
@@ -655,7 +657,7 @@
         public System.Windows.Forms.TextBox txtProductPrice;
         public System.Windows.Forms.TextBox txtProductUPC;
         public System.Windows.Forms.ComboBox txtCDChamberInstrumentList;
-        public System.Windows.Forms.TextBox txtCDOrchestraConductor;
+        public System.Windows.Forms.TextBox txtCDOrchestralConductor;
         public System.Windows.Forms.TextBox txtCDClassicalArtists;
         public System.Windows.Forms.TextBox txtCDClassicalLabel;
         public System.Windows.Forms.TextBox txtDVDRunTime;
