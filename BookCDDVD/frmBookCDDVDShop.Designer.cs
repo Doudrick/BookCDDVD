@@ -51,7 +51,6 @@
             this.lblLabel = new System.Windows.Forms.Label();
             this.grpDVD = new System.Windows.Forms.GroupBox();
             this.txtDVDRunTime = new System.Windows.Forms.TextBox();
-            this.txtDVDReleaseDate = new System.Windows.Forms.TextBox();
             this.txtDVDLeadActor = new System.Windows.Forms.TextBox();
             this.lblRunTime = new System.Windows.Forms.Label();
             this.lblReleaseDate = new System.Windows.Forms.Label();
@@ -81,6 +80,7 @@
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.grpControlsNewEntry.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
@@ -201,7 +201,7 @@
             this.grpProduct.Controls.Add(this.lblUPC);
             this.grpProduct.Location = new System.Drawing.Point(78, 133);
             this.grpProduct.Name = "grpProduct";
-            this.grpProduct.Size = new System.Drawing.Size(600, 342);
+            this.grpProduct.Size = new System.Drawing.Size(705, 342);
             this.grpProduct.TabIndex = 18;
             this.grpProduct.TabStop = false;
             this.grpProduct.Text = "Product";
@@ -308,44 +308,37 @@
             // 
             // grpDVD
             // 
+            this.grpDVD.Controls.Add(this.dateTimePicker1);
             this.grpDVD.Controls.Add(this.txtDVDRunTime);
-            this.grpDVD.Controls.Add(this.txtDVDReleaseDate);
             this.grpDVD.Controls.Add(this.txtDVDLeadActor);
             this.grpDVD.Controls.Add(this.lblRunTime);
             this.grpDVD.Controls.Add(this.lblReleaseDate);
             this.grpDVD.Controls.Add(this.lblLeadActor);
             this.grpDVD.Location = new System.Drawing.Point(18, 162);
             this.grpDVD.Name = "grpDVD";
-            this.grpDVD.Size = new System.Drawing.Size(571, 54);
+            this.grpDVD.Size = new System.Drawing.Size(669, 54);
             this.grpDVD.TabIndex = 19;
             this.grpDVD.TabStop = false;
             this.grpDVD.Text = "DVD";
             // 
             // txtDVDRunTime
             // 
-            this.txtDVDRunTime.Location = new System.Drawing.Point(514, 20);
+            this.txtDVDRunTime.Location = new System.Drawing.Point(603, 19);
             this.txtDVDRunTime.Name = "txtDVDRunTime";
             this.txtDVDRunTime.Size = new System.Drawing.Size(42, 20);
             this.txtDVDRunTime.TabIndex = 7;
-            // 
-            // txtDVDReleaseDate
-            // 
-            this.txtDVDReleaseDate.Location = new System.Drawing.Point(349, 19);
-            this.txtDVDReleaseDate.Name = "txtDVDReleaseDate";
-            this.txtDVDReleaseDate.Size = new System.Drawing.Size(100, 20);
-            this.txtDVDReleaseDate.TabIndex = 6;
             // 
             // txtDVDLeadActor
             // 
             this.txtDVDLeadActor.Location = new System.Drawing.Point(71, 19);
             this.txtDVDLeadActor.Name = "txtDVDLeadActor";
-            this.txtDVDLeadActor.Size = new System.Drawing.Size(194, 20);
+            this.txtDVDLeadActor.Size = new System.Drawing.Size(157, 20);
             this.txtDVDLeadActor.TabIndex = 5;
             // 
             // lblRunTime
             // 
             this.lblRunTime.AutoSize = true;
-            this.lblRunTime.Location = new System.Drawing.Point(455, 23);
+            this.lblRunTime.Location = new System.Drawing.Point(545, 22);
             this.lblRunTime.Name = "lblRunTime";
             this.lblRunTime.Size = new System.Drawing.Size(53, 13);
             this.lblRunTime.TabIndex = 4;
@@ -354,7 +347,7 @@
             // lblReleaseDate
             // 
             this.lblReleaseDate.AutoSize = true;
-            this.lblReleaseDate.Location = new System.Drawing.Point(271, 22);
+            this.lblReleaseDate.Location = new System.Drawing.Point(234, 22);
             this.lblReleaseDate.Name = "lblReleaseDate";
             this.lblReleaseDate.Size = new System.Drawing.Size(72, 13);
             this.lblReleaseDate.TabIndex = 3;
@@ -383,6 +376,7 @@
             // txtBookCISCISArea
             // 
             this.txtBookCISCISArea.FormattingEnabled = true;
+
             this.txtBookCISCISArea.Location = new System.Drawing.Point(61, 19);
             this.txtBookCISCISArea.Name = "txtBookCISCISArea";
             this.txtBookCISCISArea.Size = new System.Drawing.Size(121, 21);
@@ -556,7 +550,7 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(364, 80);
+            this.btnSearch.Location = new System.Drawing.Point(364, 104);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
             this.btnSearch.TabIndex = 20;
@@ -583,6 +577,13 @@
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(312, 19);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(196, 20);
+            this.dateTimePicker1.TabIndex = 8;
             // 
             // frmBookCDDVDShop
             // 
@@ -661,7 +662,6 @@
         public System.Windows.Forms.TextBox txtCDClassicalArtists;
         public System.Windows.Forms.TextBox txtCDClassicalLabel;
         public System.Windows.Forms.TextBox txtDVDRunTime;
-        public System.Windows.Forms.TextBox txtDVDReleaseDate;
         public System.Windows.Forms.TextBox txtDVDLeadActor;
         public System.Windows.Forms.ComboBox txtBookCISCISArea;
         public System.Windows.Forms.GroupBox grpProduct;
@@ -678,6 +678,7 @@
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnExit;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 

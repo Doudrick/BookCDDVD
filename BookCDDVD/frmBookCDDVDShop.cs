@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
@@ -16,6 +17,8 @@ namespace BookCDDVD
 
         List<GroupBox> groupCategories = new List<GroupBox>(6);
         List<Button> createButton = new List<Button>(5);
+
+        
         public frmBookCDDVDShop()
         {
             InitializeComponent();
@@ -31,6 +34,10 @@ namespace BookCDDVD
             createButton.Add(btnCreateDVD);
             createButton.Add(btnCreateCDOrchestra);
             createButton.Add(btnCreateCDChamber);
+
+            txtBookCISCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
+            txtBookCISCISArea.Items.Add("Computer Sciences");
+            txtBookCISCISArea.Items.Add("Information Sciences");
         }
 
         // this method load in all of the textboxes as read only
@@ -88,13 +95,14 @@ namespace BookCDDVD
         private void btnCreateCDOrchestra_Click(object sender, EventArgs e)
         {
             // hide every group that are not CDOrchestra and CDClassical
-            hideGroups(grpCDOrchestra, grpCDChamber);
+            hideGroups(grpCDClassical, grpCDOrchestra);
 
             // disabe createaDVDOrchestra button and enable other new entry button
             disableCreateButton(btnCreateCDOrchestra);
 
             // clear the form
             clearForm();
+
         } // end btnCreateaCDOrchestra
 
         // this method only show and enable textboxes for createa CD Chamber button
@@ -131,7 +139,6 @@ namespace BookCDDVD
             txtBookPages.Clear();
             txtBookCISCISArea.ResetText();
             txtDVDLeadActor.Clear();
-            txtDVDReleaseDate.Clear();
             txtDVDRunTime.Clear();
             txtCDClassicalLabel.Clear();
             txtCDClassicalArtists.Clear();
@@ -255,8 +262,8 @@ namespace BookCDDVD
             int num = -1;
             decimal num1 = -1;
             string checkUPC = Convert.ToString(Upc.Text);
-            string checkTitle = Convert.ToString(Price.Text);
-            string checkPrice = Convert.ToString(Title.Text);
+            string checkTitle = Convert.ToString(Title.Text);
+            string checkPrice = Convert.ToString(Price.Text);
             string checkQuantity = Convert.ToString(Quantity.Text);
 
             // return an error message if the input is empty, longer or shorter then 5, or is a letter
