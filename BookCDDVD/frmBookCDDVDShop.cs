@@ -16,7 +16,6 @@ namespace BookCDDVD
 
         List<GroupBox> groupCategories = new List<GroupBox>(6);
         List<Button> createButton = new List<Button>(5);
-        List<TextBox> textInput = new List<TextBox>(16);
         public frmBookCDDVDShop()
         {
             InitializeComponent();
@@ -32,21 +31,6 @@ namespace BookCDDVD
             createButton.Add(btnCreateDVD);
             createButton.Add(btnCreateCDOrchestra);
             createButton.Add(btnCreateCDChamber);
-
-            textInput.Add(txtProductUPC);
-            textInput.Add(txtProductPrice);
-            textInput.Add(txtProductTitle);
-            textInput.Add(txtProductQuantity);
-            textInput.Add(txtBookISBNLeft);
-            textInput.Add(txtBookISBNRight);
-            textInput.Add(txtBookAuthor);
-            textInput.Add(txtBookPages);
-            textInput.Add(txtDVDLeadActor);
-            textInput.Add(txtDVDReleaseDate);
-            textInput.Add(txtDVDRunTime);
-            textInput.Add(txtCDClassicalLabel);
-            textInput.Add(txtCDClassicalArtists);
-            textInput.Add(txtCDOrchestralConductor);
         }
 
         // this method load in all of the textboxes as read only
@@ -183,8 +167,8 @@ namespace BookCDDVD
                 {
                     i.Visible = false;
                 }
-            }
-        }
+            } // end foreach
+        } // end hideGroups
 
         // this method is an overloading of the method above hideGroups
         // it take in two parameter of two different groupbxoes
