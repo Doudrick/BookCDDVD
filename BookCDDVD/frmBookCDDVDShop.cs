@@ -64,6 +64,8 @@ namespace BookCDDVD
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
+            // hide every other group that are not CreateBook
+            hideGroups(grpBook);
 
             // disable CreateaBook button and enable all other new entry button
             disableCreateButton(btnCreateBook);
@@ -76,7 +78,7 @@ namespace BookCDDVD
         private void btnCreateBookCIS_Click(object sender, EventArgs e)
         {
             // hide every other group that are not BookCIS and Book
-
+            hideGroups(grpBook, grpBookCIS);
             // show group BookCIS and Book
             grpBookCIS.Visible = true;
 
@@ -214,10 +216,10 @@ namespace BookCDDVD
                 {
                   if(i == toDisable)
                 {
-                    i.Enabled = true;
+                    i.Enabled = false;
                 } else
                 {
-                    i.Enabled = false;
+                    i.Enabled = true;
                 }
                 } 
             } 
@@ -253,6 +255,11 @@ namespace BookCDDVD
         {
             checkBook(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity, txtBookISBNLeft,
                 txtBookISBNRight, txtBookAuthor, txtBookPages);
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
