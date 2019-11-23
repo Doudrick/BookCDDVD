@@ -627,7 +627,7 @@ namespace BookCDDVD
             if(SearchDialog.ShowDialog(this) == DialogResult.OK)
             {
                 //Check the public returnedUPC within the dialog box; That's what the user entered.
-                if(SearchDialog.returnedUPC.ToString().Length == 5 && Int32.TryParse(SearchDialog.returnedUPC, out enteredUPC))
+                if(SearchDialog.getUPC().ToString().Length == 5 && Int32.TryParse(SearchDialog.getUPC(), out enteredUPC))
                 {
                     //Find the UPC within the product list
                     for(int i = 0; i < InStock.getCount(); i++)
@@ -721,6 +721,7 @@ namespace BookCDDVD
         } // end btnSearch_Click
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            clearForm();
             //Remove one product from the number of products we have using the return from the removeProduct method
             lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
 
