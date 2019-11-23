@@ -23,7 +23,7 @@ namespace BookCDDVD
         }  // end Parameterless Constructor
 
 
-        // Parameterized constructor
+        //Takes a dictionary as a parameter which contains everything unique to it AND everything unique to its base class (CDClassical)
         public CDChamber(int UPC, decimal price, string title, int quantity,  // For Product Constructor
             IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
@@ -39,13 +39,6 @@ namespace BookCDDVD
         {
             return hiddenInstrumentList;
         }  // end getgradHourlyPay
-
-
-        public void setCDChamberInstrumentList(string value)
-        {
-            hiddenInstrumentList = value;
-        }  // end get
-
 
 
         // Save data from form to object

@@ -82,9 +82,8 @@
             this.btnExit = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lblNumUnique = new System.Windows.Forms.Label();
-            this.lblTotProducts = new System.Windows.Forms.Label();
-            this.lblTotalQuant = new System.Windows.Forms.Label();
             this.lblUniqProducts = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.grpControlsNewEntry.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
@@ -606,32 +605,28 @@
             this.lblNumUnique.TabIndex = 23;
             this.lblNumUnique.Text = "Number of Unique Products in Inventory:";
             // 
-            // lblTotProducts
-            // 
-            this.lblTotProducts.AutoSize = true;
-            this.lblTotProducts.Location = new System.Drawing.Point(470, 104);
-            this.lblTotProducts.Name = "lblTotProducts";
-            this.lblTotProducts.Size = new System.Drawing.Size(137, 13);
-            this.lblTotProducts.TabIndex = 24;
-            this.lblTotProducts.Text = "Total Products in Inventory:";
-            // 
-            // lblTotalQuant
-            // 
-            this.lblTotalQuant.AutoSize = true;
-            this.lblTotalQuant.Location = new System.Drawing.Point(613, 104);
-            this.lblTotalQuant.Name = "lblTotalQuant";
-            this.lblTotalQuant.Size = new System.Drawing.Size(35, 13);
-            this.lblTotalQuant.TabIndex = 25;
-            this.lblTotalQuant.Text = "label4";
-            // 
             // lblUniqProducts
             // 
             this.lblUniqProducts.AutoSize = true;
             this.lblUniqProducts.Location = new System.Drawing.Point(272, 104);
             this.lblUniqProducts.Name = "lblUniqProducts";
-            this.lblUniqProducts.Size = new System.Drawing.Size(35, 13);
+            this.lblUniqProducts.Size = new System.Drawing.Size(13, 13);
             this.lblUniqProducts.TabIndex = 26;
-            this.lblUniqProducts.Text = "label5";
+            this.lblUniqProducts.Text = "0";
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.BackColor = System.Drawing.Color.Red;
+            this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDelete.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnDelete.Location = new System.Drawing.Point(347, 501);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(92, 35);
+            this.btnDelete.TabIndex = 27;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Visible = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // frmBookCDDVDShop
             // 
@@ -639,9 +634,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(810, 646);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.lblUniqProducts);
-            this.Controls.Add(this.lblTotalQuant);
-            this.Controls.Add(this.lblTotProducts);
             this.Controls.Add(this.lblNumUnique);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnInsert);
@@ -732,9 +726,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.DateTimePicker dtDVDReleaseDate;
         private System.Windows.Forms.Label lblNumUnique;
-        private System.Windows.Forms.Label lblTotProducts;
-        private System.Windows.Forms.Label lblTotalQuant;
         private System.Windows.Forms.Label lblUniqProducts;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

@@ -73,7 +73,7 @@ namespace BookCDDVD
                 {
                     TestFileStream = File.OpenRead(fn);
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show("File open error: Open with new Product List", "SFManager, File Open Error");
                     plist = new ProductList();
@@ -84,7 +84,7 @@ namespace BookCDDVD
                 {
                     plist = (ProductList)deserializer.Deserialize(TestFileStream);
                 }
-                catch (Exception ex)
+                catch
                 {
                     MessageBox.Show("File read error: Open with new Product List", "SFManager File Read");
                     plist = new ProductList();
