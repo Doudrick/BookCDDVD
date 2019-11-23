@@ -12,17 +12,23 @@ namespace BookCDDVD
 {
     public partial class frmSearchDialog : Form
     {
-        public string returnedUPC;
+       
         public frmSearchDialog()
         {
             InitializeComponent();
+        }
+
+        public string getUPC()
+        {
+            string returnedUPC = txtUPC.Text;
+            return returnedUPC;
         }
 
         private void btnSearchSubmit_Click(object sender, EventArgs e)
         {
             //When the search button is clicked, set the public variable equal to the entered UPC.
             //Set the dialog result of this to OK, and close.
-            returnedUPC = txtUPC.Text;
+            getUPC();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
