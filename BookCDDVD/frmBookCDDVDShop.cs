@@ -335,7 +335,7 @@ namespace BookCDDVD
         private void checkDVD (TextBox leadActor, TextBox runTime)
         {
             int num = -1;
-            string checkLeadActor = Convert.ToString(leadActor);
+            string checkLeadActor = Convert.ToString(leadActor.Text);
             int checkrunTime = Convert.ToInt32(runTime.Text);
 
             // return an error message if the leadactor textbox are empty or is a number
@@ -356,6 +356,7 @@ namespace BookCDDVD
         // this method is validating the CD Classical groupbox
         private void checkCDClassical(TextBox Label, TextBox Artists)
         {
+            int num = -1;
             string checkLabel = Convert.ToString(Label.Text);
             string checkArtists = Convert.ToString(Artists.Text);
 
@@ -366,7 +367,7 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a label");
             } 
             // return an error message if the input is empty
-            else if (checkArtists.Equals(""))
+            else if (checkArtists.Equals("") || (int.TryParse(checkArtists, out num)))
             {
                 txtCDClassicalArtists.Clear();
                 MessageBox.Show("Please Enter an Artist Name");
@@ -376,10 +377,11 @@ namespace BookCDDVD
         // this method validating the orchestral conductor
         private void checkOrchestralConductor(TextBox Conductor)
         {
+            int num = -1;
             string checkConductor = Convert.ToString(Conductor.Text);
 
             // return an error message if the input is empty
-            if (checkConductor.Equals(""))
+            if (checkConductor.Equals("") || (int.TryParse(checkConductor, out num)))
             {
                 txtCDOrchestralConductor.Clear();
                 MessageBox.Show("Please Enter a Conductor name");
