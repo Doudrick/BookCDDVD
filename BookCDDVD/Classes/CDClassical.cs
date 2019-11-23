@@ -35,7 +35,7 @@ namespace BookCDDVD
         } // end CDClassical Parameterless Constructor
 
 
-        // Parameterized Constructor
+        //Takes a dictionary as a parameter which contains everything unique to it and not it's base class (Product)
         public CDClassical(int UPC, decimal price, string title, int quantity,
             IDictionary<string, string> param) : base(UPC, price, title, quantity)
         {

@@ -60,9 +60,11 @@
             this.txtUPC.Name = "txtUPC";
             this.txtUPC.Size = new System.Drawing.Size(100, 20);
             this.txtUPC.TabIndex = 2;
+            this.txtUPC.TextChanged += new System.EventHandler(this.txtUPC_TextChanged);
             // 
             // btnSearchSubmit
             // 
+            this.btnSearchSubmit.Enabled = false;
             this.btnSearchSubmit.Location = new System.Drawing.Point(205, 48);
             this.btnSearchSubmit.Name = "btnSearchSubmit";
             this.btnSearchSubmit.Size = new System.Drawing.Size(75, 23);
