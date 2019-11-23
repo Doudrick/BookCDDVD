@@ -50,6 +50,7 @@
             this.lblArtists = new System.Windows.Forms.Label();
             this.lblLabel = new System.Windows.Forms.Label();
             this.grpDVD = new System.Windows.Forms.GroupBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.txtDVDRunTime = new System.Windows.Forms.TextBox();
             this.txtDVDLeadActor = new System.Windows.Forms.TextBox();
             this.lblRunTime = new System.Windows.Forms.Label();
@@ -80,7 +81,6 @@
             this.btnInsert = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.grpControlsNewEntry.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
@@ -201,10 +201,11 @@
             this.grpProduct.Controls.Add(this.lblUPC);
             this.grpProduct.Location = new System.Drawing.Point(78, 133);
             this.grpProduct.Name = "grpProduct";
-            this.grpProduct.Size = new System.Drawing.Size(705, 342);
+            this.grpProduct.Size = new System.Drawing.Size(669, 342);
             this.grpProduct.TabIndex = 18;
             this.grpProduct.TabStop = false;
             this.grpProduct.Text = "Product";
+            this.grpProduct.Visible = false;
             // 
             // grpCDChamber
             // 
@@ -216,6 +217,7 @@
             this.grpCDChamber.TabIndex = 22;
             this.grpCDChamber.TabStop = false;
             this.grpCDChamber.Text = "CD Chamber Music";
+            this.grpCDChamber.Visible = false;
             // 
             // txtCDChamberInstrumentList
             // 
@@ -244,6 +246,7 @@
             this.grpCDOrchestra.TabIndex = 21;
             this.grpCDOrchestra.TabStop = false;
             this.grpCDOrchestra.Text = "CD Orchestral Music";
+            this.grpCDOrchestra.Visible = false;
             // 
             // txtCDOrchestralConductor
             // 
@@ -273,6 +276,7 @@
             this.grpCDClassical.TabIndex = 20;
             this.grpCDClassical.TabStop = false;
             this.grpCDClassical.Text = "CDClassical";
+            this.grpCDClassical.Visible = false;
             // 
             // txtCDClassicalArtists
             // 
@@ -316,14 +320,22 @@
             this.grpDVD.Controls.Add(this.lblLeadActor);
             this.grpDVD.Location = new System.Drawing.Point(18, 162);
             this.grpDVD.Name = "grpDVD";
-            this.grpDVD.Size = new System.Drawing.Size(669, 54);
+            this.grpDVD.Size = new System.Drawing.Size(628, 54);
             this.grpDVD.TabIndex = 19;
             this.grpDVD.TabStop = false;
             this.grpDVD.Text = "DVD";
+            this.grpDVD.Visible = false;
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(312, 19);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(196, 20);
+            this.dateTimePicker1.TabIndex = 8;
             // 
             // txtDVDRunTime
             // 
-            this.txtDVDRunTime.Location = new System.Drawing.Point(603, 19);
+            this.txtDVDRunTime.Location = new System.Drawing.Point(577, 19);
             this.txtDVDRunTime.Name = "txtDVDRunTime";
             this.txtDVDRunTime.Size = new System.Drawing.Size(42, 20);
             this.txtDVDRunTime.TabIndex = 7;
@@ -338,7 +350,7 @@
             // lblRunTime
             // 
             this.lblRunTime.AutoSize = true;
-            this.lblRunTime.Location = new System.Drawing.Point(545, 22);
+            this.lblRunTime.Location = new System.Drawing.Point(518, 22);
             this.lblRunTime.Name = "lblRunTime";
             this.lblRunTime.Size = new System.Drawing.Size(53, 13);
             this.lblRunTime.TabIndex = 4;
@@ -372,11 +384,11 @@
             this.grpBookCIS.TabIndex = 9;
             this.grpBookCIS.TabStop = false;
             this.grpBookCIS.Text = "CIS Book";
+            this.grpBookCIS.Visible = false;
             // 
             // txtBookCISCISArea
             // 
             this.txtBookCISCISArea.FormattingEnabled = true;
-
             this.txtBookCISCISArea.Location = new System.Drawing.Point(61, 19);
             this.txtBookCISCISArea.Name = "txtBookCISCISArea";
             this.txtBookCISCISArea.Size = new System.Drawing.Size(121, 21);
@@ -407,6 +419,7 @@
             this.grpBook.TabIndex = 8;
             this.grpBook.TabStop = false;
             this.grpBook.Text = "Book";
+            this.grpBook.Visible = false;
             // 
             // txtBookPages
             // 
@@ -577,13 +590,6 @@
             this.btnExit.Text = "Exit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(312, 19);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(196, 20);
-            this.dateTimePicker1.TabIndex = 8;
             // 
             // frmBookCDDVDShop
             // 
