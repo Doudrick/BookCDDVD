@@ -67,8 +67,6 @@ namespace BookCDDVD
         {
             // hide every other group that are not BookCIS and Book
             hideGroups(grpBook, grpBookCIS);
-            // show group BookCIS and Book
-            grpBookCIS.Visible = true;
 
             // disable CreateaBookCIS button and enable all other new entry button
             disableCreateButton(btnCreateBookCIS);
@@ -205,29 +203,31 @@ namespace BookCDDVD
             // so user can check the validation for that group input
             foreach (GroupBox i in groupCategories)
             {
-                if (i == areVisible)
+                if (i != areVisible)
                 {
                     return true;
-                }
-                else
+                } else
                 {
                     return false;
                 }
             } // end foreach
-            return true;
+            return false;
         } // end checkVisibleGroup
 
         // this method is looking for the group that are visible
-        // it an overloading of the method above, taking two parameters instead
+        // it an overloading of the method above, taking in two parameters instead
         private bool checkVisibleGroup(GroupBox areVisible, GroupBox areAlsoVisible)
         {
             // this for each loops search for the visible group and return true
             // so user can check the validation for that group input
             foreach (GroupBox i in groupCategories)
             {
-                if (i == areVisible || i == areAlsoVisible)
+                if (i != areVisible || i != areAlsoVisible)
                 {
-                    return true;
+                    if (areVisible.Visible == true && areAlsoVisible.Visible == true)
+                    {
+                        return true;
+                    }
                 } else
                 {
                     return false;
@@ -280,7 +280,8 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a valid Price");
             }
             // return an error message if the input is empty or is a letter
-            else if (checkQuantity.Equals("") || (!int.TryParse(checkQuantity, out num))){
+            else if (checkQuantity.Equals("") || (!int.TryParse(checkQuantity, out num)))
+            {
                 txtProductQuantity.Clear();
                 MessageBox.Show("Please Enter a valid Quantity");
             }
@@ -305,7 +306,7 @@ namespace BookCDDVD
             if (checkISBNL.Equals("") || checkISBNL.Length < 3 || checkISBNL.Length > 3 ||
                 (!int.TryParse(checkISBNL, out num)))
             {
-                ISBNL.Clear();
+                txtBookISBNLeft.Clear();
                 MessageBox.Show("Please Enter a valid ISBN on the Left text box");
             }
             // return a error message if user is not inputing information or the input is 
@@ -313,7 +314,7 @@ namespace BookCDDVD
             else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || checkISBNR.Length > 3 ||
                 (!int.TryParse(checkISBNR, out num)))
             {
-                ISBNR.Clear();
+                txtBookISBNRight.Clear();
                 MessageBox.Show("Please Enter a valid ISBN on the Right text box");
             }
             // return the error message if the input is blank or is a number
@@ -323,21 +324,34 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a valid Author name");
             }
             // return the error message if the input is empty or is a letter
-            else if (checkPages.Equals("") || (!int.TryParse(checkISBNL, out num)))
+            else if (checkPages.Equals("") || (!int.TryParse(checkPages, out num)))
             {
                 txtBookPages.Clear();
                 MessageBox.Show("Please Enter a valid page number");
             }
         } // end checkBook
         
-        // NOT SURE ABOUT THIS ONE YET, HAVE TO CHECK RELEASE DATE VALIDATION
-        private void checkDVD (TextBox leadActor, TextBox ReleaseDate, TextBox runTime)
+        // this method check the DVD group input validation
+        private void checkDVD (TextBox leadActor, TextBox runTime)
         {
+            int num = -1;
             string checkLeadActor = Convert.ToString(leadActor);
-            string checkReleasedate = Convert.ToString(ReleaseDate.Text);
-            string checkrunTime = Convert.ToString(runTime.Text);
+            int checkrunTime = Convert.ToInt32(runTime.Text);
 
-        }
+            // return an error message if the leadactor textbox are empty or is a number
+            if (checkLeadActor.Equals("") || (int.TryParse(checkLeadActor, out num)))
+            {
+                txtDVDLeadActor.Clear();
+                MessageBox.Show("Please Enter a valid Lead Actor name");
+            }
+            // return an error message if  the run time is empty, less then 0 or more  then 120 minutes
+            else if (checkrunTime.Equals("") || checkrunTime < 0 || checkrunTime > 120 ||
+                (!int.TryParse(checkrunTime.ToString(), out num)))
+            {
+                txtDVDRunTime.Clear();
+                MessageBox.Show("Please enter a valid run time");
+            }
+        } // end checkDVD
 
         // this method is validating the CD Classical groupbox
         private void checkCDClassical(TextBox Label, TextBox Artists)
@@ -375,27 +389,28 @@ namespace BookCDDVD
         // this method find which groupbox are visible and validating those textboxes input\
         private void validatingVisisbleGrp()
         {
+            checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
             // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
-            if (checkVisibleGroup(grpBook) == true || checkVisibleGroup(grpBook, grpBookCIS) == true)
+            if (checkVisibleGroup(grpBook) == true)
             {
-                checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
+                checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages); 
+            } else if (checkVisibleGroup(grpBook, grpBookCIS) == true)
+            {
                 checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages);
             }
             // if groupbox DVD are visible, check the input validation
             else if (checkVisibleGroup(grpDVD) == true)
             {
-                checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
+                checkDVD(txtDVDLeadActor, txtDVDRunTime);
             }
             // if groupbox CD Classical are visisble, check the input validation
             else if (checkVisibleGroup(grpCDClassical) == true)
             {
-                checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
                 checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists);
             }
             // if groupbox CD Orchestra are visible, check the input validation
             else if (checkVisibleGroup(grpCDOrchestra) == true)
             {
-                checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
                 checkOrchestralConductor(txtCDOrchestralConductor);
             }
         } // end validatingVisibleGrp
