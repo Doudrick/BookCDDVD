@@ -13,7 +13,7 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
-        List<Product> testProducts = new List<Product>();
+        ProductList InStock = new ProductList();
 
         List<GroupBox> groupCategories = new List<GroupBox>(6);
         List<Button> createButton = new List<Button>(5);
@@ -22,6 +22,7 @@ namespace BookCDDVD
         public frmBookCDDVDShop()
         {
             InitializeComponent();
+
             groupCategories.Add(grpBook);
             groupCategories.Add(grpBookCIS);
             groupCategories.Add(grpCDChamber);
@@ -34,19 +35,31 @@ namespace BookCDDVD
             createButton.Add(btnCreateDVD);
             createButton.Add(btnCreateCDOrchestra);
             createButton.Add(btnCreateCDChamber);
+            createButton.Add(btnCreateCDOrchestra);
 
-            txtBookCISCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
-            txtBookCISCISArea.Items.Add("Computer Sciences");
-            txtBookCISCISArea.Items.Add("Information Sciences");
+            txtBookCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
+            txtBookCISArea.Items.Add("Computer Sciences");
+            txtBookCISArea.Items.Add("Information Sciences");
         }
 
         // this method load in all of the textboxes as read only
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
-        {
-            createTestProducts();
-        
+        {        
             // set all textboxes to read only
             grpProduct.Visible = false;
+            dtDVDReleaseDate.MaxDate = DateTime.Today;
+
+
+            lblUniqProducts.Text = InStock.getCount().ToString();
+            lblTotalQuant.Text = InStock.getCount().ToString();
+
+            //Disable the search if there's nothing to search!
+            if (InStock.getCount() == 0)
+            {
+                btnSearch.Enabled = false;
+            }
+
+
         } // end frmBookCDDVDShop_Load
 
         // this method hide and enable textboxes for Create Book button
@@ -135,25 +148,15 @@ namespace BookCDDVD
             txtBookISBNRight.Clear();
             txtBookAuthor.Clear();
             txtBookPages.Clear();
-            txtBookCISCISArea.ResetText();
+            txtBookCISArea.ResetText();
             txtDVDLeadActor.Clear();
             txtDVDRunTime.Clear();
             txtCDClassicalLabel.Clear();
             txtCDClassicalArtists.Clear();
-            txtCDOrchestralConductor.Clear();
+            txtCDOrchestraConductor.Clear();
             txtCDChamberInstrumentList.ResetText();
+            txtProductUPC.Focus();
         } // end clearForm
-
-        private void createTestProducts()
-        {
-            Book tester = new Book(100, 20.20m, "hello world", 2, 856, 824, "me", 400);
-            MessageBox.Show(tester.ToString());
-            CDChamber testChamber = new CDChamber(83941, 20.37m, "Violins and Stuff", 100,  // For Product Constructor
-            "Black Heart Musik", "Some old dude", "Violins, Cellos");
-            MessageBox.Show(testChamber.ToString());
-            testProducts.Add(tester);
-            testProducts.Add(testChamber);
-        }
 
         // this method search the group categories user is looking for and show them
         private void hideGroups(GroupBox toShow)
@@ -201,16 +204,10 @@ namespace BookCDDVD
         {
             // this for each loops search for the visible group and return true
             // so user can check the validation for that group input
-            foreach (GroupBox i in groupCategories)
+            if (areVisible.Visible)
             {
-                if (i != areVisible)
-                {
-                    return true;
-                } else
-                {
-                    return false;
-                }
-            } // end foreach
+                return true;
+            }
             return false;
         } // end checkVisibleGroup
 
@@ -220,19 +217,11 @@ namespace BookCDDVD
         {
             // this for each loops search for the visible group and return true
             // so user can check the validation for that group input
-            foreach (GroupBox i in groupCategories)
-            {
-                if (i != areVisible || i != areAlsoVisible)
+
+                if (areVisible.Visible && areAlsoVisible.Visible)
                 {
-                    if (areVisible.Visible == true && areAlsoVisible.Visible == true)
-                    {
-                        return true;
-                    }
-                } else
-                {
-                    return false;
+                return true;
                 }
-            } // end foreach
             return false;
         } // end checkVisibleGroup
 
@@ -256,7 +245,7 @@ namespace BookCDDVD
         } // end disableCreateButton
 
         // this method validating the product group box
-        private void checkProduct (TextBox Upc, TextBox Price, TextBox Title,
+        private bool checkProduct (TextBox Upc, TextBox Price, TextBox Title,
             TextBox Quantity)
         {
             int num = -1;
@@ -290,10 +279,15 @@ namespace BookCDDVD
             {
                 MessageBox.Show("Please Enter a Title");
             }
+            else
+            {
+                return true;
+            }
+            return false;
         } // end checkProduct
         
         // this method validating the group book
-        private void checkBook(TextBox ISBNL, TextBox ISBNR, TextBox Author, TextBox Pages)
+        private bool checkBook(TextBox ISBNL, TextBox ISBNR, TextBox Author, TextBox Pages)
         {
             int num = -1;
             string checkISBNL = Convert.ToString(ISBNL.Text);
@@ -329,17 +323,22 @@ namespace BookCDDVD
                 txtBookPages.Clear();
                 MessageBox.Show("Please Enter a valid page number");
             }
+            else
+            {
+                return true;
+            }
+            return false;
         } // end checkBook
         
         // this method check the DVD group input validation
-        private void checkDVD (TextBox leadActor, TextBox runTime)
+        private bool checkDVD (TextBox leadActor, TextBox runTime)
         {
             int num = -1;
             string checkLeadActor = Convert.ToString(leadActor.Text);
             int checkrunTime = Convert.ToInt32(runTime.Text);
 
             // return an error message if the leadactor textbox are empty or is a number
-            if (checkLeadActor.Equals("") || (int.TryParse(checkLeadActor, out num)))
+            if (checkLeadActor.Equals(""))
             {
                 txtDVDLeadActor.Clear();
                 MessageBox.Show("Please Enter a valid Lead Actor name");
@@ -351,12 +350,16 @@ namespace BookCDDVD
                 txtDVDRunTime.Clear();
                 MessageBox.Show("Please enter a valid run time");
             }
+            else
+            {
+                return true;
+            }
+            return false;
         } // end checkDVD
 
         // this method is validating the CD Classical groupbox
-        private void checkCDClassical(TextBox Label, TextBox Artists)
+        private bool checkCDClassical(TextBox Label, TextBox Artists)
         {
-            int num = -1;
             string checkLabel = Convert.ToString(Label.Text);
             string checkArtists = Convert.ToString(Artists.Text);
 
@@ -367,56 +370,149 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a label");
             } 
             // return an error message if the input is empty
-            else if (checkArtists.Equals("") || (int.TryParse(checkArtists, out num)))
+            else if (checkArtists.Equals(""))
             {
                 txtCDClassicalArtists.Clear();
                 MessageBox.Show("Please Enter an Artist Name");
             }
+            else
+            {
+                return true;
+            }
+            return false;
         } // end CheckCDClassical
 
         // this method validating the orchestral conductor
-        private void checkOrchestralConductor(TextBox Conductor)
+        private bool checkOrchestralConductor(TextBox Conductor)
         {
-            int num = -1;
             string checkConductor = Convert.ToString(Conductor.Text);
 
             // return an error message if the input is empty
-            if (checkConductor.Equals("") || (int.TryParse(checkConductor, out num)))
+            if (checkConductor.Equals(""))
             {
-                txtCDOrchestralConductor.Clear();
+                txtCDOrchestraConductor.Clear();
                 MessageBox.Show("Please Enter a Conductor name");
             }
+            else
+            {
+                return true;
+            }
+            return false;
         } // end checkOrchestralConductor
 
         // this method find which groupbox are visible and validating those textboxes input\
         private void validatingVisisbleGrp()
         {
-            checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity);
-            // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
-            if (checkVisibleGroup(grpBook) == true)
+            IDictionary<string, string> dict = new Dictionary<string, string>();
+            if (checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity))
             {
-                checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages); 
-            } else if (checkVisibleGroup(grpBook, grpBookCIS) == true)
-            {
-                checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages);
-            }
-            // if groupbox DVD are visible, check the input validation
-            else if (checkVisibleGroup(grpDVD) == true)
-            {
-                checkDVD(txtDVDLeadActor, txtDVDRunTime);
-            }
-            // if groupbox CD Classical are visisble, check the input validation
-            else if (checkVisibleGroup(grpCDClassical) == true)
-            {
-                checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists);
-            }
-            // if groupbox CD Orchestra are visible, check the input validation
-            else if (checkVisibleGroup(grpCDOrchestra) == true)
-            {
-                checkOrchestralConductor(txtCDOrchestralConductor);
+                dict["ProductUPC"] = txtProductUPC.Text;
+                dict["ProductPrice"] = txtProductPrice.Text;
+                dict["ProductTitle"] = txtProductTitle.Text;
+                dict["ProductQuantity"] = txtProductQuantity.Text;
+
+                // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
+                if (checkVisibleGroup(grpBook) == true)
+                {
+                    if (checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
+                    {
+                        dict["ISBNLeft"] = txtBookISBNLeft.Text;
+                        dict["ISBNRight"] = txtBookISBNRight.Text;
+                        dict["BookAuthor"] = txtBookAuthor.Text;
+                        dict["BookPages"] = txtBookPages.Text;
+                        createProduct("Book", dict);
+                    }
+                }
+                else if (checkVisibleGroup(grpBook, grpBookCIS) == true)
+                {
+                    if(checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
+                    {
+                        dict["ISBNLeft"] = txtBookISBNLeft.Text;
+                        dict["ISBNRight"] = txtBookISBNRight.Text;
+                        dict["BookAuthor"] = txtBookAuthor.Text;
+                        dict["BookPages"] = txtBookPages.Text;
+                        dict["CISArea"] = txtBookCISArea.Text;
+                        createProduct("Book", dict);
+                    }
+                }
+                // if groupbox DVD are visible, check the input validation
+                else if (checkVisibleGroup(grpDVD) == true)
+                {
+                    if(checkDVD(txtDVDLeadActor, txtDVDRunTime))
+                    {
+                        dict["DVDLeadActor"] = txtDVDLeadActor.Text;
+                        dict["DVDReleaseDate"] = dtDVDReleaseDate.ToString();
+                        dict["DVDRuntime"] = txtDVDRunTime.Text;
+                        createProduct("DVD", dict);
+                    }
+                }
+                // if groupbox CD Classical are visisble, check the input validation
+                else if (checkVisibleGroup(grpCDClassical) == true)
+                {
+                    if(checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
+                    {
+                        dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
+                        dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
+                        createProduct("CDClassical", dict);
+
+                    }
+                }
+                // if groupbox CD Orchestra are visible, check the input validation
+                else if (checkVisibleGroup(grpCDOrchestra) == true)
+                {
+                    if (checkOrchestralConductor(txtCDOrchestraConductor))
+                    {
+                        dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
+                        dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
+                        dict["CDOrchestraConductor"] = txtCDOrchestraConductor.Text;
+                        createProduct("CDOrchestra", dict);
+                    }
+                }
             }
         } // end validatingVisibleGrp
 
+        private void createProduct(string type, IDictionary<string, string> args)
+        {
+            Product temp = null;
+            switch (type){
+                case "Book":
+                    temp = new Book(Int32.Parse(args["ProductUPC"]), Decimal.Parse(args["ProductPrice"]), args["ProductTitle"], Int32.Parse(args["ProductQuantity"]), args);
+                    break;
+                case "BookCIS":
+                    temp = new BookCIS(Int32.Parse(args["ProductUPC"]), Decimal.Parse(args["ProductPrice"]), args["ProductTitle"], Int32.Parse(args["ProductQuantity"]), args);
+                    break;
+                case "DVD":
+                    temp = new DVD(Int32.Parse(args["ProductUPC"]), Decimal.Parse(args["ProductPrice"]), args["ProductTitle"], Int32.Parse(args["ProductQuantity"]), args);
+                    break;
+                case "CDClassical":
+                    temp = new CDClassical(Int32.Parse(args["ProductUPC"]), Decimal.Parse(args["ProductPrice"]), args["ProductTitle"], Int32.Parse(args["ProductQuantity"]), args);
+
+                    break;
+                case "CDOrchestra":
+                    temp = new CDOrchestra(Int32.Parse(args["ProductUPC"]), Decimal.Parse(args["ProductPrice"]), args["ProductTitle"], Int32.Parse(args["ProductQuantity"]), args);
+                    break;
+            }
+            InStock.addProduct(temp);
+
+            lblTotalQuant.Text = (Int32.Parse(lblTotalQuant.Text) + Int32.Parse(args["ProductQuantity"])).ToString();
+
+            lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+
+            btnSearch.Enabled = true;
+
+            //
+            //
+            //LEAVE THIS COMMENTED WHILE DEBUGGING OR YOU WILL LOSE YOUR MIND RETYPING!!
+            //clearForm();
+            //
+            //
+        
+        }
+        public object GetInstance(string strFullyQualifiedName)
+        {
+            Type t = Type.GetType(strFullyQualifiedName);
+            return Activator.CreateInstance(t);
+        }
         private void btnInsert_Click(object sender, EventArgs e)
         {
             // validating the visible groupbox
@@ -429,5 +525,37 @@ namespace BookCDDVD
             // close the program
             this.Close();
         } // end btnExit_Click
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            frmSearchDialog SearchDialog = new frmSearchDialog();
+
+            int enteredUPC = 0;
+
+            if(SearchDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                if(SearchDialog.returnedUPC.ToString().Length == 5 && Int32.TryParse(SearchDialog.returnedUPC, out enteredUPC))
+                {
+                    MessageBox.Show("Entered UPC: " + enteredUPC);
+                    for(int i = 0; i < InStock.getCount(); i++)
+                    {
+                        if(InStock[i].getUPC() == enteredUPC)
+                        {
+                            MessageBox.Show("FOUND PRODUCT!! Title: " + InStock[i].getTitle());
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid UPC Was Entered.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Search Cancelled.");
+            }
+            SearchDialog.Dispose();
+
+        }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD

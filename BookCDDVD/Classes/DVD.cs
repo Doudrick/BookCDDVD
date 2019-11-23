@@ -12,11 +12,11 @@ namespace BookCDDVD
         DateTime hiddenReleaseDate = new DateTime();
         int hiddenRunTime = 0;
 
-        public DVD(int UPC, decimal price, string title, int quantity, string leadActor, DateTime releaseDate, int runTime) : base(UPC, price, title, quantity)
+        public DVD(int UPC, decimal price, string title, int quantity, IDictionary<string, string> param) : base(UPC, price, title, quantity)
         {
-            hiddenLeadActor = leadActor;
-            hiddenReleaseDate = releaseDate;
-            hiddenRunTime = runTime;
+            hiddenLeadActor = param["DVDLeadActor"];
+            hiddenReleaseDate = DateTime.Parse(param["DVDReleaseDate"]);
+            hiddenRunTime = Int32.Parse(param["DVDRuntime"]);
         }
 
         public string getActor()
