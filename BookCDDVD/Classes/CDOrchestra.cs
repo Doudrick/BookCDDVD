@@ -22,15 +22,12 @@ namespace BookCDDVD
             hiddenConductor = "";
         }  // end Parameterless Constructor
 
-
         //Takes a dictionary as a parameter which contains everything unique to it AND everything unique to its base class (CDClassical)
         public CDOrchestra(int UPC, decimal price, string title, int quantity,  // For Product Constructor
             IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
             hiddenConductor = param["CDOrchestraConductor"];
         }  // end parameterized constructor
-
-
 
         // These six methods replace what were VB Properties
         // get or set an item in the List
@@ -40,7 +37,6 @@ namespace BookCDDVD
             return hiddenConductor;
         }  // end getgradHourlyPay
 
-
         // Save data from form to object
         public override void Save(frmBookCDDVDShop f)
         {
@@ -48,14 +44,12 @@ namespace BookCDDVD
             hiddenConductor = f.txtCDOrchestraConductor.Text;
         }  // end Save
 
-
         // Display data in object on form
         public override void Display(frmBookCDDVDShop f)
         {
             base.Display(f);
             f.txtCDOrchestraConductor.Text = hiddenConductor;
         }  // end Display
-
 
         // This toString function overrides the Student toString
         // function.  The base refers to the Student because this class
@@ -66,7 +60,6 @@ namespace BookCDDVD
             s += "CDOrchestra Instrument List:  " + hiddenConductor + "\n";
             return s;
         } //  end ToString
-
     }  // end CDClChamber Class
 }  // end namespace
 

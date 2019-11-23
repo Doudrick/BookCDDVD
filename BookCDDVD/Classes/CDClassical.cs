@@ -34,7 +34,6 @@ namespace BookCDDVD
 
         } // end CDClassical Parameterless Constructor
 
-
         //Takes a dictionary as a parameter which contains everything unique to it and not it's base class (Product)
         public CDClassical(int UPC, decimal price, string title, int quantity,
             IDictionary<string, string> param) : base(UPC, price, title, quantity)
@@ -43,19 +42,17 @@ namespace BookCDDVD
             hiddenArtists = param["CDClassicalArtists"];
         }  // end Employee Parameterized Constructor
 
-
         // Accessor/mutator for CD Label
         public string getLabel()
         {
             return hiddenLabel;
-        }
-
+        } // end getLabel
 
         // Accessor/mutator for CD Artists
         public string getArtists()
         {
             return hiddenArtists;
-        }
+        } // end getArtists
 
         // Save data from form to object
         public override void Save(frmBookCDDVDShop f)
@@ -65,7 +62,6 @@ namespace BookCDDVD
             hiddenArtists = f.txtCDClassicalArtists.Text;
         } // end Save
 
-
         // Display data in object on form
         public override void Display(frmBookCDDVDShop f)
         {
@@ -73,7 +69,6 @@ namespace BookCDDVD
             f.txtCDClassicalLabel.Text = hiddenLabel;
             f.txtCDClassicalArtists.Text = hiddenArtists.ToString();
         }  // end Display
-
 
         // This toString function overrides the Object toString
         //     function.  The base refers to Object because this class
@@ -85,6 +80,5 @@ namespace BookCDDVD
             s += "CDClasical Artists: " + hiddenArtists + "\n";
             return s;
         }  // end ToString
-
     }  // end CDClassical class
 }  // end namespace  

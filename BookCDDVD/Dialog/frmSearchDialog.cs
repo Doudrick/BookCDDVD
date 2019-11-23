@@ -38,6 +38,6 @@ namespace BookCDDVD
             {
                 btnSearchSubmit.Enabled = false;
             }
-        }
-    }
-}
+        } // end txtUPC_TextChanged 
+    } // end frmSearchDialog
+} // end namespace BookCDDVD

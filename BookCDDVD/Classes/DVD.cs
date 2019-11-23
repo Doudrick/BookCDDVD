@@ -23,21 +23,22 @@ namespace BookCDDVD
             hiddenLeadActor = param["DVDLeadActor"];
             hiddenReleaseDate = DateTime.Parse(param["DVDReleaseDate"]);
             hiddenRunTime = Int32.Parse(param["DVDRuntime"]);
-        }
+        } // end DVD
 
         public string getActor()
         {
             return hiddenLeadActor;
-        }
+        } // end getActor
+
         public DateTime getReleaseDate()
         {
             return hiddenReleaseDate;
-        }
+        } // end getReleaseDate
 
         public int getRunTime()
         {
             return hiddenRunTime;
-        }
+        } // end getRunTime
 
         public override string ToString()
         {
@@ -47,5 +48,5 @@ namespace BookCDDVD
             s += "DVD Run Time: " + hiddenRunTime + "\n";
             return s;
         }  // end ToString
-    }
-}
+    } // end classDVD
+} // end namespace BookDVD

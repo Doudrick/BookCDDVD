@@ -57,28 +57,27 @@ namespace BookCDDVD
         public int getUPC()
         {
             return hiddenUPC;
-        }
-
+        } // end getUPC
 
         // Accessor/Mutator for product price 
         public decimal getPrice()
         {
             return hiddenPrice;
-        }
+        } // end getPrice
 
 
         // Accessor/mutator for product title
         public string getTitle()
         {
             return hiddenTitle;
-        }
+        } // end getTitle
 
 
         // Accessor/mutator for product quantity
         public int getQuantity()
         {
             return hiddenQuantity;
-        }
+        } // getQuantity
 
 
         // Save data from form to object
@@ -124,8 +123,6 @@ namespace BookCDDVD
             s += "Product Price      : " + p.hiddenTitle + "\n";
             s += "Product Quantity : " + Convert.ToInt32(p.hiddenQuantity);
             MessageBox.Show(s, "Display a Single Product in Product List");
-        }
-
+        } // end displayProductAsString
     } // end Product Class
-
 } // end namespace

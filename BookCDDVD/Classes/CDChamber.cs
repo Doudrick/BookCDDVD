@@ -66,7 +66,6 @@ namespace BookCDDVD
             s += "CDChamber Instrument List:  " + hiddenInstrumentList + "\n";
             return s;
         } //  end ToString
-
     }  // end CDClChamber Class
 }  // end namespace
 
