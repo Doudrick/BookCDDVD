@@ -18,18 +18,19 @@ namespace BookCDDVD
         public BookCIS()
         {
             hiddenArea = "";
-        }
+        } // end BookCIS
+
         //Takes a dictionary as a parameter which contains everything unique to it AND everything unique to its base class (Book)
         public BookCIS(int UPC, decimal price, string title, int quantity,
             IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
             hiddenArea = param["CISArea"];
-        }
+        } // end BookCIS
 
         public string getArea()
         {
             return hiddenArea;
-        }
+        } // end getArea
 
         public override string ToString()
         {

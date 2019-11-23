@@ -65,6 +65,7 @@ namespace BookCDDVD
             tip.AutoPopDelay = 500000;
             tip.InitialDelay = 0;
 
+            // setting a specific values to textboxes and button on the form
             tip.SetToolTip(this.txtProductUPC, "Enter a 5 digits UPC");
             tip.SetToolTip(this.txtProductPrice, "Enter a price, decimal will be rounded up to 2 decimals");
             tip.SetToolTip(this.txtProductTitle, "Enter the book title");
@@ -85,7 +86,7 @@ namespace BookCDDVD
             tip.SetToolTip(this.btnDelete, "Delete the information");
             tip.SetToolTip(this.btnClear, "Clear the textboxes on the form");
             tip.SetToolTip(this.btnExit, "Exit the program");
-        }
+        } // end setToolTips
 
         // this method load in all of the textboxes as read only
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
@@ -206,7 +207,6 @@ namespace BookCDDVD
             txtCDOrchestraConductor.Clear();
             cbCDChamberInstrumentList.ResetText();
             txtProductUPC.Focus();
-            dtDVDReleaseDate.ResetText();
         } // end clearForm
 
         // this method search the group categories user is looking for and show them
