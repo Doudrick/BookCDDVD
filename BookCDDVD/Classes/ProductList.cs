@@ -22,19 +22,14 @@ namespace BookCDDVD
         {
             return products.Count;
         }
-        //this can't be in product list. Product list should not know about its contents.
-        //public bool findProduct(int upc, out Product foundProduct)
-        //{
-        //    foundProduct = null;
-        //    foreach (Product i in products)
-        //    {
-        //        if(i.ProductUPC == upc)
-        //        {
-        //            foundProduct = i;
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
+
+        //Indexer method to retrieve Products from the list as if it were an array
+        public Product this[int index]
+        {
+            get
+            {
+                return products[index];
+            }
+        }
     }
 }

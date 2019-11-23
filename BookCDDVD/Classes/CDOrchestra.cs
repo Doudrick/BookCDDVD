@@ -12,22 +12,22 @@ namespace BookCDDVD
 {
     // CDClChamber inherits the data and methods in CDClassical and can be a serialized to a binary file
     [Serializable()]
-    class CDChamber : CDClassical
+    class CDOrchestra : CDClassical
     {
-        private string hiddenInstrumentList;
+        private string hiddenConductor;
 
         // Parameterless Constructor
-        public CDChamber()
+        public CDOrchestra()
         {
-            hiddenInstrumentList = "";
+            hiddenConductor = "";
         }  // end Parameterless Constructor
 
 
         // Parameterized constructor
-        public CDChamber(int UPC, decimal price, string title, int quantity,  // For Product Constructor
+        public CDOrchestra(int UPC, decimal price, string title, int quantity,  // For Product Constructor
             IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
-            hiddenInstrumentList = param["CDChamberInstrumentList"];
+            hiddenConductor = param["CDOrchestraConductor"];
         }  // end parameterized constructor
 
 
@@ -35,24 +35,17 @@ namespace BookCDDVD
         // These six methods replace what were VB Properties
         // get or set an item in the List
         // Accessor/mutator for Tuition, Year and Credits
-        public string getCDChamberInstrumentList()
+        public string getCDOrchestraConductor()
         {
-            return hiddenInstrumentList;
+            return hiddenConductor;
         }  // end getgradHourlyPay
-
-
-        public void setCDChamberInstrumentList(string value)
-        {
-            hiddenInstrumentList = value;
-        }  // end get
-
 
 
         // Save data from form to object
         public override void Save(frmBookCDDVDShop f)
         {
             base.Save(f);
-            hiddenInstrumentList = f.txtCDChamberInstrumentList.Text;
+            hiddenConductor = f.txtCDOrchestraConductor.Text;
         }  // end Save
 
 
@@ -60,7 +53,7 @@ namespace BookCDDVD
         public override void Display(frmBookCDDVDShop f)
         {
             base.Display(f);
-            f.txtCDChamberInstrumentList.Text = hiddenInstrumentList;
+            f.txtCDOrchestraConductor.Text = hiddenConductor;
         }  // end Display
 
 
@@ -70,7 +63,7 @@ namespace BookCDDVD
         public override string ToString()
         {
             string s = base.ToString() + "\n";
-            s += "CDChamber Instrument List:  " + hiddenInstrumentList + "\n";
+            s += "CDOrchestra Instrument List:  " + hiddenConductor + "\n";
             return s;
         } //  end ToString
 

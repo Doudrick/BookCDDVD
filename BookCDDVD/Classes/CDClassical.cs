@@ -37,10 +37,10 @@ namespace BookCDDVD
 
         // Parameterized Constructor
         public CDClassical(int UPC, decimal price, string title, int quantity,
-            string label, string artists) : base(UPC, price, title, quantity)
+            IDictionary<string, string> param) : base(UPC, price, title, quantity)
         {
-            hiddenLabel = label;
-            hiddenArtists = artists;
+            hiddenLabel = param["CDClassicalLabel"];
+            hiddenArtists = param["CDClassicalArtists"];
         }  // end Employee Parameterized Constructor
 
 

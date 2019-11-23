@@ -16,9 +16,9 @@ namespace BookCDDVD
         }
 
         public BookCIS(int UPC, decimal price, string title, int quantity,
-            int ISBN1, int ISBN2, string author, int pages, string area) : base(UPC, price, title, quantity, ISBN1, ISBN2, author, pages)
+            IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
-            hiddenArea = area;
+            hiddenArea = param["CISArea"];
         }
         public override string ToString()
         {

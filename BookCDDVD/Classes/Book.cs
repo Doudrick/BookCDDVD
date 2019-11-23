@@ -26,13 +26,12 @@ namespace BookCDDVD
             hiddenPages = 0;
         }
 
-        public Book(int UPC, decimal price, string title, int quantity,
-            int ISBN1, int ISBN2, string author, int pages) : base(UPC, price, title, quantity)
+        public Book(int UPC, decimal price, string title, int quantity, IDictionary<string, string> param) : base(UPC, price, title, quantity)
         {
-            hiddenISBN1 = ISBN1;
-            hiddenISBN2 = ISBN2;
-            hiddenAuthor = author;
-            hiddenPages = pages;
+            hiddenISBN1 = Int32.Parse(param["ISBNLeft"]);
+            hiddenISBN2 = Int32.Parse(param["ISBNRight"]);
+            hiddenAuthor = param["BookAuthor"];
+            hiddenPages = Int32.Parse(param["BookPages"]);
         }
         public override string ToString()
         {
