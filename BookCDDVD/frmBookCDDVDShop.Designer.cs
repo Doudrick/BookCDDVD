@@ -729,9 +729,9 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label lblNumUnique;
         private System.Windows.Forms.Label lblUniqProducts;
-        private System.Windows.Forms.Button btnDelete;
         public System.Windows.Forms.DateTimePicker dtDVDReleaseDate;
         public System.Windows.Forms.Button btnClear;
+        public System.Windows.Forms.Button btnDelete;
     }
 }
 

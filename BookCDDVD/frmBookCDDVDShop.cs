@@ -27,6 +27,7 @@ namespace BookCDDVD
         {
             InitializeComponent();
 
+            // adding all the groups into the groupCategories list
             groupCategories.Add(grpBook);
             groupCategories.Add(grpBookCIS);
             groupCategories.Add(grpCDChamber);
@@ -34,6 +35,7 @@ namespace BookCDDVD
             groupCategories.Add(grpCDOrchestra);
             groupCategories.Add(grpDVD);
 
+            // adding all the new entry button into the createaButton list
             createButton.Add(btnCreateBook);
             createButton.Add(btnCreateBookCIS);
             createButton.Add(btnCreateDVD);
@@ -41,10 +43,12 @@ namespace BookCDDVD
             createButton.Add(btnCreateCDChamber);
             createButton.Add(btnCreateCDOrchestra);
 
+            // adding options into the CIS Area dropdown
             cbBookCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
             cbBookCISArea.Items.Add("Computer Sciences");
             cbBookCISArea.Items.Add("Information Sciences");
 
+            // adding options into the Instrument List dropdown
             cbCDChamberInstrumentList.DropDownStyle = ComboBoxStyle.DropDownList;
             cbCDChamberInstrumentList.Items.Add("Percussion");
             cbCDChamberInstrumentList.Items.Add("String");
@@ -53,7 +57,7 @@ namespace BookCDDVD
 
             // showing a tips of what user should enter in their textboxes
             setToolTips();
-        }
+        } // end frmBookCDDVDShop
 
         // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
         private void setToolTips()
