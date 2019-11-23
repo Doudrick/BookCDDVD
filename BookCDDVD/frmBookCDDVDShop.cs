@@ -41,9 +41,50 @@ namespace BookCDDVD
             createButton.Add(btnCreateCDChamber);
             createButton.Add(btnCreateCDOrchestra);
 
-            txtBookCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
-            txtBookCISArea.Items.Add("Computer Sciences");
-            txtBookCISArea.Items.Add("Information Sciences");
+            cbBookCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbBookCISArea.Items.Add("Computer Sciences");
+            cbBookCISArea.Items.Add("Information Sciences");
+
+            cbCDChamberInstrumentList.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbCDChamberInstrumentList.Items.Add("Percussion");
+            cbCDChamberInstrumentList.Items.Add("String");
+            cbCDChamberInstrumentList.Items.Add("Woodwind");
+            cbCDChamberInstrumentList.Items.Add("Brass");
+
+            // showing a tips of what user should enter in their textboxes
+            setToolTips();
+        }
+
+        // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
+        private void setToolTips()
+        {
+            // setting value to the tooltips 
+            ToolTip tip = new ToolTip();
+            tip.AutomaticDelay = 500;
+            tip.ReshowDelay = 10000;
+            tip.AutoPopDelay = 500000;
+            tip.InitialDelay = 0;
+
+            tip.SetToolTip(this.txtProductUPC, "Enter a 5 digits UPC");
+            tip.SetToolTip(this.txtProductPrice, "Enter a price, decimal will be rounded up to 2 decimals");
+            tip.SetToolTip(this.txtProductTitle, "Enter the book title");
+            tip.SetToolTip(this.txtProductQuantity, "Enter the quantity");
+            tip.SetToolTip(this.txtBookISBNLeft, "Enter the first 3 digits of ISBN");
+            tip.SetToolTip(this.txtBookISBNRight, "Enter the last 3 digits of ISBN");
+            tip.SetToolTip(this.txtBookAuthor, "Enter the Author name, Number are not allowed");
+            tip.SetToolTip(this.txtBookPages, "Enter a number of pages, cannot be more then 9999");
+            tip.SetToolTip(this.txtDVDLeadActor, "Enter the Lead Actor name");
+            tip.SetToolTip(this.dtDVDReleaseDate, "Choose a date");
+            tip.SetToolTip(this.cbBookCISArea, "Choose a CIS area");
+            tip.SetToolTip(this.txtDVDRunTime, "enter a run time that cannot be less then 0 or more than 120 minutes");
+            tip.SetToolTip(this.txtCDClassicalLabel, "Enter a label name");
+            tip.SetToolTip(this.txtCDClassicalArtists, "Enter the Artist name");
+            tip.SetToolTip(this.txtCDOrchestraConductor, "Enter the Conductor name");
+            tip.SetToolTip(this.cbCDChamberInstrumentList, "Choose an Instrument");
+            tip.SetToolTip(this.btnInsert, "Add the inputed information into the data entry");
+            tip.SetToolTip(this.btnDelete, "Delete the information");
+            tip.SetToolTip(this.btnClear, "Clear the textboxes on the form");
+            tip.SetToolTip(this.btnExit, "Exit the program");
         }
 
         // this method load in all of the textboxes as read only
@@ -69,7 +110,6 @@ namespace BookCDDVD
             {
                 btnSearch.Enabled = false;
             }
-
         } // end frmBookCDDVDShop_Load
 
         // this method hide and enable textboxes for Create Book button
@@ -158,14 +198,15 @@ namespace BookCDDVD
             txtBookISBNRight.Clear();
             txtBookAuthor.Clear();
             txtBookPages.Clear();
-            txtBookCISArea.ResetText();
+            cbBookCISArea.ResetText();
             txtDVDLeadActor.Clear();
             txtDVDRunTime.Clear();
             txtCDClassicalLabel.Clear();
             txtCDClassicalArtists.Clear();
             txtCDOrchestraConductor.Clear();
-            txtCDChamberInstrumentList.ResetText();
+            cbCDChamberInstrumentList.ResetText();
             txtProductUPC.Focus();
+            dtDVDReleaseDate.ResetText();
         } // end clearForm
 
         // this method search the group categories user is looking for and show them
@@ -269,8 +310,7 @@ namespace BookCDDVD
             string checkQuantity = Convert.ToString(Quantity.Text);
 
             // return an error message if the input is empty, longer or shorter then 5, or is a letter
-            if (checkUPC.Equals("") || checkUPC.Length < 5 || checkUPC.Length > 5 ||
-                (!int.TryParse(checkUPC, out num)))
+            if (checkUPC.Equals("") || checkUPC.Length < 5 || (!int.TryParse(checkUPC, out num)))
             {
                 txtProductUPC.Clear();
                 MessageBox.Show("Please Enter A Valid UPC");
@@ -310,16 +350,14 @@ namespace BookCDDVD
 
             // return a error message if user is not inputing information or the input is 
             // long then 3, shorter then 3, or a letter
-            if (checkISBNL.Equals("") || checkISBNL.Length < 3 || checkISBNL.Length > 3 ||
-                (!int.TryParse(checkISBNL, out num)))
+            if (checkISBNL.Equals("") || checkISBNL.Length < 3 || (!int.TryParse(checkISBNL, out num)))
             {
                 txtBookISBNLeft.Clear();
                 MessageBox.Show("Please Enter a valid ISBN on the Left text box");
             }
             // return a error message if user is not inputing information or the input is 
             // long then 3, shorter then 3, or a letter
-            else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || checkISBNR.Length > 3 ||
-                (!int.TryParse(checkISBNR, out num)))
+            else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || (!int.TryParse(checkISBNR, out num)))
             {
                 txtBookISBNRight.Clear();
                 MessageBox.Show("Please Enter a valid ISBN on the Right text box");
@@ -451,7 +489,7 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-                        dict["CISArea"] = txtBookCISArea.Text;
+                        dict["CISArea"] = cbBookCISArea.Text;
                         createProduct("Book", dict);
                     }
                 }
@@ -475,11 +513,9 @@ namespace BookCDDVD
                 {
                     if(checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
                     {
-                        MessageBox.Show("CD CHAMBER");
-
                         dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
-                        dict["CDChamberInstrumentList"] = txtCDChamberInstrumentList.Text;
+                        dict["CDChamberInstrumentList"] = cbCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
 
                     }
@@ -523,13 +559,9 @@ namespace BookCDDVD
                 case "CDChamber":
                     temp = new CDChamber(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);
                     break;
-
             }
-
             if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
             {
-
-
                 //Enable the search button if it was disabled previously due to no product in inventory
                 btnSearch.Enabled = true;
                 //Add the product to the product list
@@ -538,7 +570,6 @@ namespace BookCDDVD
                 lblUniqProducts.Text = InStock.getCount().ToString();
 
                 MessageBox.Show("Added Product to Inventory!");
-
             }
             else
             {
@@ -547,38 +578,33 @@ namespace BookCDDVD
                 txtProductUPC.Text = "";
                 txtProductUPC.Focus();
             }
-
-
-
-            //
-            //
-            //LEAVE THIS COMMENTED WHILE DEBUGGING OR YOU WILL LOSE YOUR MIND RETYPING!!
-            //clearForm();
-            //
-            //
-        
+            //clear the form
+            clearForm();
         }
+
+        // this method check for a matching UPC when searched
         public bool checkForExisting(int UPC)
-        {
-            MessageBox.Show(InStock.getCount().ToString());
+        { 
             //Loop through the ProductList and check for a UPC match
             for (int i = 0; i < InStock.getCount(); i++)
             {
-                MessageBox.Show(i.ToString());
                 if (InStock[i].getUPC() == UPC)
                 {
                     return true;
                 }
             }
                 return false;
-        }
+       } // end checkforExisting
+
+        // this method calling the validatingVisiblegrp, validated the information and adding
+        // the information into the persistance to the binary file
         private void btnInsert_Click(object sender, EventArgs e)
         {
             // validating the visible groupbox
             validatingVisisbleGrp();
         } // end btnInsert_Click
 
-        // this nethod exit the program
+        // this method exit the program
         private void btnExit_Click(object sender, EventArgs e)
         {
             //Write the persistance to the binary file, and close the form
@@ -605,7 +631,7 @@ namespace BookCDDVD
                         if(InStock[i].getUPC() == enteredUPC)
                         {
                             //We Found it!
-                            MessageBox.Show("FOUND PRODUCT!! Title: " + InStock[i].getTitle() + "\n Type of Product: " + InStock[i].GetType().ToString().Split('.')[1]);
+                            MessageBox.Show("FOUND PRODUCT!!"  + "\nTitle:" + InStock[i].getTitle() + "\nType of Product: " + InStock[i].GetType().ToString().Split('.')[1]);
 
                             //Set a variable for the found product
                             Product foundProduct = InStock[i];
@@ -643,7 +669,7 @@ namespace BookCDDVD
                                     txtBookISBNLeft.Text = foundBookCIS.getISBN1().ToString();
                                     txtBookISBNRight.Text = foundBookCIS.getISBN2().ToString();
                                     txtBookPages.Text = foundBookCIS.getPages().ToString();
-                                    txtBookCISArea.SelectedValue = foundBookCIS.getArea();
+                                    cbBookCISArea.SelectedValue = foundBookCIS.getArea();
                                     break;
                                 case "dvd":
                                     hideGroups(grpDVD);
@@ -662,11 +688,10 @@ namespace BookCDDVD
                                 case "cdchamber":
                                     hideGroups(grpCDClassical, grpCDChamber);
                                     CDChamber foundCDChamber = (CDChamber)foundProduct;
-                                    txtCDChamberInstrumentList.Text = foundCDChamber.getCDChamberInstrumentList();
+                                    cbCDChamberInstrumentList.Text = foundCDChamber.getCDChamberInstrumentList();
                                     txtCDClassicalLabel.Text = foundCDChamber.getLabel();
                                     txtCDClassicalArtists.Text = foundCDChamber.getArtists();
                                     break;
-
                             }
                             //Set the index to delete just in case the user wants to delete this from the list
                             //      either because they want to edit it, or they want to delete it
@@ -689,9 +714,7 @@ namespace BookCDDVD
             }
             //Dispose of the search dialog since we're done with it
             SearchDialog.Dispose();
-
-        }
-
+        } // end btnSearch_Click
         private void btnDelete_Click(object sender, EventArgs e)
         {
             //Remove one product from the number of products we have using the return from the removeProduct method
@@ -703,6 +726,11 @@ namespace BookCDDVD
             indexToDelete = 0;
             //Hide the delete button
             btnDelete.Visible = false;
+        } // end btnDelete_Click
+
+        private void btnClear_Click_1(object sender, EventArgs e)
+        {
+            clearForm();
         }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD

@@ -45,7 +45,7 @@ namespace BookCDDVD
         public override void Save(frmBookCDDVDShop f)
         {
             base.Save(f);
-            hiddenInstrumentList = f.txtCDChamberInstrumentList.Text;
+            hiddenInstrumentList = f.cbCDChamberInstrumentList.Text;
         }  // end Save
 
 
@@ -53,7 +53,7 @@ namespace BookCDDVD
         public override void Display(frmBookCDDVDShop f)
         {
             base.Display(f);
-            f.txtCDChamberInstrumentList.Text = hiddenInstrumentList;
+            f.cbCDChamberInstrumentList.Text = hiddenInstrumentList;
         }  // end Display
 
 

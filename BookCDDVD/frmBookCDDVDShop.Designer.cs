@@ -39,7 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.grpCDChamber = new System.Windows.Forms.GroupBox();
-            this.txtCDChamberInstrumentList = new System.Windows.Forms.ComboBox();
+            this.cbCDChamberInstrumentList = new System.Windows.Forms.ComboBox();
             this.lblInstruments = new System.Windows.Forms.Label();
             this.grpCDOrchestra = new System.Windows.Forms.GroupBox();
             this.txtCDOrchestraConductor = new System.Windows.Forms.TextBox();
@@ -57,7 +57,7 @@
             this.lblReleaseDate = new System.Windows.Forms.Label();
             this.lblLeadActor = new System.Windows.Forms.Label();
             this.grpBookCIS = new System.Windows.Forms.GroupBox();
-            this.txtBookCISArea = new System.Windows.Forms.ComboBox();
+            this.cbBookCISArea = new System.Windows.Forms.ComboBox();
             this.lblCISArea = new System.Windows.Forms.Label();
             this.grpBook = new System.Windows.Forms.GroupBox();
             this.txtBookPages = new System.Windows.Forms.TextBox();
@@ -212,7 +212,7 @@
             // 
             // grpCDChamber
             // 
-            this.grpCDChamber.Controls.Add(this.txtCDChamberInstrumentList);
+            this.grpCDChamber.Controls.Add(this.cbCDChamberInstrumentList);
             this.grpCDChamber.Controls.Add(this.lblInstruments);
             this.grpCDChamber.Location = new System.Drawing.Point(318, 282);
             this.grpCDChamber.Name = "grpCDChamber";
@@ -222,13 +222,13 @@
             this.grpCDChamber.Text = "CD Chamber Music";
             this.grpCDChamber.Visible = false;
             // 
-            // txtCDChamberInstrumentList
+            // cbCDChamberInstrumentList
             // 
-            this.txtCDChamberInstrumentList.FormattingEnabled = true;
-            this.txtCDChamberInstrumentList.Location = new System.Drawing.Point(77, 22);
-            this.txtCDChamberInstrumentList.Name = "txtCDChamberInstrumentList";
-            this.txtCDChamberInstrumentList.Size = new System.Drawing.Size(188, 21);
-            this.txtCDChamberInstrumentList.TabIndex = 22;
+            this.cbCDChamberInstrumentList.FormattingEnabled = true;
+            this.cbCDChamberInstrumentList.Location = new System.Drawing.Point(77, 22);
+            this.cbCDChamberInstrumentList.Name = "cbCDChamberInstrumentList";
+            this.cbCDChamberInstrumentList.Size = new System.Drawing.Size(188, 21);
+            this.cbCDChamberInstrumentList.TabIndex = 22;
             // 
             // lblInstruments
             // 
@@ -380,7 +380,7 @@
             // 
             // grpBookCIS
             // 
-            this.grpBookCIS.Controls.Add(this.txtBookCISArea);
+            this.grpBookCIS.Controls.Add(this.cbBookCISArea);
             this.grpBookCIS.Controls.Add(this.lblCISArea);
             this.grpBookCIS.Location = new System.Drawing.Point(18, 107);
             this.grpBookCIS.Name = "grpBookCIS";
@@ -390,13 +390,13 @@
             this.grpBookCIS.Text = "CIS Book";
             this.grpBookCIS.Visible = false;
             // 
-            // txtBookCISArea
+            // cbBookCISArea
             // 
-            this.txtBookCISArea.FormattingEnabled = true;
-            this.txtBookCISArea.Location = new System.Drawing.Point(61, 19);
-            this.txtBookCISArea.Name = "txtBookCISArea";
-            this.txtBookCISArea.Size = new System.Drawing.Size(121, 21);
-            this.txtBookCISArea.TabIndex = 1;
+            this.cbBookCISArea.FormattingEnabled = true;
+            this.cbBookCISArea.Location = new System.Drawing.Point(61, 19);
+            this.cbBookCISArea.Name = "cbBookCISArea";
+            this.cbBookCISArea.Size = new System.Drawing.Size(121, 21);
+            this.cbBookCISArea.TabIndex = 1;
             // 
             // lblCISArea
             // 
@@ -428,6 +428,7 @@
             // txtBookPages
             // 
             this.txtBookPages.Location = new System.Drawing.Point(514, 17);
+            this.txtBookPages.MaxLength = 4;
             this.txtBookPages.Name = "txtBookPages";
             this.txtBookPages.Size = new System.Drawing.Size(51, 20);
             this.txtBookPages.TabIndex = 7;
@@ -442,6 +443,7 @@
             // txtBookISBNRight
             // 
             this.txtBookISBNRight.Location = new System.Drawing.Point(111, 20);
+            this.txtBookISBNRight.MaxLength = 3;
             this.txtBookISBNRight.Name = "txtBookISBNRight";
             this.txtBookISBNRight.Size = new System.Drawing.Size(44, 20);
             this.txtBookISBNRight.TabIndex = 5;
@@ -449,6 +451,7 @@
             // txtBookISBNLeft
             // 
             this.txtBookISBNLeft.Location = new System.Drawing.Point(44, 20);
+            this.txtBookISBNLeft.MaxLength = 3;
             this.txtBookISBNLeft.Name = "txtBookISBNLeft";
             this.txtBookISBNLeft.Size = new System.Drawing.Size(44, 20);
             this.txtBookISBNLeft.TabIndex = 4;
@@ -515,6 +518,7 @@
             // txtProductUPC
             // 
             this.txtProductUPC.Location = new System.Drawing.Point(50, 22);
+            this.txtProductUPC.MaxLength = 5;
             this.txtProductUPC.Name = "txtProductUPC";
             this.txtProductUPC.Size = new System.Drawing.Size(87, 20);
             this.txtProductUPC.TabIndex = 4;
@@ -563,7 +567,7 @@
             this.btnClear.TabIndex = 19;
             this.btnClear.Text = "Clear Form";
             this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Visible = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
             // 
             // btnSearch
             // 
@@ -703,13 +707,13 @@
         public System.Windows.Forms.TextBox txtProductQuantity;
         public System.Windows.Forms.TextBox txtProductPrice;
         public System.Windows.Forms.TextBox txtProductUPC;
-        public System.Windows.Forms.ComboBox txtCDChamberInstrumentList;
+        public System.Windows.Forms.ComboBox cbCDChamberInstrumentList;
         public System.Windows.Forms.TextBox txtCDOrchestraConductor;
         public System.Windows.Forms.TextBox txtCDClassicalArtists;
         public System.Windows.Forms.TextBox txtCDClassicalLabel;
         public System.Windows.Forms.TextBox txtDVDRunTime;
         public System.Windows.Forms.TextBox txtDVDLeadActor;
-        public System.Windows.Forms.ComboBox txtBookCISArea;
+        public System.Windows.Forms.ComboBox cbBookCISArea;
         public System.Windows.Forms.GroupBox grpProduct;
         public System.Windows.Forms.GroupBox grpCDChamber;
         public System.Windows.Forms.GroupBox grpCDOrchestra;
@@ -719,15 +723,15 @@
         public System.Windows.Forms.GroupBox grpControlsNewEntry;
         public System.Windows.Forms.Label label1;
         public System.Windows.Forms.GroupBox grpBook;
-        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Button btnExit;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.DateTimePicker dtDVDReleaseDate;
         private System.Windows.Forms.Label lblNumUnique;
         private System.Windows.Forms.Label lblUniqProducts;
         private System.Windows.Forms.Button btnDelete;
+        public System.Windows.Forms.DateTimePicker dtDVDReleaseDate;
+        public System.Windows.Forms.Button btnClear;
     }
 }
 
