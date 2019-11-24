@@ -1,4 +1,16 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * Codebehind for main Form
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,16 +27,33 @@ namespace BookCDDVD
     public partial class frmBookCDDVDShop : Form
     {
         ProductList InStock = new ProductList();
-
-        Validation validating = new Validation();
+        List<GroupBox> groupList = new List<GroupBox>(6);
+        List<Button> buttonList = new List<Button>(5);
 
         int indexToDelete = 0;
-
+        bool editingTrigger = false;
         const string persistancePath = "persistance.bin";
         
         public frmBookCDDVDShop()
         {
             InitializeComponent();
+
+            // adding all the groups into the groupList
+            groupList.Add(grpBook);
+            groupList.Add(grpBookCIS);
+            groupList.Add(grpCDChamber);
+            groupList.Add(grpCDClassical);
+            groupList.Add(grpCDOrchestra);
+            groupList.Add(grpDVD);
+
+            // adding all the new entry button into the buttonList
+            buttonList.Add(btnCreateBook);
+            buttonList.Add(btnCreateBookCIS);
+            buttonList.Add(btnCreateDVD);
+            buttonList.Add(btnCreateCDOrchestra);
+            buttonList.Add(btnCreateCDChamber);
+            buttonList.Add(btnCreateCDOrchestra);
+
 
             // adding options into the CIS Area dropdown
             cbBookCISArea.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -39,43 +68,11 @@ namespace BookCDDVD
             cbCDChamberInstrumentList.Items.Add("Brass");
 
             // showing a tips of what user should enter in their textboxes
-            setToolTips();
         } // end frmBookCDDVDShop
 
-        // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
-        private void setToolTips()
-        {
-            // setting value to the tooltips 
-            ToolTip tip = new ToolTip();
-            tip.AutomaticDelay = 500;
-            tip.ReshowDelay = 10000;
-            tip.AutoPopDelay = 500000;
-            tip.InitialDelay = 0;
+       
 
-            // setting a specific values to textboxes and button on the form
-            tip.SetToolTip(this.txtProductUPC, "Enter a 5 digits UPC");
-            tip.SetToolTip(this.txtProductPrice, "Enter a price, decimal will be rounded up to 2 decimals");
-            tip.SetToolTip(this.txtProductTitle, "Enter the book title");
-            tip.SetToolTip(this.txtProductQuantity, "Enter the quantity");
-            tip.SetToolTip(this.txtBookISBNLeft, "Enter the first 3 digits of ISBN");
-            tip.SetToolTip(this.txtBookISBNRight, "Enter the last 3 digits of ISBN");
-            tip.SetToolTip(this.txtBookAuthor, "Enter the Author name, Number are not allowed");
-            tip.SetToolTip(this.txtBookPages, "Enter a number of pages, cannot be more then 9999");
-            tip.SetToolTip(this.txtDVDLeadActor, "Enter the Lead Actor name");
-            tip.SetToolTip(this.dtDVDReleaseDate, "Choose a date");
-            tip.SetToolTip(this.cbBookCISArea, "Choose a CIS area");
-            tip.SetToolTip(this.txtDVDRunTime, "enter a run time that cannot be less then 0 or more than 120 minutes");
-            tip.SetToolTip(this.txtCDClassicalLabel, "Enter a label name");
-            tip.SetToolTip(this.txtCDClassicalArtists, "Enter the Artist name");
-            tip.SetToolTip(this.txtCDOrchestraConductor, "Enter the Conductor name");
-            tip.SetToolTip(this.cbCDChamberInstrumentList, "Choose an Instrument");
-            tip.SetToolTip(this.btnInsert, "Add the inputed information into the data entry");
-            tip.SetToolTip(this.btnDelete, "Delete the information");
-            tip.SetToolTip(this.btnClear, "Clear the textboxes on the form");
-            tip.SetToolTip(this.btnExit, "Exit the program");
-        } // end setToolTips
-
-        // this method load in all of the textboxes as read only
+        // this method handles some stuff that happens when the form loads
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
         {        
             // set all textboxes to read only
@@ -98,15 +95,46 @@ namespace BookCDDVD
             {
                 btnSearch.Enabled = false;
             }
-        } // end frmBookCDDVDShop_Load
 
+            setToolTips();
+
+        } // end frmBookCDDVDShop_Load
+          // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
+        private void setToolTips()
+        {
+            // setting value to the tooltips 
+            ToolTip tip = new ToolTip();
+
+            tip.ShowAlways = true;
+            // setting a specific values to textboxes and button on the form
+            tip.SetToolTip(this.txtProductUPC, "Enter a 5 digits UPC");
+            tip.SetToolTip(this.txtProductPrice, "Enter a price, decimal will be rounded up to 2 decimals");
+            tip.SetToolTip(this.txtProductTitle, "Enter the book title");
+            tip.SetToolTip(this.txtProductQuantity, "Enter the quantity");
+            tip.SetToolTip(this.txtBookISBNLeft, "Enter the first 3 digits of ISBN");
+            tip.SetToolTip(this.txtBookISBNRight, "Enter the last 3 digits of ISBN");
+            tip.SetToolTip(this.txtBookAuthor, "Enter the Author name, Number are not allowed");
+            tip.SetToolTip(this.txtBookPages, "Enter a number of pages, cannot be more then 9999");
+            tip.SetToolTip(this.txtDVDLeadActor, "Enter the Lead Actor name");
+            tip.SetToolTip(this.dtDVDReleaseDate, "Choose a date");
+            tip.SetToolTip(this.cbBookCISArea, "Choose a CIS area");
+            tip.SetToolTip(this.txtDVDRunTime, "enter a run time that cannot be less then 0 or more than 120 minutes");
+            tip.SetToolTip(this.txtCDClassicalLabel, "Enter a label name");
+            tip.SetToolTip(this.txtCDClassicalArtists, "Enter the Artist name");
+            tip.SetToolTip(this.txtCDOrchestraConductor, "Enter the Conductor name");
+            tip.SetToolTip(this.cbCDChamberInstrumentList, "Choose an Instrument");
+            tip.SetToolTip(this.btnInsert, "Add the inputed information into the data entry");
+            tip.SetToolTip(this.btnDelete, "Delete the information");
+            tip.SetToolTip(this.btnClear, "Clear the textboxes on the form");
+            tip.SetToolTip(this.btnExit, "Exit the program");
+        } // end setToolTips
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
             // hide every other group that are not CreateBook
-            validating.hideGroups(grpBook);
+            Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
             // disable CreateaBook button and enable all other new entry button
-            validating.disableCreateButton(btnCreateBook);
+            Validator.disableCreateButton(btnCreateBook, buttonList);
 
             // clear the form
             clearForm();
@@ -116,10 +144,10 @@ namespace BookCDDVD
         private void btnCreateBookCIS_Click(object sender, EventArgs e)
         {
             // hide every other group that are not BookCIS and Book
-            validating.hideGroups(grpBook, grpBookCIS);
+            Validator.hideGroups(grpBook, grpBookCIS, groupList, btnDelete, grpProduct);
 
             // disable CreateaBookCIS button and enable all other new entry button
-            validating.disableCreateButton(btnCreateBookCIS);
+            Validator.disableCreateButton(btnCreateBookCIS, buttonList);
 
             // clear the form
             clearForm();
@@ -130,10 +158,10 @@ namespace BookCDDVD
         private void btnCreateDVD_Click(object sender, EventArgs e)
         {
             // hide every group that is not DVD
-            validating.hideGroups(grpDVD);
+            Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
 
             // disable btnCreateDVD and enable all other new entry button
-            validating.disableCreateButton(btnCreateDVD);
+            Validator.disableCreateButton(btnCreateDVD, buttonList);
 
             // clear the form
             clearForm();
@@ -143,10 +171,10 @@ namespace BookCDDVD
         private void btnCreateCDOrchestra_Click(object sender, EventArgs e)
         {
             // hide every group that are not CDOrchestra and CDClassical
-            validating.hideGroups(grpCDClassical, grpCDOrchestra);
+            Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);
 
             // disabe createaDVDOrchestra button and enable other new entry button
-            validating.disableCreateButton(btnCreateCDOrchestra);
+            Validator.disableCreateButton(btnCreateCDOrchestra, buttonList);
 
             // clear the form
             clearForm();
@@ -157,10 +185,10 @@ namespace BookCDDVD
         private void btnCreateCDChamber_Click(object sender, EventArgs e)
         {
             // hide every group that is not related to CD chamber
-            validating.hideGroups(grpCDChamber, grpCDClassical);
+            Validator.hideGroups(grpCDChamber, grpCDClassical, groupList, btnDelete, grpProduct);
 
             // disable button createa CD Chamber and enable all other new entry button
-            validating.disableCreateButton(btnCreateCDChamber);
+            Validator.disableCreateButton(btnCreateCDChamber, buttonList);
 
             // clear the form
             clearForm();
@@ -193,10 +221,16 @@ namespace BookCDDVD
             txtCDOrchestraConductor.Clear();
             cbCDChamberInstrumentList.ResetText();
             txtProductUPC.Focus();
+
+            btnDelete.Visible = false;
+            //If the form is cleared, we're not editing anymore!
+            editingTrigger = false;
+            btnInsert.Text = "Insert";
+            txtProductUPC.ReadOnly = false;
         } // end clearForm
 
-        // this method find which groupbox are visible and validating those textboxes input\
-        private void validatingVisisbleGrp()
+        // this method find which groupbox are visible and Validator those textboxes input\
+        private void ValidatorVisibleGrp()
         {
             //Dictionary to hold the parameters we'll be passing in
             //Basically using an associative array that we can pass attributes to as needed for each type of product
@@ -204,7 +238,7 @@ namespace BookCDDVD
 
             //First, check if the product textboxes are valid, since all types of products have these fields
             //Set those fields in the dictionary
-            if (validating.checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity))
+            if (Validator.checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity))
             {
                 dict["ProductUPC"] = txtProductUPC.Text;
                 dict["ProductPrice"] = txtProductPrice.Text;
@@ -214,9 +248,9 @@ namespace BookCDDVD
                 // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                if (validating.checkVisibleGroup(grpBook) == true)
+                if (Validator.checkVisibleGroup(grpBook) == true)
                 {
-                    if (validating.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
+                    if (Validator.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
                     {
                         dict["ISBNLeft"] = txtBookISBNLeft.Text;
                         dict["ISBNRight"] = txtBookISBNRight.Text;
@@ -225,9 +259,9 @@ namespace BookCDDVD
                         createProduct("Book", dict);
                     }
                 }
-                else if (validating.checkVisibleGroup(grpBook, grpBookCIS) == true)
+                else if (Validator.checkVisibleGroup(grpBook, grpBookCIS) == true)
                 {
-                    if(validating.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
+                    if(Validator.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
                     {
                         dict["ISBNLeft"] = txtBookISBNLeft.Text;
                         dict["ISBNRight"] = txtBookISBNRight.Text;
@@ -240,9 +274,9 @@ namespace BookCDDVD
                 // if groupbox DVD are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (validating.checkVisibleGroup(grpDVD) == true)
+                else if (Validator.checkVisibleGroup(grpDVD) == true)
                 {
-                    if(validating.checkDVD(txtDVDLeadActor, txtDVDRunTime))
+                    if(Validator.checkDVD(txtDVDLeadActor, txtDVDRunTime))
                     {
                         dict["DVDLeadActor"] = txtDVDLeadActor.Text;
                         dict["DVDReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
@@ -253,9 +287,9 @@ namespace BookCDDVD
                 // if groupbox CD Classical are visisble, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (validating.checkVisibleGroup(grpCDChamber) == true)
+                else if (Validator.checkVisibleGroup(grpCDChamber) == true)
                 {
-                    if(validating.checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
+                    if(Validator.checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
                     {
                         dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
@@ -267,9 +301,9 @@ namespace BookCDDVD
                 // if groupbox CD Orchestra are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (validating.checkVisibleGroup(grpCDOrchestra) == true)
+                else if (Validator.checkVisibleGroup(grpCDOrchestra) == true)
                 {
-                    if (validating.checkOrchestralConductor(txtCDOrchestraConductor))
+                    if (Validator.checkOrchestralConductor(txtCDOrchestraConductor))
                     {
                         dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
@@ -278,7 +312,7 @@ namespace BookCDDVD
                     }
                 }
             }
-        } // end validatingVisibleGrp
+        } // end ValidatorVisibleGrp
 
         private void createProduct(string type, IDictionary<string, string> param)
         {
@@ -304,8 +338,17 @@ namespace BookCDDVD
                     temp = new CDChamber(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);
                     break;
             }
-            if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
+            if (editingTrigger)
             {
+                //The User is editing this product. Delete the old one, then add the new one.
+
+                //Remove one product from the number of products we have using the return from the removeProduct method
+                InStock.removeProduct(indexToDelete).ToString();
+
+                //Reset the upc value set before
+                indexToDelete = 0;
+                //Hide the delete button
+                btnDelete.Visible = false;
                 //Enable the search button if it was disabled previously due to no product in inventory
                 btnSearch.Enabled = true;
                 //Add the product to the product list
@@ -313,7 +356,22 @@ namespace BookCDDVD
                 //Increase the number of Unique products shown on the form
                 lblUniqProducts.Text = InStock.getCount().ToString();
 
-                MessageBox.Show("Added Product to Inventory!");
+                MessageBox.Show("Updated Product Information!");
+            }
+            else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
+            {
+
+                
+                    //Enable the search button if it was disabled previously due to no product in inventory
+                    btnSearch.Enabled = true;
+                    //Add the product to the product list
+                    InStock.addProduct(temp);
+                    //Increase the number of Unique products shown on the form
+                    lblUniqProducts.Text = InStock.getCount().ToString();
+
+                    MessageBox.Show("Added Product to Inventory!");
+                
+
             }
             else
             {
@@ -340,12 +398,13 @@ namespace BookCDDVD
                 return false;
        } // end checkforExisting
 
-        // this method calling the validatingVisiblegrp, validated the information and adding
+        // this method calling the ValidatorVisiblegrp, validated the information and adding
         // the information into the persistance to the binary file
         private void btnInsert_Click(object sender, EventArgs e)
         {
-            // validating the visible groupbox
-            validatingVisisbleGrp();
+            // Validator the visible groupbox
+
+            ValidatorVisibleGrp();
         } // end btnInsert_Click
 
         // this method exit the program
@@ -399,7 +458,7 @@ namespace BookCDDVD
                              //Then, textboxes on the form have their text set to the values of the object
 
                                 case "book":
-                                    validating.hideGroups(grpBook);
+                                    Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
                                     Book foundBook = (Book)foundProduct;
                                     txtBookAuthor.Text = foundBook.getAuthor();
                                     txtBookISBNLeft.Text = foundBook.getISBN1().ToString();
@@ -407,7 +466,7 @@ namespace BookCDDVD
                                     txtBookPages.Text = foundBook.getPages().ToString();
                                     break;
                                 case "bookcis":
-                                    validating.hideGroups(grpBook, grpBookCIS);    
+                                    Validator.hideGroups(grpBook, grpBookCIS, groupList, btnDelete, grpProduct);    
                                     BookCIS foundBookCIS = (BookCIS)foundProduct;
                                     txtBookAuthor.Text = foundBookCIS.getAuthor();
                                     txtBookISBNLeft.Text = foundBookCIS.getISBN1().ToString();
@@ -416,21 +475,21 @@ namespace BookCDDVD
                                     cbBookCISArea.SelectedValue = foundBookCIS.getArea();
                                     break;
                                 case "dvd":
-                                    validating.hideGroups(grpDVD);
+                                    Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
                                     DVD foundDVD = (DVD)foundProduct;
                                     txtDVDLeadActor.Text = foundDVD.getActor();
                                     txtDVDRunTime.Text = foundDVD.getRunTime().ToString();
                                     dtDVDReleaseDate.Value = foundDVD.getReleaseDate();
                                     break;
                                 case "cdorchestra":
-                                    validating.hideGroups(grpCDClassical, grpCDOrchestra);
+                                    Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);
                                     CDOrchestra foundCDOrchestra = (CDOrchestra)foundProduct;
                                     txtCDOrchestraConductor.Text = foundCDOrchestra.getCDOrchestraConductor();
                                     txtCDClassicalLabel.Text = foundCDOrchestra.getLabel();
                                     txtCDClassicalArtists.Text = foundCDOrchestra.getArtists();
                                     break;
                                 case "cdchamber":
-                                    validating.hideGroups(grpCDClassical, grpCDChamber);
+                                    Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
                                     CDChamber foundCDChamber = (CDChamber)foundProduct;
                                     cbCDChamberInstrumentList.Text = foundCDChamber.getCDChamberInstrumentList();
                                     txtCDClassicalLabel.Text = foundCDChamber.getLabel();
@@ -442,6 +501,9 @@ namespace BookCDDVD
                             indexToDelete = i;
                             //Show the delete button
                             btnDelete.Visible = true;
+                            editingTrigger = true;
+                            txtProductUPC.ReadOnly = true;
+                            btnInsert.Text = "Update";
                             return;
                         }
                     }

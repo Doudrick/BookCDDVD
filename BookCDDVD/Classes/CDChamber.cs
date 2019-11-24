@@ -1,4 +1,14 @@
 ﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * CDChamber Class - Inherits from CDClassical Class
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;

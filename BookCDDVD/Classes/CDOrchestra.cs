@@ -1,4 +1,14 @@
 ﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * CDOrchestra Class - Inherits from CDClassical Class
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +20,7 @@ using BookCDDVD;
 
 namespace BookCDDVD
 {
-    // CDClChamber inherits the data and methods in CDClassical and can be a serialized to a binary file
+    // CDChamber inherits the data and methods in CDClassical and can be a serialized to a binary file
     [Serializable()]
     class CDOrchestra : CDClassical
     {

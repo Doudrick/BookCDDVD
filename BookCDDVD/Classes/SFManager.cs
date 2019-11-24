@@ -1,4 +1,14 @@
 ﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * SFManager - Static - Handles the Serialization funstuff
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
 
 using System;
 using System.Collections.Generic;

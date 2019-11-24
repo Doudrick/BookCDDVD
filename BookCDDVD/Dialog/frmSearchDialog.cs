@@ -1,4 +1,16 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * Codebehind for Search Dialog Box
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
