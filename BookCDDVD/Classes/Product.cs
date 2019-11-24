@@ -1,17 +1,14 @@
-﻿// Product Class
-// Responsible for all processing related to a Product
-
-// Written in VB by Joseph Jupin     Fall 2009
-// Converted to CSharp by Frank Friedman     Spring 2016
-// Modified June 17, 2017 by Frank Friedman
-// Modified June 27, 2018 by Frank Friedman
-// Modified June 16, 2019 by Frank Friedman
-
-// This class contains the data and methods that are inherited
-// by the Book, DVD and CD Classical classes
-
-// Class Product must be inherited by another object to be used
-// and can be serialized to a binary file.
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * Product Class - All product types inherit from this class.
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
 
 using System;
 using System.Collections.Generic;
@@ -114,15 +111,5 @@ namespace BookCDDVD
         }  // end ToString
 
 
-        // Display product info in a MessageBox
-        public void displayProductAsString(Product p)
-        {
-            string s = " ";
-            s += "Product UPC       : " + p.hiddenUPC + "\n";
-            s += "Product Title       : " + Convert.ToDecimal(p.hiddenPrice) + "\n";
-            s += "Product Price      : " + p.hiddenTitle + "\n";
-            s += "Product Quantity : " + Convert.ToInt32(p.hiddenQuantity);
-            MessageBox.Show(s, "Display a Single Product in Product List");
-        } // end displayProductAsString
     } // end Product Class
 } // end namespace

@@ -1,4 +1,16 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * Validation Class - Static - For use in the Main Form Codebehind
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,41 +20,21 @@ using BookCDDVD;
 
 namespace BookCDDVD
 {
-    public class Validation
+    public static class Validator
     {
-        List<GroupBox> groupCategories = new List<GroupBox>(6);
-        List<Button> createButton = new List<Button>(5);
-        private frmBookCDDVDShop f;
-
-        public Validation(frmBookCDDVDShop parentForm)
-        {
-            f = parentForm;
-
-            // adding all the groups into the groupCategories list
-            groupCategories.Add(f.grpBook);
-            groupCategories.Add(f.grpBookCIS);
-            groupCategories.Add(f.grpCDChamber);
-            groupCategories.Add(f.grpCDClassical);
-            groupCategories.Add(f.grpCDOrchestra);
-            groupCategories.Add(f.grpDVD);
-
-            // adding all the new entry button into the createaButton list
-            createButton.Add(f.btnCreateBook);
-            createButton.Add(f.btnCreateBookCIS);
-            createButton.Add(f.btnCreateDVD);
-            createButton.Add(f.btnCreateCDOrchestra);
-            createButton.Add(f.btnCreateCDChamber);
-            createButton.Add(f.btnCreateCDOrchestra);
-        } // end validation
+       
 
         // this method search the group categories user is looking for and show them
-        public void hideGroups(GroupBox toShow)
+        public static void hideGroups(GroupBox toShow, List<GroupBox> groupList, Button delete, GroupBox product)
         {
+            //Make sure the delete button is hidden!
+            delete.Visible = false;
+
             // show the groupBox product
-            f.grpProduct.Visible = true;
+            product.Visible = true;
 
             // this for loops scan the categories and show the one user is looking for
-            foreach (GroupBox i in groupCategories)
+            foreach (GroupBox i in groupList)
             {
                 if (i == toShow)
                 {
@@ -57,15 +49,16 @@ namespace BookCDDVD
 
         // this method is an overloading of the method above hideGroups
         // it take in two parameter of two different groupbxoes
-        public void hideGroups(GroupBox toShow, GroupBox alsoToShow)
+        public static void hideGroups(GroupBox toShow, GroupBox alsoToShow, List<GroupBox> groupList, Button delete, GroupBox product)
         {
-            f.btnDelete.Visible = false;
+            //Make sure the delete button is hidden!
+            delete.Visible = false;
 
             // show the product groupbox
-            f.grpProduct.Visible = true;
+            product.Visible = true;
 
             // this for each loops search the categories and show the group the user is looking for
-            foreach (GroupBox i in groupCategories)
+            foreach (GroupBox i in groupList)
             {
                 if (i == toShow || i == alsoToShow)
                 {
@@ -79,7 +72,7 @@ namespace BookCDDVD
         } // end hideGroups
 
         // this method is looking for the group that are visible
-        public bool checkVisibleGroup(GroupBox areVisible)
+        public static bool checkVisibleGroup(GroupBox areVisible)
         {
             // this for each loops search for the visible group and return true
             // so user can check the validation for that group input
@@ -92,7 +85,7 @@ namespace BookCDDVD
 
         // this method is looking for the group that are visible
         // it an overloading of the method above, taking in two parameters instead
-        public bool checkVisibleGroup(GroupBox areVisible, GroupBox areAlsoVisible)
+        public static bool checkVisibleGroup(GroupBox areVisible, GroupBox areAlsoVisible)
         {
             // this for each loops search for the visible group and return true
             // so user can check the validation for that group input
@@ -107,11 +100,11 @@ namespace BookCDDVD
         // this method disable the button that was clicked for new entry
 
         // this method disable the button that are being clicked on
-        public void disableCreateButton(Button toDisable)
+        public static void disableCreateButton(Button toDisable, List<Button> buttonList)
         {
             // this foreach loops search for the button that was just click and disable it
             // it also enable the button that was not being clicked on (only for createa button)
-            foreach (Button i in createButton)
+            foreach (Button i in buttonList)
             {
                 if (i == toDisable)
                 {
@@ -125,12 +118,12 @@ namespace BookCDDVD
         } // end disableCreateButton
 
         // this method validating the product group box
-        public bool checkProduct(TextBox Upc, TextBox Price, TextBox Title,
+        public static bool checkProduct(TextBox UPC, TextBox Price, TextBox Title,
             TextBox Quantity)
         {
             int num = -1;
             decimal num1 = -1;
-            string checkUPC = Convert.ToString(Upc.Text);
+            string checkUPC = Convert.ToString(UPC.Text);
             string checkTitle = Convert.ToString(Title.Text);
             string checkPrice = Convert.ToString(Price.Text);
             string checkQuantity = Convert.ToString(Quantity.Text);
@@ -138,19 +131,19 @@ namespace BookCDDVD
             // return an error message if the input is empty, longer or shorter then 5, or is a letter
             if (checkUPC.Equals("") || checkUPC.Length < 5 || (!int.TryParse(checkUPC, out num)))
             {
-                f.txtProductUPC.Clear();
-                MessageBox.Show("Please Enter A Valid UPC");
+                UPC.Clear();
+                MessageBox.Show("Please Enter A Valid, 5 Digit UPC");
             }
             // return an error message if the input is empty or is a letter
             else if (checkPrice.Equals("") || (!decimal.TryParse(checkPrice, out num1)))
             {
-                f.txtProductPrice.Clear();
+                Price.Clear();
                 MessageBox.Show("Please Enter a valid Price");
             }
             // return an error message if the input is empty or is a letter
             else if (checkQuantity.Equals("") || (!int.TryParse(checkQuantity, out num)))
             {
-                f.txtProductQuantity.Clear();
+                Quantity.Clear();
                 MessageBox.Show("Please Enter a valid Quantity");
             }
             // return an error message if the input is empty
@@ -166,7 +159,7 @@ namespace BookCDDVD
         } // end checkProduct
 
         // this method validating the group book
-        public bool checkBook(TextBox ISBNL, TextBox ISBNR, TextBox Author, TextBox Pages)
+        public static bool checkBook(TextBox ISBNL, TextBox ISBNR, TextBox Author, TextBox Pages)
         {
             int num = -1;
             string checkISBNL = Convert.ToString(ISBNL.Text);
@@ -178,27 +171,27 @@ namespace BookCDDVD
             // long then 3, shorter then 3, or a letter
             if (checkISBNL.Equals("") || checkISBNL.Length < 3 || (!int.TryParse(checkISBNL, out num)))
             {
-                f.txtBookISBNLeft.Clear();
-                MessageBox.Show("Please Enter a valid ISBN on the Left text box");
+                ISBNL.Clear();
+                MessageBox.Show("Please Enter a Valid, 3 Digit ISBN in the Left text box");
             }
             // return a error message if user is not inputing information or the input is 
             // long then 3, shorter then 3, or a letter
             else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || (!int.TryParse(checkISBNR, out num)))
             {
-                f.txtBookISBNRight.Clear();
-                MessageBox.Show("Please Enter a valid ISBN on the Right text box");
+                ISBNR.Clear();
+                MessageBox.Show("Please Enter a Valid, 3 Digit ISBN in the Right text box");
             }
             // return the error message if the input is blank or is a number
             else if (checkAuthor.Equals("") || (int.TryParse(checkAuthor, out num)))
             {
-                f.txtBookAuthor.Clear();
+                Author.Clear();
                 MessageBox.Show("Please Enter a valid Author name");
             }
             // return the error message if the input is empty or is a letter
             else if (checkPages.Equals("") || (!int.TryParse(checkPages, out num)))
             {
-                f.txtBookPages.Clear();
-                MessageBox.Show("Please Enter a valid page number");
+                Pages.Clear();
+                MessageBox.Show("Please Enter a Valid Page Number");
             }
             else
             {
@@ -208,7 +201,7 @@ namespace BookCDDVD
         } // end checkBook
 
         // this method check the DVD group input validation
-        public bool checkDVD(TextBox leadActor, TextBox runTime)
+        public static bool checkDVD(TextBox leadActor, TextBox runTime)
         {
             int num = -1;
             string checkLeadActor = Convert.ToString(leadActor.Text);
@@ -217,15 +210,15 @@ namespace BookCDDVD
             // return an error message if the leadactor textbox are empty or is a number
             if (checkLeadActor.Equals(""))
             {
-                f.txtDVDLeadActor.Clear();
-                MessageBox.Show("Please Enter a valid Lead Actor name");
+                leadActor.Clear();
+                MessageBox.Show("Please Enter a Valid Lead Actor name");
             }
             // return an error message if  the run time is empty, less then 0 or more  then 120 minutes
             else if (checkrunTime.Equals("") || checkrunTime < 0 || checkrunTime > 120 ||
                 (!int.TryParse(checkrunTime.ToString(), out num)))
             {
-                f.txtDVDRunTime.Clear();
-                MessageBox.Show("Please enter a valid run time");
+                runTime.Clear();
+                MessageBox.Show("Please enter a Valid Run Time");
             }
             else
             {
@@ -235,7 +228,7 @@ namespace BookCDDVD
         } // end checkDVD
 
         // this method is validating the CD Classical groupbox
-        public bool checkCDClassical(TextBox Label, TextBox Artists)
+        public static bool checkCDClassical(TextBox Label, TextBox Artists)
         {
             string checkLabel = Convert.ToString(Label.Text);
             string checkArtists = Convert.ToString(Artists.Text);
@@ -243,13 +236,13 @@ namespace BookCDDVD
             // return an error message if the input empty
             if (checkLabel.Equals(""))
             {
-                f.txtCDClassicalLabel.Clear();
-                MessageBox.Show("Please Enter a label");
+                Label.Clear();
+                MessageBox.Show("Please Enter a Label");
             }
             // return an error message if the input is empty
             else if (checkArtists.Equals(""))
             {
-                f.txtCDClassicalArtists.Clear();
+                Artists.Clear();
                 MessageBox.Show("Please Enter an Artist Name");
             }
             else
@@ -260,14 +253,14 @@ namespace BookCDDVD
         } // end CheckCDClassical
 
         // this method validating the orchestral conductor
-        public bool checkOrchestralConductor(TextBox Conductor)
+        public static bool checkOrchestralConductor(TextBox Conductor)
         {
             string checkConductor = Convert.ToString(Conductor.Text);
 
             // return an error message if the input is empty
             if (checkConductor.Equals(""))
             {
-                f.txtCDOrchestraConductor.Clear();
+                Conductor.Clear();
                 MessageBox.Show("Please Enter a Conductor name");
             }
             else

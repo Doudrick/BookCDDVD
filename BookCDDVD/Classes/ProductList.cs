@@ -1,4 +1,16 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * ProductList - Contains a list of Products and methods to interact with it.
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,12 +27,10 @@ namespace BookCDDVD
         private List<Product> products = new List<Product>();
         public ProductList()
         {
-            products.TrimExcess();
         } // end products
         public void addProduct(Product input)
         {
             products.Add(input);
-            products.TrimExcess();
         } // end addProduct
         public int getCount()
         {

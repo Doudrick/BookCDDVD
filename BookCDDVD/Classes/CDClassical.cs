@@ -1,12 +1,14 @@
-﻿// Classical CD Class
-// This node is inherited by the Classical Orchestra CD and Clasical Chamber Music CD classes
-// Responsible for all processing related to a Classical Music CD
-
-// Written in VB by Joseph Jupin     Fall 2009
-// Converted to CSharp by Frank Friedman     Spring 2016
-
-// Revised June 17, 2017 by Frank Friedman
-// Revised June 16, 2019 by Frank Friedman
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * CDClassical Class - Inherits from Product Class
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
 
 using System;
 using System.Collections.Generic;

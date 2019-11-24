@@ -1,4 +1,16 @@
-﻿using System;
+﻿
+/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * Book Class - Inherits from Product Class
+ * Project 4: BookCDDVDShop
+ * 
+ * 
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
