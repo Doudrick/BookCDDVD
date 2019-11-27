@@ -360,8 +360,6 @@ namespace BookCDDVD
             }
             else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
             {
-
-                
                     //Enable the search button if it was disabled previously due to no product in inventory
                     btnSearch.Enabled = true;
                     //Add the product to the product list
@@ -370,8 +368,6 @@ namespace BookCDDVD
                     lblUniqProducts.Text = InStock.getCount().ToString();
 
                     MessageBox.Show("Added Product to Inventory!");
-                
-
             }
             else
             {
@@ -491,9 +487,9 @@ namespace BookCDDVD
                                 case "cdchamber":
                                     Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
                                     CDChamber foundCDChamber = (CDChamber)foundProduct;
-                                    cbCDChamberInstrumentList.Text = foundCDChamber.getCDChamberInstrumentList();
                                     txtCDClassicalLabel.Text = foundCDChamber.getLabel();
                                     txtCDClassicalArtists.Text = foundCDChamber.getArtists();
+                                    cbCDChamberInstrumentList.SelectedValue = foundCDChamber.getCDChamberInstrumentList();
                                     break;
                             }
                             //Set the index to delete just in case the user wants to delete this from the list

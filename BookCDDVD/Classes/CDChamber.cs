@@ -48,7 +48,7 @@ namespace BookCDDVD
         public string getCDChamberInstrumentList()
         {
             return hiddenInstrumentList;
-        }  // end getgradHourlyPay
+        }  // end getCDChamberInstrumentList
 
 
         // Save data from form to object
