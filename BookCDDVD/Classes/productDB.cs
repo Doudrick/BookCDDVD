@@ -6,7 +6,7 @@ using System.IO;
 using System.Data.OleDb;
 using System.Windows.Forms;
 
-namespace BookCDDVDShop.Classes
+namespace BookCDDVDShop
 {
     class ProductDB
     {

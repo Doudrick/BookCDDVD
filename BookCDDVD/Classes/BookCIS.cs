@@ -43,20 +43,6 @@ namespace BookCDDVD
             return hiddenArea;
         } // end getArea
 
-        // save datae from form to object
-        public override void Save(frmBookCDDVDShop f)
-        {
-            base.Save(f);
-            hiddenArea = f.cbBookCISArea.Text;
-        } // end save
-
-        // display data in object on form
-        public override void Display(frmBookCDDVDShop f)
-        {
-            base.Display(f);
-            f.cbBookCISArea.Text = hiddenArea;
-        } // end display
-
         // This toString function overrides the Student toString
         // function.  The base refers to the Student because this class
         // inherits Student by definition.
