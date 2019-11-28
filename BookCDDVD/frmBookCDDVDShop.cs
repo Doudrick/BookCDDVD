@@ -267,8 +267,8 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-                        dict["CISArea"] = cbBookCISArea.Text;
-                        createProduct("Book", dict);
+                        dict["BookCISArea"] = cbBookCISArea.Text;
+                        createProduct("BookCIS", dict);
                     }
                 }
                 // if groupbox DVD are visible, check the input validation
@@ -295,6 +295,7 @@ namespace BookCDDVD
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
                         dict["CDChamberInstrumentList"] = cbCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
+                        
 
                     }
                 }
