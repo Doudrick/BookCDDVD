@@ -267,8 +267,8 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-                        dict["BookCISArea"] = cbBookCISArea.Text;
-                        createProduct("BookCIS", dict);
+                        dict["CISArea"] = cbBookCISArea.Text;
+                        createProduct("Book", dict);
                     }
                 }
                 // if groupbox DVD are visible, check the input validation
@@ -414,6 +414,9 @@ namespace BookCDDVD
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            // enable button that are disable
+            Validator.enableCreateaButton(buttonList);
+
             //Show the search box when the search button is clicked
             frmSearchDialog SearchDialog = new frmSearchDialog();
 
