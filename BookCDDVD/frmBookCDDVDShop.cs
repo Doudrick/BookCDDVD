@@ -70,7 +70,7 @@ namespace BookCDDVD
             // showing a tips of what user should enter in their textboxes
         } // end frmBookCDDVDShop
 
-       
+
 
         // this method handles some stuff that happens when the form loads
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
@@ -219,7 +219,8 @@ namespace BookCDDVD
             txtCDClassicalLabel.Clear();
             txtCDClassicalArtists.Clear();
             txtCDOrchestraConductor.Clear();
-            cbCDChamberInstrumentList.ResetText();
+            cbCDChamberInstrumentList.SelectedIndex = -1;
+            cbBookCISArea.SelectedIndex = -1;
             txtProductUPC.Focus();
 
             btnDelete.Visible = false;
@@ -248,7 +249,7 @@ namespace BookCDDVD
                 // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                if (Validator.checkVisibleGroup(grpBook) == true)
+                if (Validator.checkVisibleGroup(grpBook))
                 {
                     if (Validator.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
                     {
@@ -256,27 +257,24 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-                        createProduct("Book", dict);
+                        if (Validator.checkVisibleGroup(grpBookCIS))
+                        {
+                            dict["BookCISArea"] = cbBookCISArea.Text;
+                            createProduct("BookCIS", dict);
+                        }
+                        else
+                        {
+                            createProduct("Book", dict);
+                        }
                     }
                 }
-                else if (Validator.checkVisibleGroup(grpBook, grpBookCIS) == true)
-                {
-                    if(Validator.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
-                    {
-                        dict["ISBNLeft"] = txtBookISBNLeft.Text;
-                        dict["ISBNRight"] = txtBookISBNRight.Text;
-                        dict["BookAuthor"] = txtBookAuthor.Text;
-                        dict["BookPages"] = txtBookPages.Text;
-                        dict["BookCISArea"] = cbBookCISArea.Text;
-                        createProduct("BookCIS", dict);
-                    }
-                }
+
                 // if groupbox DVD are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (Validator.checkVisibleGroup(grpDVD) == true)
+                else if (Validator.checkVisibleGroup(grpDVD))
                 {
-                    if(Validator.checkDVD(txtDVDLeadActor, txtDVDRunTime))
+                    if (Validator.checkDVD(txtDVDLeadActor, txtDVDRunTime))
                     {
                         dict["DVDLeadActor"] = txtDVDLeadActor.Text;
                         dict["DVDReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
@@ -287,22 +285,22 @@ namespace BookCDDVD
                 // if groupbox CD Classical are visisble, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (Validator.checkVisibleGroup(grpCDChamber) == true)
+                else if (Validator.checkVisibleGroup(grpCDChamber))
                 {
-                    if(Validator.checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
+                    if (Validator.checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
                     {
                         dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
                         dict["CDChamberInstrumentList"] = cbCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
-                        
+
 
                     }
                 }
                 // if groupbox CD Orchestra are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
 
-                else if (Validator.checkVisibleGroup(grpCDOrchestra) == true)
+                else if (Validator.checkVisibleGroup(grpCDOrchestra))
                 {
                     if (Validator.checkOrchestralConductor(txtCDOrchestraConductor))
                     {
@@ -320,6 +318,7 @@ namespace BookCDDVD
             //The type of product is passed in as a string for the case/switch statement
             //Create a holder for the product we're creating
             Product temp = null;
+            MessageBox.Show(type);
             switch (type){
                 //For each type, set the temp to that type. Then, pass in the parameters for its creation.
                 case "Book":
@@ -333,7 +332,6 @@ namespace BookCDDVD
                     break;
                 case "CDOrchestra":
                     temp = new CDOrchestra(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);
-                    MessageBox.Show(temp.getUPC().ToString());
                     break;
                 case "CDChamber":
                     temp = new CDChamber(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);
@@ -431,7 +429,7 @@ namespace BookCDDVD
                         if(InStock[i].getUPC() == enteredUPC)
                         {
                             //We Found it!
-                            MessageBox.Show("FOUND PRODUCT!!"  + "\nTitle:" + InStock[i].getTitle() + "\nType of Product: " + InStock[i].GetType().ToString().Split('.')[1]);
+                            MessageBox.Show("Found Product!"  + "\nTitle:" + InStock[i].getTitle() + "\nType of Product: " + InStock[i].GetType().ToString().Split('.')[1]);
 
                             //Set a variable for the found product
                             Product foundProduct = InStock[i];
@@ -469,7 +467,7 @@ namespace BookCDDVD
                                     txtBookISBNLeft.Text = foundBookCIS.getISBN1().ToString();
                                     txtBookISBNRight.Text = foundBookCIS.getISBN2().ToString();
                                     txtBookPages.Text = foundBookCIS.getPages().ToString();
-                                    cbBookCISArea.SelectedValue = foundBookCIS.getArea();
+                                    cbBookCISArea.SelectedIndex = cbBookCISArea.FindStringExact(foundBookCIS.getArea());
                                     break;
                                 case "dvd":
                                     Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
@@ -490,7 +488,7 @@ namespace BookCDDVD
                                     CDChamber foundCDChamber = (CDChamber)foundProduct;
                                     txtCDClassicalLabel.Text = foundCDChamber.getLabel();
                                     txtCDClassicalArtists.Text = foundCDChamber.getArtists();
-                                    cbCDChamberInstrumentList.SelectedValue = foundCDChamber.getCDChamberInstrumentList();
+                                    cbCDChamberInstrumentList.SelectedIndex = cbCDChamberInstrumentList.FindString(foundCDChamber.getCDChamberInstrumentList());
                                     break;
                             }
                             //Set the index to delete just in case the user wants to delete this from the list
