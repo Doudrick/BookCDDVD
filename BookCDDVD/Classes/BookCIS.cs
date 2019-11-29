@@ -35,7 +35,7 @@ namespace BookCDDVD
         public BookCIS(int UPC, decimal price, string title, int quantity,
             IDictionary<string, string> param) : base(UPC, price, title, quantity, param)
         {
-            hiddenArea = param["CISArea"];
+            hiddenArea = param["BookCISArea"];
         } // end BookCIS
 
         public string getArea()
