@@ -12,7 +12,7 @@ namespace BookCDDVD
     {
         string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../Debug/ProductDB.accdb";
 
-        public bool ExecuteTransaction(string type, IDictionary<string, string> param, out string outString)
+        public bool InsertProduct(string type, IDictionary<string, string> param, out string outString)
         {
             int UPC = Int32.Parse(param["ProductUPC"]);
             decimal price = Decimal.Parse(param["ProductPrice"]);
@@ -50,7 +50,7 @@ namespace BookCDDVD
                         //For each type, execute the insert(s) for that table
                         case "Book":
                             command.CommandText = "INSERT INTO Book (fldUPC, fldISBN, fldAuthor, fldPages) " +
-                            "VALUES(" + UPC + ", '" + (param["ISBNLeft"]+param["ISBNRight"]) + "', '" + param["BookAuthor"] + "', " + param["BookPages"] + " );";
+                                "VALUES(" + UPC + ", '" + (param["ISBNLeft"]+param["ISBNRight"]) + "', '" + param["BookAuthor"] + "', " + param["BookPages"] + " );";
                             break;
                         case "BookCIS":
                             command.CommandText = "INSERT INTO Book (fldUPC, fldISBN, fldAuthor, fldPages) " +
@@ -60,10 +60,22 @@ namespace BookCDDVD
                                 "VALUES(" + UPC + ", '" + param["BookCISArea"] + "' );";
                             break;
                         case "DVD":
+                            command.CommandText = "INSERT INTO DVD (fldUPC, fldLeadActor, fldReleaseDate, fldRunTime) " +
+                                 "VALUES(" + UPC + ", '" + param["DVDLeadActor"] + "', '" + param["DVDReleaseDate"] + "', " + param["DVDRuntime"] + " );";
                             break;
                         case "CDOrchestra":
+                            command.CommandText = "INSERT INTO CDCLASSICAL (fldUPC, fldLabel, fldArtists) " +
+                                 "VALUES(" + UPC + ", '" + param["CDClassicalLabel"] + "', '" + param["CDClassicalArtists"] + "' );";
+                            command.ExecuteNonQuery();
+                            command.CommandText = "INSERT INTO CDOrchestra (fldUPC, fldConductor) " +
+                                 "VALUES(" + UPC + ", '" + param["CDOrchestraConductor"] + "') ;";
                             break;
                         case "CDChamber":
+                            command.CommandText = "INSERT INTO CDCLASSICAL (fldUPC, fldLabel, fldArtists) " +
+                                  "VALUES(" + UPC + ", '" + param["CDClassicalLabel"] + "', '" + param["CDClassicalArtists"] + "' );";
+                            command.ExecuteNonQuery();
+                            command.CommandText = "INSERT INTO CDChamber (fldUPC, fldInstrumentList) " +
+                                  "VALUES(" + UPC + ", '" + param["CDChamberInstrumentList"] + "');";
                             break;
                     }
                     
@@ -96,6 +108,24 @@ namespace BookCDDVD
                 // The connection is automatically closed when the
                 // code exits the using block.
             }
+        }
+
+        public Product getProduct(string selectString)
+        {
+            selectString = "SELECT * FROM PRODUCTS WHERE UPC=11111";
+            OleDbCommand command = new OleDbCommand(selectString, new OleDbConnection(connectionString));
+            using (OleDbDataReader reader = command.ExecuteReader(CommandBehavior.SingleRow))
+            {
+                if (reader.Read())
+                {
+                    // Bind your object using the reader.
+                }
+                else
+                {
+                    // No row matched the query
+                }
+            }
+            return null;
         }
     }
 }

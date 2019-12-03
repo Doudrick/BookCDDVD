@@ -375,7 +375,7 @@ namespace BookCDDVD
                     lblUniqProducts.Text = InStock.getCount().ToString();
 
 
-                if(dbTest.ExecuteTransaction(type, param, out string outString))
+                if(dbTest.InsertProduct(type, param, out string outString))
                 {
                     MessageBox.Show(outString);
                 }
