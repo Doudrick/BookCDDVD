@@ -98,6 +98,8 @@ namespace BookCDDVD
 
             setToolTips();
 
+            ProductDB testDB = new ProductDB();
+            testDB.SelectProductFromProduct(100, out bool test, out string test2);
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
         private void setToolTips()
