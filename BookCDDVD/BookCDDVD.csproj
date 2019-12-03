@@ -60,6 +60,7 @@
     <Compile Include="Classes\CDClassical.cs" />
     <Compile Include="Classes\CDOrchestra.cs" />
     <Compile Include="Classes\DVD.cs" />
+    <Compile Include="Classes\NewDBHandler.cs" />
     <Compile Include="Classes\ProductList.cs" />
     <Compile Include="Classes\Validation.cs" />
     <Compile Include="Dialog\frmSearchDialog.cs">

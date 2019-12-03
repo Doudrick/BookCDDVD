@@ -30,6 +30,8 @@ namespace BookCDDVD
         List<GroupBox> groupList = new List<GroupBox>(6);
         List<Button> buttonList = new List<Button>(5);
 
+        ProductDB dbProducts = new ProductDB();
+        NewDBHandler dbTest = new NewDBHandler();
         int indexToDelete = 0;
         bool editingTrigger = false;
         const string persistancePath = "persistance.bin";
@@ -79,14 +81,14 @@ namespace BookCDDVD
             grpProduct.Visible = false;
             dtDVDReleaseDate.MaxDate = DateTime.Today;
 
-            try
-            {
-                SFManager.readFromFile(ref InStock, persistancePath);
-            }
-            catch
-            {
-                //Do nothing, we don't NEED that persistant file. It will be created on exit.
-            }
+            //try
+            //{
+            //    SFManager.readFromFile(ref InStock, persistancePath);
+            //}
+            //catch
+            //{
+            //    //Do nothing, we don't NEED that persistant file. It will be created on exit.
+            //}
 
             lblUniqProducts.Text = InStock.getCount().ToString();
 
@@ -97,11 +99,15 @@ namespace BookCDDVD
             }
 
             setToolTips();
+            getProducts();
 
-            ProductDB testDB = new ProductDB();
-            testDB.SelectProductFromProduct(100, out bool test, out string test2);
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
+
+        private void getProducts()
+        {
+
+        }
         private void setToolTips()
         {
             // setting value to the tooltips 
@@ -368,7 +374,15 @@ namespace BookCDDVD
                     //Increase the number of Unique products shown on the form
                     lblUniqProducts.Text = InStock.getCount().ToString();
 
-                    MessageBox.Show("Added Product to Inventory!");
+
+                if(dbTest.ExecuteTransaction(type, param, out string outString))
+                {
+                    MessageBox.Show(outString);
+                }
+                else
+                {
+                    MessageBox.Show("FAIL: " + outString);
+                }
             }
             else
             {
@@ -408,7 +422,7 @@ namespace BookCDDVD
         private void btnExit_Click(object sender, EventArgs e)
         {
             //Write the persistance to the binary file, and close the form
-            SFManager.writeToFile(InStock, "persistance.bin");
+            //SFManager.writeToFile(InStock, "persistance.bin");
             this.Close();
         } // end btnExit_Click
 
