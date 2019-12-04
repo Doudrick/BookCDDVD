@@ -26,7 +26,6 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
-        ProductList InStock = new ProductList();
         List<GroupBox> groupList = new List<GroupBox>(6);
         List<Button> buttonList = new List<Button>(5);
 
@@ -283,7 +282,6 @@ namespace BookCDDVD
                     {
                         dict["DVDLeadActor"] = txtDVDLeadActor.Text;
                         dict["DVDReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
-                        MessageBox.Show(dtDVDReleaseDate.Value.ToString("dd/MM/yyyy"));
                         dict["DVDRuntime"] = txtDVDRunTime.Text;
                         createProduct("DVD", dict);
                     }
@@ -324,62 +322,51 @@ namespace BookCDDVD
             //The type of product is passed in as a string for the case/switch statement
             //Create a holder for the product we're creating
             string outString = "";
-            MessageBox.Show(type);
-           
-            if (dbTest.InsertProduct(type, param, ref outString)) MessageBox.Show(outString);
+
+            if (dbTest.InsertProduct(type, param, ref outString))
+            {
+                MessageBox.Show(outString);
+                lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+            }
             else MessageBox.Show("FAIL: " + outString);
-            if (editingTrigger)
-            {
-                //The User is editing this product. Delete the old one, then add the new one.
+            //if (editingTrigger)
+            //{
+            //    //The User is editing this product. Delete the old one, then add the new one.
 
-                //Remove one product from the number of products we have using the return from the removeProduct method
-                InStock.removeProduct(indexToDelete).ToString();
+            //    //Remove one product from the number of products we have using the return from the removeProduct method
+            //    //InStock.removeProduct(indexToDelete).ToString();
 
-                //Reset the upc value set before
-                indexToDelete = 0;
-                //Hide the delete button
-                btnDelete.Visible = false;
-                //Enable the search button if it was disabled previously due to no product in inventory
-                btnSearch.Enabled = true;
-                //Add the product to the product list
-                //Increase the number of Unique products shown on the form
-                lblUniqProducts.Text = InStock.getCount().ToString();
+            //    //Reset the upc value set before
+            //    indexToDelete = 0;
+            //    //Hide the delete button
+            //    btnDelete.Visible = false;
+            //    //Enable the search button if it was disabled previously due to no product in inventory
+            //    btnSearch.Enabled = true;
+            //    //Add the product to the product list
+            //    //Increase the number of Unique products shown on the form
+            //    //lblUniqProducts.Text = InStock.getCount().ToString();
 
-                MessageBox.Show("Updated Product Information!");
-            }
-            else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
-            {
-                    //Enable the search button if it was disabled previously due to no product in inventory
-                    btnSearch.Enabled = true;
-                    //Add the product to the product list
-                    //Increase the number of Unique products shown on the form
-                    lblUniqProducts.Text = InStock.getCount().ToString();
+            //    MessageBox.Show("Updated Product Information!");
+            //}
+            //else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
+            //{
+            //        //Enable the search button if it was disabled previously due to no product in inventory
+            //        btnSearch.Enabled = true;
+            //        //Add the product to the product list
+            //        //Increase the number of Unique products shown on the form
+            //        //lblUniqProducts.Text = InStock.getCount().ToString();
 
-            }
-            else
-            {
-                //UPC is already in the system, so we don't want to insert that product
-                MessageBox.Show("Error! UPC already exists in the system. Please try again.");
-                txtProductUPC.Text = "";
-                txtProductUPC.Focus();
-            }
+            //}
+            //else
+            //{
+            //    //UPC is already in the system, so we don't want to insert that product
+            //    MessageBox.Show("Error! UPC already exists in the system. Please try again.");
+            //    txtProductUPC.Text = "";
+            //    txtProductUPC.Focus();
+            //}
             //clear the form
             clearForm();
         }
-
-        // this method check for a matching UPC when searched
-        public bool checkForExisting(int UPC)
-        { 
-            //Loop through the ProductList and check for a UPC match
-            for (int i = 0; i < InStock.getCount(); i++)
-            {
-                if (InStock[i].getUPC() == UPC)
-                {
-                    return true;
-                }
-            }
-                return false;
-       } // end checkforExisting
 
         // this method calling the ValidatorVisiblegrp, validated the information and adding
         // the information into the persistance to the binary file
@@ -465,6 +452,7 @@ namespace BookCDDVD
                                 Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
                                 txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
                                 txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
+                                MessageBox.Show(outDict["CDChamberInstrumentList"]);
                                 cbCDChamberInstrumentList.SelectedIndex = cbCDChamberInstrumentList.FindStringExact(outDict["CDChamberInstrumentList"]);
                                 break;
                         }
@@ -495,7 +483,7 @@ namespace BookCDDVD
         {
             clearForm();
             //Remove one product from the number of products we have using the return from the removeProduct method
-            lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
+            //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
 
             //Inform the user of what's going on
             MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
