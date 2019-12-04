@@ -111,6 +111,36 @@ namespace BookCDDVD
             }
         }
 
+        public bool updateProduct(int UPC, out string type, out IDictionary<string, string> outDict)
+        {
+            type = "";
+            outDict = new Dictionary<string, string>();
+            string selectString = "SELECT * FROM Product WHERE fldUPC="+UPC;
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(selectString, connection);
+
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    type = reader["fldProductType"].ToString();
+
+                    outDict["ProductUPC"] = UPC.ToString();
+                    outDict["ProductPrice"] = reader["fldPrice"].ToString();
+                    outDict["ProductTitle"] = reader["fldTitle"].ToString();
+                    outDict["ProductQuantity"] = reader["fldQuantity"].ToString();
+                    switch (type)
+                    {
+                        
+                    }
+                }
+            }
+            return true;
+        }
+
         public bool getProduct(int UPC, out string type, out IDictionary<string, string> outDict)
         {
             type = "";
