@@ -100,10 +100,10 @@ namespace BookCDDVD
 
             setToolTips();
             getProducts();
-            if(dbTest.getProduct(55555, out string type, out IDictionary<string, string> outDict)){
+            if(dbTest.getProduct(66666, out string type, out IDictionary<string, string> outDict)){
 
                 MessageBox.Show(type);
-                MessageBox.Show(outDict["CDChamberInstrumentList"]);
+                MessageBox.Show(outDict["BookCISArea"]);
             }
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
@@ -335,6 +335,7 @@ namespace BookCDDVD
                 //For each type, set the temp to that type. Then, pass in the parameters for its creation.
                 case "Book":
                     temp = new Book(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);
+                    //dbTest.InsertProduct("Book", );
                     break;
                 case "BookCIS":
                     temp = new BookCIS(Int32.Parse(param["ProductUPC"]), Decimal.Parse(param["ProductPrice"]), param["ProductTitle"], Int32.Parse(param["ProductQuantity"]), param);

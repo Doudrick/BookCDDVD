@@ -11,7 +11,7 @@ namespace BookCDDVD
 {
     class NewDBHandler
     {
-        string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../Debug/ProductDB.accdb";
+        string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../../ProductDB.accdb";
 
         public bool InsertProduct(string type, IDictionary<string, string> param, out string outString)
         {
