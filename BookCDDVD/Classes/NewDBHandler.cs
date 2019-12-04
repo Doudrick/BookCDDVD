@@ -5,6 +5,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BookCDDVD
 {
@@ -110,22 +111,103 @@ namespace BookCDDVD
             }
         }
 
-        public Product getProduct(string selectString)
+        public bool getProduct(int UPC, out string type, out IDictionary<string, string> outDict)
         {
-            selectString = "SELECT * FROM PRODUCTS WHERE UPC=11111";
-            OleDbCommand command = new OleDbCommand(selectString, new OleDbConnection(connectionString));
-            using (OleDbDataReader reader = command.ExecuteReader(CommandBehavior.SingleRow))
+            type = "";
+            outDict = new Dictionary<string, string>();
+            string selectString = "SELECT * FROM Product WHERE fldUPC="+UPC;
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
+                OleDbCommand command = new OleDbCommand(selectString, connection);
+
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+
                 if (reader.Read())
                 {
-                    // Bind your object using the reader.
+                    type = reader["fldProductType"].ToString();
+
+                    outDict["ProductUPC"] = UPC.ToString();
+                    outDict["ProductPrice"] = reader["fldPrice"].ToString();
+                    outDict["ProductTitle"] = reader["fldTitle"].ToString();
+                    outDict["ProductQuantity"] = reader["fldQuantity"].ToString();
+                    switch (type)
+                    {
+                        case "Book":
+                            selectString = "SELECT * FROM Book WHERE fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["BookISBN"] = reader["fldISBN"].ToString();
+                                outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                            }
+                            break;
+                        case "BookCIS":
+                            selectString = "SELECT * FROM BookCIS INNER JOIN BOOK ON BOOKCIS.fldUPC = BOOK.fldUPC WHERE BookCIS.fldUPC="+UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["BookISBN"] = reader["fldISBN"].ToString();
+                                outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                                outDict["BookCISArea"] = reader["fldCISArea"].ToString();
+                            }
+                            break;
+                        case "DVD":
+                            selectString = "SELECT * FROM DVD WHERE fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["DVDLeadActor"] = reader["fldLeadActor"].ToString();
+                                outDict["DVDReleaseDate"] = Convert.ToDateTime(reader["fldReleaseDate"]).ToString("dd/MM/yyyy");
+                                outDict["DVDRunTime"] = reader["fldRunTime"].ToString();
+                            }
+                            break;
+                        case "CDOrchestra":
+                            selectString = "SELECT * FROM CDOrchestra INNER JOIN CDClassical ON CDOrchestra.fldUPC = CDClassical.fldUPC WHERE CDOrchestra.fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["CDClassicalLabel"] = reader["fldLabel"].ToString();
+                                outDict["CDClassicalArtists"] = reader["fldArtists"].ToString();
+                                outDict["CDOrchestraConductor"] = reader["fldConductor"].ToString();
+                            }
+                            break;
+                        case "CDChamber":
+                            selectString = "SELECT * FROM CDChamber INNER JOIN CDClassical ON CDChamber.fldUPC = CDClassical.fldUPC WHERE CDChamber.fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["CDClassicalLabel"] = reader["fldLabel"].ToString();
+                                outDict["CDClassicalArtists"] = reader["fldArtists"].ToString();
+                                outDict["CDChamberInstrumentList"] = reader["fldInstrumentList"].ToString();
+                            }
+                            break;
+                    }
+
+                    return true;
                 }
                 else
                 {
-                    // No row matched the query
+                    MessageBox.Show("FAILED TO FIND FROM UPC!!");
                 }
+                reader.Close();
             }
-            return null;
+            return false;
+
+        }
+        public bool updateProduct()
+        {
+            return false;
+        }
+        public bool deleteProduct()
+        {
+            return false;
         }
     }
 }

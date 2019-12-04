@@ -100,7 +100,11 @@ namespace BookCDDVD
 
             setToolTips();
             getProducts();
+            if(dbTest.getProduct(55555, out string type, out IDictionary<string, string> outDict)){
 
+                MessageBox.Show(type);
+                MessageBox.Show(outDict["CDChamberInstrumentList"]);
+            }
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
 
