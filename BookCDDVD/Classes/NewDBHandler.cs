@@ -13,7 +13,7 @@ namespace BookCDDVD
     {
         string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../../ProductDB.accdb";
 
-        public bool InsertProduct(string type, IDictionary<string, string> param, out string outString)
+        public bool InsertProduct(string type, IDictionary<string, string> param, ref string outString)
         {
             int UPC = Int32.Parse(param["ProductUPC"]);
             decimal price = Decimal.Parse(param["ProductPrice"]);
@@ -142,6 +142,7 @@ namespace BookCDDVD
                             {
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                             }
                             break;
                         case "BookCIS":
@@ -153,6 +154,7 @@ namespace BookCDDVD
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
                                 outDict["BookCISArea"] = reader["fldCISArea"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                             }
                             break;
                         case "DVD":
@@ -208,6 +210,31 @@ namespace BookCDDVD
         public bool deleteProduct()
         {
             return false;
+        }
+        public int getRowCount()
+        {
+            string selectString = "SELECT COUNT(*) FROM Product;";
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(selectString, connection);
+
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    
+                    return reader.GetInt32(0);
+                }
+                else
+                {
+                    MessageBox.Show("FAILED TO RUN");
+                }
+                reader.Close();
+            }
+            return 0;
+
         }
     }
 }
