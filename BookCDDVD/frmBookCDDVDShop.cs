@@ -81,30 +81,21 @@ namespace BookCDDVD
             grpProduct.Visible = false;
             dtDVDReleaseDate.MaxDate = DateTime.Today;
 
-            //try
-            //{
-            //    SFManager.readFromFile(ref InStock, persistancePath);
-            //}
-            //catch
-            //{
-            //    //Do nothing, we don't NEED that persistant file. It will be created on exit.
-            //}
 
-            lblUniqProducts.Text = InStock.getCount().ToString();
-
-            //Disable the search if there's nothing to search!
-            if (InStock.getCount() == 0)
+            int rowCount = dbTest.getRowCount();
+            if (rowCount > 0)
             {
-                btnSearch.Enabled = false;
+                lblUniqProducts.Text = rowCount.ToString();
+                btnSearch.Enabled = true;
             }
 
             setToolTips();
             getProducts();
+
             if(dbTest.getProduct(66666, out string type, out IDictionary<string, string> outDict)){
 
                 MessageBox.Show(type);
             }
-            MessageBox.Show(dbTest.getRowCount().ToString());
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
 
@@ -235,6 +226,8 @@ namespace BookCDDVD
             cbBookCISArea.SelectedIndex = -1;
             txtProductUPC.Focus();
 
+            dtDVDReleaseDate.Value = DateTime.Today;
+
             btnDelete.Visible = false;
             //If the form is cleared, we're not editing anymore!
             editingTrigger = false;
@@ -290,6 +283,7 @@ namespace BookCDDVD
                     {
                         dict["DVDLeadActor"] = txtDVDLeadActor.Text;
                         dict["DVDReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
+                        MessageBox.Show(dtDVDReleaseDate.Value.ToString("dd/MM/yyyy"));
                         dict["DVDRuntime"] = txtDVDRunTime.Text;
                         createProduct("DVD", dict);
                     }
@@ -458,7 +452,7 @@ namespace BookCDDVD
                                 Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
                                 txtDVDLeadActor.Text = outDict["DVDLeadActor"];
                                 txtDVDRunTime.Text = outDict["DVDRunTime"];
-                                dtDVDReleaseDate.Value = DateTime.Parse(outDict["DVDReleaseDate"]);
+                                dtDVDReleaseDate.Value = DateTime.ParseExact(outDict["DVDReleaseDate"], "dd/MM/yyyy", null);
                                 break;
                             case "CDOrchestra":
                                 Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);

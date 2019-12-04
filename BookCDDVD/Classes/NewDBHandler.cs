@@ -142,6 +142,7 @@ namespace BookCDDVD
                             {
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                             }
                             break;
                         case "BookCIS":
@@ -153,6 +154,7 @@ namespace BookCDDVD
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
                                 outDict["BookCISArea"] = reader["fldCISArea"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                             }
                             break;
                         case "DVD":
