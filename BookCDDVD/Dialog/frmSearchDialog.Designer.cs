@@ -32,6 +32,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtUPC = new System.Windows.Forms.TextBox();
             this.btnSearchSubmit = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -47,7 +48,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(26, 52);
+            this.label2.Location = new System.Drawing.Point(36, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 15);
             this.label2.TabIndex = 1;
@@ -55,7 +56,7 @@
             // 
             // txtUPC
             // 
-            this.txtUPC.Location = new System.Drawing.Point(64, 49);
+            this.txtUPC.Location = new System.Drawing.Point(74, 48);
             this.txtUPC.MaxLength = 5;
             this.txtUPC.Name = "txtUPC";
             this.txtUPC.Size = new System.Drawing.Size(100, 20);
@@ -65,7 +66,7 @@
             // btnSearchSubmit
             // 
             this.btnSearchSubmit.Enabled = false;
-            this.btnSearchSubmit.Location = new System.Drawing.Point(205, 48);
+            this.btnSearchSubmit.Location = new System.Drawing.Point(180, 47);
             this.btnSearchSubmit.Name = "btnSearchSubmit";
             this.btnSearchSubmit.Size = new System.Drawing.Size(75, 23);
             this.btnSearchSubmit.TabIndex = 3;
@@ -73,12 +74,25 @@
             this.btnSearchSubmit.UseVisualStyleBackColor = true;
             this.btnSearchSubmit.Click += new System.EventHandler(this.btnSearchSubmit_Click);
             // 
+            // btnCancel
+            // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(180, 76);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 4;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // frmSearchDialog
             // 
             this.AcceptButton = this.btnSearchSubmit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(304, 93);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(300, 112);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSearchSubmit);
             this.Controls.Add(this.txtUPC);
             this.Controls.Add(this.label2);
@@ -97,5 +111,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtUPC;
         private System.Windows.Forms.Button btnSearchSubmit;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
