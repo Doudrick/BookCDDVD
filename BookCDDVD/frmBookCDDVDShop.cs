@@ -26,14 +26,14 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
-        List<GroupBox> groupList = new List<GroupBox>(6);
-        List<Button> buttonList = new List<Button>(5);
+        private List<GroupBox> groupList = new List<GroupBox>(6);
+        private List<Button> buttonList = new List<Button>(5);
 
-        ProductDB dbProducts = new ProductDB();
-        NewDBHandler dbTest = new NewDBHandler();
-        int indexToDelete = 0;
-        bool editingTrigger = false;
-        const string persistancePath = "persistance.bin";
+        private ProductDB dbProducts = new ProductDB();
+        private NewDBHandler dbTest = new NewDBHandler();
+        private int foundUPC = 0;
+        private bool editingTrigger = false;
+        private const string persistancePath = "persistance.bin";
         
         public frmBookCDDVDShop()
         {
@@ -89,7 +89,6 @@ namespace BookCDDVD
             }
 
             setToolTips();
-            getProducts();
 
             if(dbTest.getProduct(66666, out string type, out IDictionary<string, string> outDict)){
 
@@ -98,10 +97,6 @@ namespace BookCDDVD
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
 
-        private void getProducts()
-        {
-
-        }
         private void setToolTips()
         {
             // setting value to the tooltips 
@@ -261,10 +256,6 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-<<<<<<< HEAD
-=======
-
->>>>>>> fa63969646e831461bb3a0474258ac6e9f01423a
                         if (Validator.checkVisibleGroup(grpBookCIS))
                         {
                             dict["BookCISArea"] = cbBookCISArea.Text;
@@ -324,50 +315,35 @@ namespace BookCDDVD
         private void createProduct(string type, IDictionary<string, string> param)
         {
             //The type of product is passed in as a string for the case/switch statement
-            //Create a holder for the product we're creating
+            //If we're not editing, we're inserting a product
             string outString = "";
-
-            if (dbTest.InsertProduct(type, param, ref outString))
+            if (!editingTrigger)
             {
-                MessageBox.Show(outString);
-                lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+                if (dbTest.InsertProduct(type, param, ref outString))
+                {
+                    MessageBox.Show(outString);
+                    lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+                }
+                else MessageBox.Show("FAIL: " + outString);
             }
-            else MessageBox.Show("FAIL: " + outString);
-            //if (editingTrigger)
-            //{
-            //    //The User is editing this product. Delete the old one, then add the new one.
+            //if we're editing, we're updating the product
+            else
+            {
+                //The User is editing this product. If they submit, an UPDATE query is going to be sent to the DB.
 
-            //    //Remove one product from the number of products we have using the return from the removeProduct method
-            //    //InStock.removeProduct(indexToDelete).ToString();
+                dbTest.updateProduct(foundUPC, out type, out param);
+                //Hide the delete button
+                btnDelete.Visible = false;
 
-            //    //Reset the upc value set before
-            //    indexToDelete = 0;
-            //    //Hide the delete button
-            //    btnDelete.Visible = false;
-            //    //Enable the search button if it was disabled previously due to no product in inventory
-            //    btnSearch.Enabled = true;
-            //    //Add the product to the product list
-            //    //Increase the number of Unique products shown on the form
-            //    //lblUniqProducts.Text = InStock.getCount().ToString();
+                //Enable the search button if it was disabled previously due to no product in inventory
+                btnSearch.Enabled = true;
+                //Add the product to the product list
+                //Increase the number of Unique products shown on the form
+                //lblUniqProducts.Text = InStock.getCount().ToString();
 
-            //    MessageBox.Show("Updated Product Information!");
-            //}
-            //else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
-            //{
-            //        //Enable the search button if it was disabled previously due to no product in inventory
-            //        btnSearch.Enabled = true;
-            //        //Add the product to the product list
-            //        //Increase the number of Unique products shown on the form
-            //        //lblUniqProducts.Text = InStock.getCount().ToString();
+                MessageBox.Show("Updated Product Information!");
+            }
 
-            //}
-            //else
-            //{
-            //    //UPC is already in the system, so we don't want to insert that product
-            //    MessageBox.Show("Error! UPC already exists in the system. Please try again.");
-            //    txtProductUPC.Text = "";
-            //    txtProductUPC.Focus();
-            //}
             //clear the form
             clearForm();
         }
@@ -416,6 +392,7 @@ namespace BookCDDVD
                             txtProductQuantity.Text = outDict["ProductQuantity"];
                             txtProductPrice.Text = outDict["ProductPrice"];
 
+                        foundUPC = enteredUPC;
                         //Switch/Case for each type of product
                         switch (type)
                         {
@@ -492,14 +469,10 @@ namespace BookCDDVD
             //Inform the user of what's going on
             MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
             //Reset the upc value set before
-            indexToDelete = 0;
+            foundUPC = 0;
             //Hide the delete button
             btnDelete.Visible = false;
         } // end btnDelete_Click
 
-        private void btnClear_Click_1(object sender, EventArgs e)
-        {
-            clearForm();
-        }
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
