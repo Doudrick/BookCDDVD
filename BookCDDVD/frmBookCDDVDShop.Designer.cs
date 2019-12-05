@@ -39,7 +39,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.grpCDChamber = new System.Windows.Forms.GroupBox();
-            this.cbCDChamberInstrumentList = new System.Windows.Forms.ComboBox();
             this.lblInstruments = new System.Windows.Forms.Label();
             this.grpCDOrchestra = new System.Windows.Forms.GroupBox();
             this.txtCDOrchestraConductor = new System.Windows.Forms.TextBox();
@@ -84,6 +83,7 @@
             this.lblNumUnique = new System.Windows.Forms.Label();
             this.lblUniqProducts = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.txtCDChamberInstrumentList = new System.Windows.Forms.TextBox();
             this.grpControlsNewEntry.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
@@ -212,7 +212,7 @@
             // 
             // grpCDChamber
             // 
-            this.grpCDChamber.Controls.Add(this.cbCDChamberInstrumentList);
+            this.grpCDChamber.Controls.Add(this.txtCDChamberInstrumentList);
             this.grpCDChamber.Controls.Add(this.lblInstruments);
             this.grpCDChamber.Location = new System.Drawing.Point(318, 282);
             this.grpCDChamber.Name = "grpCDChamber";
@@ -221,14 +221,6 @@
             this.grpCDChamber.TabStop = false;
             this.grpCDChamber.Text = "CD Chamber Music";
             this.grpCDChamber.Visible = false;
-            // 
-            // cbCDChamberInstrumentList
-            // 
-            this.cbCDChamberInstrumentList.FormattingEnabled = true;
-            this.cbCDChamberInstrumentList.Location = new System.Drawing.Point(77, 22);
-            this.cbCDChamberInstrumentList.Name = "cbCDChamberInstrumentList";
-            this.cbCDChamberInstrumentList.Size = new System.Drawing.Size(188, 21);
-            this.cbCDChamberInstrumentList.TabIndex = 22;
             // 
             // lblInstruments
             // 
@@ -567,7 +559,7 @@
             this.btnClear.TabIndex = 19;
             this.btnClear.Text = "Clear Form";
             this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click_1);
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnSearch
             // 
@@ -632,8 +624,16 @@
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // txtCDChamberInstrumentList
+            // 
+            this.txtCDChamberInstrumentList.Location = new System.Drawing.Point(80, 23);
+            this.txtCDChamberInstrumentList.Name = "txtCDChamberInstrumentList";
+            this.txtCDChamberInstrumentList.Size = new System.Drawing.Size(185, 20);
+            this.txtCDChamberInstrumentList.TabIndex = 21;
+            // 
             // frmBookCDDVDShop
             // 
+            this.AcceptButton = this.btnInsert;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnExit;
@@ -707,7 +707,6 @@
         public System.Windows.Forms.TextBox txtProductQuantity;
         public System.Windows.Forms.TextBox txtProductPrice;
         public System.Windows.Forms.TextBox txtProductUPC;
-        public System.Windows.Forms.ComboBox cbCDChamberInstrumentList;
         public System.Windows.Forms.TextBox txtCDOrchestraConductor;
         public System.Windows.Forms.TextBox txtCDClassicalArtists;
         public System.Windows.Forms.TextBox txtCDClassicalLabel;
@@ -732,6 +731,7 @@
         public System.Windows.Forms.DateTimePicker dtDVDReleaseDate;
         public System.Windows.Forms.Button btnClear;
         public System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.TextBox txtCDChamberInstrumentList;
     }
 }
 

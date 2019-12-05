@@ -194,7 +194,6 @@ namespace BookCDDVD
                     return true;
                 } else
                 {
-                    MessageBox.Show("FAILED TO FIND FROM UPC");
                 }
                 reader.Close();
             }
@@ -294,7 +293,7 @@ namespace BookCDDVD
             return false;
 
         }
-        public bool deleteProduct()
+        public bool deleteProduct(int UPC)
         {
             return false;
         }
