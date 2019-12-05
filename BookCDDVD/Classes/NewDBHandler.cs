@@ -134,11 +134,71 @@ namespace BookCDDVD
                     outDict["ProductQuantity"] = reader["fldQuantity"].ToString();
                     switch (type)
                     {
-                        
+                        case "Book":
+                            selectString = "SELECT * FROM Book WHERE fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["BookISBN"] = reader["fldISBN"].ToString();
+                                outDict["BookAuthor"] = reader["txtBookAuthor"].ToString();
+                                outDict["BookPages"] = reader["txtBookPAges"].ToString();
+                            }
+                            break;
+                        case "BookCIS":
+                            selectString = "SELECT * FROM BookCIS INNER JOIN BOOK ON BOOKCIS.fldUPC = BOOK.fldUPC WHERE BookCIS.fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["BookISBN"] = reader["fldISBN"].ToString();
+                                outDict["BookAuthor"] = reader["txtBookAuthor"].ToString();
+                                outDict["BookPages"] = reader["txtBookPAges"].ToString();
+                                outDict["BookCISArea"] = reader["txtBookCISArea"].ToString();
+                            }
+                            break;
+                        case "DVD":
+                            selectString = "SELECT * FROM DVD WHERE fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["DVDLeadActor"] = reader["txtDVDLeadActor"].ToString();
+                                outDict["DVDReleaseDate"] = Convert.ToDateTime(reader["fldReleaseDate"]).ToString("dd/MM/yyyy");
+                                outDict["DVDRunTime"] = reader["txtDVDRunTime"].ToString();
+                            }
+                            break;
+                        case "CDOrchestra":
+                            selectString = "SELECT * FROM CDOrchestra INNER JOIN CDClassical ON CDOrchestra.fldUPC = CDClassical.fldUPC WHERE CDOrchestra.fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["CDClassicalLabel"] = reader["txtCDClassicalLabel"].ToString();
+                                outDict["CDClassicalArtists"] = reader["txtCDClassicalArtists"].ToString();
+                                outDict["CDOrchestraConductor"] = reader["txtCDOrchestraConductor"].ToString();
+                            }
+                            break;
+                        case "CDChamber":
+                            selectString = "SELECT * FROM CDChamber INNER JOIN CDClassical ON CDChamber.fldUPC = CDClassical.fldUPC WHERE CDChamber.fldUPC=" + UPC;
+                            command = new OleDbCommand(selectString, connection);
+                            reader = command.ExecuteReader();
+                            if (reader.Read())
+                            {
+                                outDict["CDClassicalLabel"] = reader["txtCDClassicalLabel"].ToString();
+                                outDict["CDClassicalArtists"] = reader["txtCDClassicalArtists"].ToString();
+                                outDict["CDChamberInstrumentList"] = reader["cbCDChamberInstrumentList"].ToString();
+                            }
+                            break;
                     }
+                    return true;
+                } else
+                {
+                    MessageBox.Show("FAILED TO FIND FROM UPC");
                 }
+                reader.Close();
             }
-            return true;
+            return false;
         }
 
         public bool getProduct(int UPC, out string type, out IDictionary<string, string> outDict)
@@ -172,6 +232,7 @@ namespace BookCDDVD
                             {
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                             }
                             break;
                         case "BookCIS":
@@ -182,6 +243,7 @@ namespace BookCDDVD
                             {
                                 outDict["BookISBN"] = reader["fldISBN"].ToString();
                                 outDict["BookAuthor"] = reader["fldAuthor"].ToString();
+                                outDict["BookPages"] = reader["fldPages"].ToString();
                                 outDict["BookCISArea"] = reader["fldCISArea"].ToString();
                             }
                             break;
@@ -230,10 +292,6 @@ namespace BookCDDVD
             }
             return false;
 
-        }
-        public bool updateProduct()
-        {
-            return false;
         }
         public bool deleteProduct()
         {
