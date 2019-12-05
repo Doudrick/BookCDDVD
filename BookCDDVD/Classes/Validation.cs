@@ -117,16 +117,6 @@ namespace BookCDDVD
             } // end foreach 
         } // end disableCreateButton
 
-        // this method enable the createabutton 
-        public static void enableCreateaButton(List<Button> buttonList)
-        {
-            // thsi foreach loops search for the button that are disable and enable it
-            foreach(Button i in buttonList)
-            {
-                i.Enabled = true;
-            } // end for each
-        } // end enableCreateButton
-
         // this method validating the product group box
         public static bool checkProduct(TextBox UPC, TextBox Price, TextBox Title,
             TextBox Quantity)

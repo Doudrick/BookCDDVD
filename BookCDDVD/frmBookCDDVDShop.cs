@@ -261,7 +261,10 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
+<<<<<<< HEAD
+=======
 
+>>>>>>> fa63969646e831461bb3a0474258ac6e9f01423a
                         if (Validator.checkVisibleGroup(grpBookCIS))
                         {
                             dict["BookCISArea"] = cbBookCISArea.Text;
@@ -388,9 +391,6 @@ namespace BookCDDVD
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            // enable button that are disable
-            Validator.enableCreateaButton(buttonList);
-
             //Show the search box when the search button is clicked
             frmSearchDialog SearchDialog = new frmSearchDialog();
 
