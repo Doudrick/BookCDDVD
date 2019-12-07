@@ -95,6 +95,21 @@ namespace BookCDDVD
 
                 MessageBox.Show(type);
             }
+            IDictionary<string, string> param = new Dictionary<string, string>();
+            param["productPrice"] = "200";
+            param["productTitle"] = "changes book title here";
+            param["productQuantity"] = "120";
+            param["BookISBN"] = "123456";
+            param["BookAuthor"] = "Tai Nguyen";
+            param["BookPages"] = "420";
+            param["BookCISAea"] = "Programming";
+
+            
+
+            if (dbTest.updateProduct(66666, param, "BookCIS"))
+            {
+             
+            }
         } // end frmBookCDDVDShop_Load
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
 
@@ -261,10 +276,7 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
-<<<<<<< HEAD
-=======
 
->>>>>>> fa63969646e831461bb3a0474258ac6e9f01423a
                         if (Validator.checkVisibleGroup(grpBookCIS))
                         {
                             dict["BookCISArea"] = cbBookCISArea.Text;
@@ -485,6 +497,7 @@ namespace BookCDDVD
         } // end btnSearch_Click
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            
             clearForm();
             //Remove one product from the number of products we have using the return from the removeProduct method
             //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
@@ -495,6 +508,7 @@ namespace BookCDDVD
             indexToDelete = 0;
             //Hide the delete button
             btnDelete.Visible = false;
+            
         } // end btnDelete_Click
 
         private void btnClear_Click_1(object sender, EventArgs e)
