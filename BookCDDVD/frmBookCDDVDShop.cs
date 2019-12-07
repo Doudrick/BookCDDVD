@@ -90,6 +90,23 @@ namespace BookCDDVD
             //Initialize the control tooltips
             setToolTips();
 
+                MessageBox.Show(type);
+            }
+            IDictionary<string, string> param = new Dictionary<string, string>();
+            param["productPrice"] = "200";
+            param["productTitle"] = "changes book title here";
+            param["productQuantity"] = "120";
+            param["BookISBN"] = "123456";
+            param["BookAuthor"] = "Tai Nguyen";
+            param["BookPages"] = "420";
+            param["BookCISAea"] = "Programming";
+
+            
+
+            if (dbTest.updateProduct(66666, param, "BookCIS"))
+            {
+             
+            }
         } // end frmBookCDDVDShop_Load
 
 
@@ -264,6 +281,7 @@ namespace BookCDDVD
                         dict["ISBNRight"] = txtBookISBNRight.Text;
                         dict["BookAuthor"] = txtBookAuthor.Text;
                         dict["BookPages"] = txtBookPages.Text;
+
                         if (Validator.checkVisibleGroup(grpBookCIS))
                         {
                             dict["BookCISArea"] = cbBookCISArea.Text;
@@ -300,8 +318,6 @@ namespace BookCDDVD
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
                         dict["CDChamberInstrumentList"] = txtCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
-
-
                     }
                 }
                 // if groupbox CD Orchestra are visible, check the input validation
@@ -486,6 +502,17 @@ namespace BookCDDVD
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            clearForm();
+            //Remove one product from the number of products we have using the return from the removeProduct method
+            //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
+
+            //Inform the user of what's going on
+            MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
+            //Reset the upc value set before
+            indexToDelete = 0;
+            //Hide the delete button
+            btnDelete.Visible = false;
+
             //Remove the product from the DB
             //  Assuming it successfully happens, clear the form and inform the user.
             if (dbTest.deleteProduct(foundUPC))
@@ -504,8 +531,6 @@ namespace BookCDDVD
                 //Hide the delete button
                 btnDelete.Visible = false;
             }
-           
         } // end btnDelete_Click
-
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
