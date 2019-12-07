@@ -5,7 +5,7 @@
  * Tai Nguyen
  * 11/23/2019
  * Codebehind for main Form
- * Project 4: BookCDDVDShop
+ * Project 4: BookCDDVDShop Stage II
  * 
  * 
  */
@@ -26,15 +26,18 @@ namespace BookCDDVD
 {
     public partial class frmBookCDDVDShop : Form
     {
-        List<GroupBox> groupList = new List<GroupBox>(6);
-        List<Button> buttonList = new List<Button>(5);
+        private List<GroupBox> groupList = new List<GroupBox>(6);
+        private List<Button> buttonList = new List<Button>(5);
 
-        ProductDB dbProducts = new ProductDB();
-        NewDBHandler dbTest = new NewDBHandler();
-        int indexToDelete = 0;
-        bool editingTrigger = false;
-        const string persistancePath = "persistance.bin";
-        
+        private ProductDB dbProducts = new ProductDB();
+        private NewDBHandler dbTest = new NewDBHandler();
+
+
+        private bool editingTrigger = false;
+        private int foundUPC = 0;
+        private string foundType = "";
+
+
         public frmBookCDDVDShop()
         {
             InitializeComponent();
@@ -61,14 +64,7 @@ namespace BookCDDVD
             cbBookCISArea.Items.Add("Computer Sciences");
             cbBookCISArea.Items.Add("Information Sciences");
 
-            // adding options into the Instrument List dropdown
-            cbCDChamberInstrumentList.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbCDChamberInstrumentList.Items.Add("Percussion");
-            cbCDChamberInstrumentList.Items.Add("String");
-            cbCDChamberInstrumentList.Items.Add("Woodwind");
-            cbCDChamberInstrumentList.Items.Add("Brass");
 
-            // showing a tips of what user should enter in their textboxes
         } // end frmBookCDDVDShop
 
 
@@ -76,22 +72,23 @@ namespace BookCDDVD
         // this method handles some stuff that happens when the form loads
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
         {        
-            // set all textboxes to read only
+            // hide the textboxes
             grpProduct.Visible = false;
+
+            //Set the DVD Release Datepicker to today.
             dtDVDReleaseDate.MaxDate = DateTime.Today;
 
-
+            //Get the row count from the cb (Number of products)
             int rowCount = dbTest.getRowCount();
             if (rowCount > 0)
             {
+                //If there's at least 1 product, enable the search button
                 lblUniqProducts.Text = rowCount.ToString();
                 btnSearch.Enabled = true;
             }
 
+            //Initialize the control tooltips
             setToolTips();
-            getProducts();
-
-            if(dbTest.getProduct(66666, out string type, out IDictionary<string, string> outDict)){
 
                 MessageBox.Show(type);
             }
@@ -111,12 +108,9 @@ namespace BookCDDVD
              
             }
         } // end frmBookCDDVDShop_Load
+
+
           // this method show a message at the bottom of textboxes to give the users what they should enter the textboxes
-
-        private void getProducts()
-        {
-
-        }
         private void setToolTips()
         {
             // setting value to the tooltips 
@@ -139,17 +133,18 @@ namespace BookCDDVD
             tip.SetToolTip(this.txtCDClassicalLabel, "Enter a label name");
             tip.SetToolTip(this.txtCDClassicalArtists, "Enter the Artist name");
             tip.SetToolTip(this.txtCDOrchestraConductor, "Enter the Conductor name");
-            tip.SetToolTip(this.cbCDChamberInstrumentList, "Choose an Instrument");
             tip.SetToolTip(this.btnInsert, "Add the inputed information into the data entry");
             tip.SetToolTip(this.btnDelete, "Delete the information");
             tip.SetToolTip(this.btnClear, "Clear the textboxes on the form");
             tip.SetToolTip(this.btnExit, "Exit the program");
         } // end setToolTips
+
         // this method hide and enable textboxes for Create Book button
         private void btnCreateBook_Click(object sender, EventArgs e)
         {
             // hide every other group that are not CreateBook
             Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
+
             // disable CreateaBook button and enable all other new entry button
             Validator.disableCreateButton(btnCreateBook, buttonList);
 
@@ -214,9 +209,10 @@ namespace BookCDDVD
         // this method clear all of the textboxes
         private void btnClear_Click(object sender, EventArgs e)
         {
-            // clearing all the textboxes 
+            // clear the form and reset everything 
             clearForm();
         } // end btnClear_Click
+
 
         // this method clear all the textboxes
         private void clearForm()
@@ -236,20 +232,22 @@ namespace BookCDDVD
             txtCDClassicalLabel.Clear();
             txtCDClassicalArtists.Clear();
             txtCDOrchestraConductor.Clear();
-            cbCDChamberInstrumentList.SelectedIndex = -1;
+            txtCDChamberInstrumentList.Text = "";
             cbBookCISArea.SelectedIndex = -1;
             txtProductUPC.Focus();
 
+            //Reset the Release Date picker to the current date
             dtDVDReleaseDate.Value = DateTime.Today;
 
+            //Reset the editiong/delete controls/variables
             btnDelete.Visible = false;
-            //If the form is cleared, we're not editing anymore!
             editingTrigger = false;
             btnInsert.Text = "Insert";
             txtProductUPC.ReadOnly = false;
+
         } // end clearForm
 
-        // this method find which groupbox are visible and Validator those textboxes input\
+        // this method find which groupbox are visible and Validator those textboxes input
         private void ValidatorVisibleGrp()
         {
             //Dictionary to hold the parameters we'll be passing in
@@ -258,6 +256,13 @@ namespace BookCDDVD
 
             //First, check if the product textboxes are valid, since all types of products have these fields
             //Set those fields in the dictionary
+
+            //
+            //The product type is determined by what groups are visible
+            //The product type is used heavily to determine what parameters are placed into
+            //     or read from the dictionary
+            //
+
             if (Validator.checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity))
             {
                 dict["ProductUPC"] = txtProductUPC.Text;
@@ -311,10 +316,8 @@ namespace BookCDDVD
                     {
                         dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
                         dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
-                        dict["CDChamberInstrumentList"] = cbCDChamberInstrumentList.Text;
+                        dict["CDChamberInstrumentList"] = txtCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
-
-
                     }
                 }
                 // if groupbox CD Orchestra are visible, check the input validation
@@ -336,68 +339,48 @@ namespace BookCDDVD
         private void createProduct(string type, IDictionary<string, string> param)
         {
             //The type of product is passed in as a string for the case/switch statement
-            //Create a holder for the product we're creating
+            //If we're not editing, we're inserting a product
             string outString = "";
-
-            if (dbTest.InsertProduct(type, param, ref outString))
+            if (!editingTrigger)
             {
-                MessageBox.Show(outString);
-                lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+                if (dbTest.InsertProduct(type, param, ref outString))
+                {
+                    MessageBox.Show(outString, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) + 1).ToString();
+
+                    //Enable the search button in the event that there were previously no items in the db.
+                    btnSearch.Enabled = true;
+
+                }
+                else MessageBox.Show(outString, "Failed", MessageBoxButtons.OK, MessageBoxIcon.Stop);
             }
-            else MessageBox.Show("FAIL: " + outString);
-            //if (editingTrigger)
-            //{
-            //    //The User is editing this product. Delete the old one, then add the new one.
+            //if we're editing, we're updating the product
+            else
+            {
+                //The update button was pressed!, use the updateProduct method to send the UPDATE statements to the DB.
 
-            //    //Remove one product from the number of products we have using the return from the removeProduct method
-            //    //InStock.removeProduct(indexToDelete).ToString();
+                dbTest.updateProduct(foundUPC, out type, out param);
 
-            //    //Reset the upc value set before
-            //    indexToDelete = 0;
-            //    //Hide the delete button
-            //    btnDelete.Visible = false;
-            //    //Enable the search button if it was disabled previously due to no product in inventory
-            //    btnSearch.Enabled = true;
-            //    //Add the product to the product list
-            //    //Increase the number of Unique products shown on the form
-            //    //lblUniqProducts.Text = InStock.getCount().ToString();
+                //Hide the delete button since they're no longer editing
+                btnDelete.Visible = false;
 
-            //    MessageBox.Show("Updated Product Information!");
-            //}
-            //else if (!checkForExisting(Int32.Parse(param["ProductUPC"])))
-            //{
-            //        //Enable the search button if it was disabled previously due to no product in inventory
-            //        btnSearch.Enabled = true;
-            //        //Add the product to the product list
-            //        //Increase the number of Unique products shown on the form
-            //        //lblUniqProducts.Text = InStock.getCount().ToString();
+                MessageBox.Show("Updated Product Information!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
-            //}
-            //else
-            //{
-            //    //UPC is already in the system, so we don't want to insert that product
-            //    MessageBox.Show("Error! UPC already exists in the system. Please try again.");
-            //    txtProductUPC.Text = "";
-            //    txtProductUPC.Focus();
-            //}
             //clear the form
             clearForm();
         }
 
-        // this method calling the ValidatorVisiblegrp, validated the information and adding
-        // the information into the persistance to the binary file
         private void btnInsert_Click(object sender, EventArgs e)
         {
             // Validator the visible groupbox
-
             ValidatorVisibleGrp();
         } // end btnInsert_Click
 
         // this method exit the program
         private void btnExit_Click(object sender, EventArgs e)
         {
-            //Write the persistance to the binary file, and close the form
-            //SFManager.writeToFile(InStock, "persistance.bin");
             this.Close();
         } // end btnExit_Click
 
@@ -408,96 +391,117 @@ namespace BookCDDVD
 
             int enteredUPC = 0;
             //The searchbox will return a dialogresult of OK when the search button within it is clicked
-            
-            if(SearchDialog.ShowDialog(this) == DialogResult.OK)
+            DialogResult result = DialogResult.Retry;
+            while (result == DialogResult.Retry)
             {
-                //Check the returnedUPC within the dialog box; That's what the user entered.
-                if(SearchDialog.getUPC().ToString().Length == 5 && Int32.TryParse(SearchDialog.getUPC(), out enteredUPC))
+                try
                 {
-
-                        if(dbTest.getProduct(enteredUPC, out string type, out IDictionary<string, string> outDict))
+                    if (SearchDialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        //Check the returnedUPC within the dialog box; That's what the user entered.
+                        if (SearchDialog.getUPC().ToString().Length == 5 && Int32.TryParse(SearchDialog.getUPC(), out enteredUPC))
                         {
-                            //We Found it!
-                            MessageBox.Show("Found Product!"  + "\nTitle:" + outDict["ProductTitle"] + "\nType of Product: " + type);
 
-                            
-                            //Since we made foundProduct as a Product type, we can use these methods to grab some info.
-                            //We are showing the info in the form so the user can see what they found.
-                            txtProductUPC.Text = enteredUPC.ToString();
-                            txtProductTitle.Text = outDict["ProductTitle"];
-                            txtProductQuantity.Text = outDict["ProductQuantity"];
-                            txtProductPrice.Text = outDict["ProductPrice"];
+                            if (dbTest.getProduct(enteredUPC, out string type, out IDictionary<string, string> outDict))
+                            {
 
-                        //Switch/Case for each type of product
-                        switch (type)
-                        {
-                            //For each respective type, we show the groups that correspond to that product type.
-                            //Then foundProduct is cast to that type so that we can retrieve the attributes for that
-                            // specific type using the methods within.
-                            //Then, textboxes on the form have their text set to the values of the object
+                                //Import the data from the Product table into the form
+                                txtProductUPC.Text = enteredUPC.ToString();
+                                txtProductTitle.Text = outDict["ProductTitle"];
+                                txtProductQuantity.Text = outDict["ProductQuantity"];
+                                txtProductPrice.Text = outDict["ProductPrice"];
 
-                            case "Book":
-                                Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
-                                txtBookAuthor.Text = outDict["BookAuthor"];
-                                txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
-                                txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
-                                txtBookPages.Text = outDict["BookPages"];
-                                break;
-                            case "BookCIS":
-                                Validator.hideGroups(grpBook, grpBookCIS, groupList, btnDelete, grpProduct);
-                                txtBookAuthor.Text = outDict["BookAuthor"];
-                                txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
-                                txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
-                                txtBookPages.Text = outDict["BookPages"];
-                                cbBookCISArea.SelectedIndex = cbBookCISArea.FindStringExact(outDict["BookCISArea"]);
-                                break;
-                            case "DVD":
-                                Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
-                                txtDVDLeadActor.Text = outDict["DVDLeadActor"];
-                                txtDVDRunTime.Text = outDict["DVDRunTime"];
-                                dtDVDReleaseDate.Value = DateTime.ParseExact(outDict["DVDReleaseDate"], "dd/MM/yyyy", null);
-                                break;
-                            case "CDOrchestra":
-                                Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);
-                                txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
-                                txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
-                                txtCDOrchestraConductor.Text = outDict["CDOrchestraConductor"];
+                                foundUPC = enteredUPC;
+                                foundType = type;
 
-                                break;
-                            case "CDChamber":
-                                Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
-                                txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
-                                txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
-                                MessageBox.Show(outDict["CDChamberInstrumentList"]);
-                                cbCDChamberInstrumentList.SelectedIndex = cbCDChamberInstrumentList.FindStringExact(outDict["CDChamberInstrumentList"]);
-                                break;
+                                //Switch/Case for each type of product
+                                switch (type)
+                                {
+                                    //For each respective type, we show the groups that correspond to that product type.
+                                    //Then we pull the product's information from the returned dictionary
+                                    //      depending on what type of product it is
+
+                                    case "Book":
+                                        Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
+                                        txtBookAuthor.Text = outDict["BookAuthor"];
+                                        txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
+                                        txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
+                                        txtBookPages.Text = outDict["BookPages"];
+                                        break;
+                                    case "BookCIS":
+                                        Validator.hideGroups(grpBook, grpBookCIS, groupList, btnDelete, grpProduct);
+                                        txtBookAuthor.Text = outDict["BookAuthor"];
+                                        txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
+                                        txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
+                                        txtBookPages.Text = outDict["BookPages"];
+                                        cbBookCISArea.SelectedIndex = cbBookCISArea.FindStringExact(outDict["BookCISArea"]);
+                                        break;
+                                    case "DVD":
+                                        Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
+                                        txtDVDLeadActor.Text = outDict["DVDLeadActor"];
+                                        txtDVDRunTime.Text = outDict["DVDRunTime"];
+                                        dtDVDReleaseDate.Value = DateTime.ParseExact(outDict["DVDReleaseDate"], "dd/MM/yyyy", null);
+                                        break;
+                                    case "CDOrchestra":
+                                        Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);
+                                        txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
+                                        txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
+                                        txtCDOrchestraConductor.Text = outDict["CDOrchestraConductor"];
+
+                                        break;
+                                    case "CDChamber":
+                                        Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
+                                        txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
+                                        txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
+                                        txtCDChamberInstrumentList.Text = outDict["CDChamberInstrumentList"];
+                                        break;
+                                }
+                                //Show the delete button and set the trigger for editing
+                                //
+                                //
+                                //      The insert button now functions as an update button until either:
+                                //          1. The Product is updated
+                                //          2. The Form is cleared/A create button is pressed
+                                //          3. The Product is deleted
+                                //
+
+                                btnDelete.Visible = true;
+                                editingTrigger = true;
+                                txtProductUPC.ReadOnly = true;
+                                btnInsert.Text = "Update";
+                            }
+                            else
+                            {
+                                throw new Exception("The UPC was not found in the Database");
+                            }
                         }
-                        //Set the index to delete just in case the user wants to delete this from the list
-                        //      either because they want to edit it, or they want to delete it
-                        //Show the delete button
-                        btnDelete.Visible = true;
-                            editingTrigger = true;
-                            txtProductUPC.ReadOnly = true;
-                            btnInsert.Text = "Update";
-                            return;
-                        } 
-                    MessageBox.Show("Product with UPC " + enteredUPC + " was not found.");
+                        else
+                        {
+                            throw new Exception("Invalid UPC Was Entered.");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Search Cancelled.");
+                    }
+                    break;
+
                 }
-                else
+                catch(Exception ex)
                 {
-                    MessageBox.Show("Invalid UPC Was Entered.");
+                    result = MessageBox.Show(ex.Message, "Search Failed!", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation);
+
+                    if (result == DialogResult.Cancel) break;
                 }
             }
-            else
-            {
-                MessageBox.Show("Search Cancelled.");
-            }
+            
             //Dispose of the search dialog since we're done with it
             SearchDialog.Dispose();
         } // end btnSearch_Click
+
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            
             clearForm();
             //Remove one product from the number of products we have using the return from the removeProduct method
             //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
@@ -508,12 +512,25 @@ namespace BookCDDVD
             indexToDelete = 0;
             //Hide the delete button
             btnDelete.Visible = false;
-            
-        } // end btnDelete_Click
 
-        private void btnClear_Click_1(object sender, EventArgs e)
-        {
-            clearForm();
-        }
+            //Remove the product from the DB
+            //  Assuming it successfully happens, clear the form and inform the user.
+            if (dbTest.deleteProduct(foundUPC))
+            {
+                //Clear the form. The product is now removed.
+                clearForm();
+
+                MessageBox.Show("Product removed from inventory.");
+
+                //Reset the upc value found before
+                foundUPC = 0;
+
+                //Reset the type string found before
+
+                foundType = "";
+                //Hide the delete button
+                btnDelete.Visible = false;
+            }
+        } // end btnDelete_Click
     } // end frmBookCDDVDShop
 } // end namespace BookCDDVD
