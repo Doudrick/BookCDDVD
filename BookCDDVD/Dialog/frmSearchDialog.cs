@@ -30,17 +30,14 @@ namespace BookCDDVD
             InitializeComponent();
         }
 
-        public string getUPC()
-        {
-            string returnedUPC = txtUPC.Text;
-            return returnedUPC;
-        }
+        private string UPC = "";
 
         private void btnSearchSubmit_Click(object sender, EventArgs e)
         {
             //When the search button is clicked, set the public variable equal to the entered UPC.
             //Set the dialog result of this to OK, and close.
-            getUPC();
+            UPC = txtUPC.Text;
+            txtUPC.Text = "";
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -57,5 +54,15 @@ namespace BookCDDVD
                 btnSearchSubmit.Enabled = false;
             }
         } // end txtUPC_TextChanged 
+
+        public string getUPC()
+        {
+            return UPC;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     } // end frmSearchDialog
 } // end namespace BookCDDVD

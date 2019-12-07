@@ -314,7 +314,7 @@ namespace BookCDDVD
             return false;
 
         }
-        public bool deleteProduct()
+        public bool deleteProduct(int UPC)
         {
             return false;
         }
