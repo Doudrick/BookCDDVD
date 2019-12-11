@@ -100,6 +100,7 @@
             this.Name = "frmSearchDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Search UPC";
+            this.Load += new System.EventHandler(this.frmSearchDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

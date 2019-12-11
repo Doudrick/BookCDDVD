@@ -113,13 +113,10 @@ namespace BookCDDVD
 
         public bool updateProduct(int UPC, IDictionary<string, string> param, string type)
         {
-            
-            string selectString = "UPDATE Product SET " + "fldPrice = " + param["productPrice"] + "fldTitle = " +
-                param["productTitle"] + "fldQuantity = " + param["productQuantity"] + "WHERE fldUPC =" + UPC;
-
+           
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
-                OleDbCommand command = new OleDbCommand(selectString, connection);
+                OleDbCommand command = new OleDbCommand();
                 OleDbTransaction transaction = null;
 
                 command.Connection = connection;
@@ -132,52 +129,52 @@ namespace BookCDDVD
                     command.Connection = connection;
                     command.Transaction = transaction;
 
-                    command.CommandText = "UPDATE Product SET " + "fldPrice = " + param["productPrice"] + "fldTitle = " +
-                        param["productTitle"] + "fldQuantity = " + param["productQuantity"] + "WHERE fldUPC =" + UPC;
+                    command.CommandText = "UPDATE Product SET " + "fldPrice = '" + param["ProductPrice"] + "', fldTitle = '" +
+                        param["ProductTitle"] + "', fldQuantity = '" + param["ProductQuantity"] + "' WHERE fldUPC = " + UPC;
 
                     command.ExecuteNonQuery();
                     switch (type)
                     {
                         case "Book":
-                            command.CommandText = "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] + 
-                                "fldPages = " + param["BookPages"] + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["BookAuthor"] + 
+                                "', fldPages = '" + param["BookPages"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "BookCIS":
-                            command.CommandText = "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] +
-                                "fldPages = " + param["BookPages"] + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["BookAuthor"] +
+                                "', fldPages = '" + param["BookPages"] + "' WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE BookCIS SET " + "fldCISArea = " + param["BookCISArea"]
-                                + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE BookCIS SET " + "fldCISArea = '" + param["BookCISArea"]
+                                + "' WHERE fldUPC = " + UPC;
                             break;
                         case "DVD":
-                            command.CommandText = "UPDATE DVD Set " + "fldLeadActor = " + param["LeadActor"]
-                                + "fldReleaseDate = " + param["DVDReleaseDate"] + "fldRunTime = " + param["DVDRunTime"]
-                                + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE DVD Set " + "fldLeadActor = '" + param["DVDLeadActor"]
+                                + "', fldReleaseDate = '" + param["DVDReleaseDate"] + "', fldRunTime = '" + param["DVDRuntime"]
+                                + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDClassical":
-                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = " + param["CDClassicalLabel"]
-                                + "fldArtists = " + param["CDClassicalArtists"] + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
+                                + "', fldArtists = '" + param["CDClassicalArtists"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDOrchestra":
-                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = " + param["CDClassicalLabel"]
-                                + "fldArtists = " + param["CDClassicalArtists"] + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
+                                + "', fldArtists = '" + param["CDClassicalArtists"] + "'WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE CDOrchestra SET " + "fldConductor = " + param["CDOrchestraConductor"];
+                            command.CommandText = "UPDATE CDOrchestra SET " + "fldConductor = '" + param["CDOrchestraConductor"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDChamber":
-                            command.CommandText = "UPDATE CDClassical SET " + "fldLabel = " + param["CDClassicalLabel"]
-                                + "fldArtists = " + param["CDClassicalArtists"] + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
+                                + "', fldArtists = '" + param["CDClassicalArtists"] + "'WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE CD Chamber SET " + "fldInstrumenList = " + param["CDChamberInstrumentList"]
-                                + "WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDChamber SET " + "fldInstrumentList = '" + param["CDChamberInstrumentList"]
+                                + "' WHERE fldUPC = " + UPC;
                             break;    
                     }
                     command.ExecuteNonQuery();
                     transaction.Commit();
                     return true;
-                } catch 
+                } catch (OleDbException ex)
                 {
-                    //nothing to update
+                    MessageBox.Show(ex.Message);
                 }
             }
             return false;
@@ -185,11 +182,9 @@ namespace BookCDDVD
 
         public bool deleteProduct(int UPC)
         {
-            string selectString = "DELETE FROM Product" + "WHERE fldUPC =" + UPC;
-
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
-                OleDbCommand command = new OleDbCommand(selectString, connection);
+                OleDbCommand command = new OleDbCommand();
                 OleDbTransaction transaction = null;
 
                 command.Connection = connection;
@@ -304,11 +299,35 @@ namespace BookCDDVD
                 }
                 else
                 {
-                    MessageBox.Show("FAILED TO FIND FROM UPC!!");
                 }
                 reader.Close();
             }
             return false;
+
+        }
+        public int getRowCount()
+        {
+            string selectString = "SELECT COUNT(*) FROM Product;";
+
+            using (OleDbConnection connection = new OleDbConnection(connectionString))
+            {
+                OleDbCommand command = new OleDbCommand(selectString, connection);
+
+                connection.Open();
+                OleDbDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+
+                    return reader.GetInt32(0);
+                }
+                else
+                {
+                    MessageBox.Show("FAILED TO RUN");
+                }
+                reader.Close();
+            }
+            return 0;
 
         }
     }
