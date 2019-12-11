@@ -111,7 +111,7 @@ namespace BookCDDVD
             }
         }
 
-        public bool updateProduct(int UPC, IDictionary<string, string> param, string type)
+        public bool updateProduct(int UPC, out IDictionary<string, string> param, out string type)
         {
             type = "";
             param = new Dictionary<string, string>();
@@ -140,13 +140,11 @@ namespace BookCDDVD
                     switch (type)
                     {
                         case "Book":
-                            command.CommandText =
-                                "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] + 
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] + 
                                 "fldPages = " + param["BookPages"] + "WHERE fldUPC = " + UPC;
                             break;
                         case "BookCIS":
-                            command.CommandText =
-                                "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] +
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = " + param["BookAuthor"] +
                                 "fldPages = " + param["BookPages"] + "WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
                             command.CommandText = "UPDATE BookCIS SET " + "fldCISArea = " + param["BookCISArea"]
@@ -312,35 +310,6 @@ namespace BookCDDVD
                 reader.Close();
             }
             return false;
-
-        }
-        public bool deleteProduct(int UPC)
-        {
-            return false;
-        }
-        public int getRowCount()
-        {
-            string selectString = "SELECT COUNT(*) FROM Product;";
-
-            using (OleDbConnection connection = new OleDbConnection(connectionString))
-            {
-                OleDbCommand command = new OleDbCommand(selectString, connection);
-
-                connection.Open();
-                OleDbDataReader reader = command.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    
-                    return reader.GetInt32(0);
-                }
-                else
-                {
-                    MessageBox.Show("FAILED TO RUN");
-                }
-                reader.Close();
-            }
-            return 0;
 
         }
     }

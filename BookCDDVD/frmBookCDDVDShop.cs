@@ -71,42 +71,29 @@ namespace BookCDDVD
 
         // this method handles some stuff that happens when the form loads
         private void frmBookCDDVDShop_Load(object sender, EventArgs e)
-        {        
+        {
             // hide the textboxes
             grpProduct.Visible = false;
 
             //Set the DVD Release Datepicker to today.
             dtDVDReleaseDate.MaxDate = DateTime.Today;
 
-            //Get the row count from the cb (Number of products)
-            int rowCount = dbTest.getRowCount();
-            if (rowCount > 0)
-            {
-                //If there's at least 1 product, enable the search button
-                lblUniqProducts.Text = rowCount.ToString();
-                btnSearch.Enabled = true;
-            }
-
             //Initialize the control tooltips
             setToolTips();
 
-                MessageBox.Show(type);
-            }
-            IDictionary<string, string> param = new Dictionary<string, string>();
+            string type = "BookCIS";
+
+     /*       IDictionary<string, string> param = new Dictionary<string, string>();
             param["productPrice"] = "200";
-            param["productTitle"] = "changes book title here";
+            param["productTitle"] = "if I see this mean it work";
             param["productQuantity"] = "120";
             param["BookISBN"] = "123456";
             param["BookAuthor"] = "Tai Nguyen";
             param["BookPages"] = "420";
-            param["BookCISAea"] = "Programming";
+            param["BookCISAea"] = "Programmingss";
 
-            
-
-            if (dbTest.updateProduct(66666, param, "BookCIS"))
-            {
-             
-            }
+            dbTest.updateProduct(66666, out param, out type);
+      */     
         } // end frmBookCDDVDShop_Load
 
 
@@ -360,7 +347,7 @@ namespace BookCDDVD
             {
                 //The update button was pressed!, use the updateProduct method to send the UPDATE statements to the DB.
 
-                dbTest.updateProduct(foundUPC, out type, out param);
+                dbTest.updateProduct(foundUPC, out param, out type);
 
                 //Hide the delete button since they're no longer editing
                 btnDelete.Visible = false;
@@ -508,8 +495,6 @@ namespace BookCDDVD
 
             //Inform the user of what's going on
             MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
-            //Reset the upc value set before
-            indexToDelete = 0;
             //Hide the delete button
             btnDelete.Visible = false;
 
