@@ -39,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.grpProduct = new System.Windows.Forms.GroupBox();
             this.grpCDChamber = new System.Windows.Forms.GroupBox();
+            this.txtCDChamberInstrumentList = new System.Windows.Forms.TextBox();
             this.lblInstruments = new System.Windows.Forms.Label();
             this.grpCDOrchestra = new System.Windows.Forms.GroupBox();
             this.txtCDOrchestraConductor = new System.Windows.Forms.TextBox();
@@ -83,7 +84,6 @@
             this.lblNumUnique = new System.Windows.Forms.Label();
             this.lblUniqProducts = new System.Windows.Forms.Label();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.txtCDChamberInstrumentList = new System.Windows.Forms.TextBox();
             this.grpControlsNewEntry.SuspendLayout();
             this.grpProduct.SuspendLayout();
             this.grpCDChamber.SuspendLayout();
@@ -221,6 +221,13 @@
             this.grpCDChamber.TabStop = false;
             this.grpCDChamber.Text = "CD Chamber Music";
             this.grpCDChamber.Visible = false;
+            // 
+            // txtCDChamberInstrumentList
+            // 
+            this.txtCDChamberInstrumentList.Location = new System.Drawing.Point(80, 23);
+            this.txtCDChamberInstrumentList.Name = "txtCDChamberInstrumentList";
+            this.txtCDChamberInstrumentList.Size = new System.Drawing.Size(185, 20);
+            this.txtCDChamberInstrumentList.TabIndex = 21;
             // 
             // lblInstruments
             // 
@@ -563,7 +570,6 @@
             // 
             // btnSearch
             // 
-            this.btnSearch.Enabled = false;
             this.btnSearch.Location = new System.Drawing.Point(364, 104);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(75, 23);
@@ -623,13 +629,6 @@
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // txtCDChamberInstrumentList
-            // 
-            this.txtCDChamberInstrumentList.Location = new System.Drawing.Point(80, 23);
-            this.txtCDChamberInstrumentList.Name = "txtCDChamberInstrumentList";
-            this.txtCDChamberInstrumentList.Size = new System.Drawing.Size(185, 20);
-            this.txtCDChamberInstrumentList.TabIndex = 21;
             // 
             // frmBookCDDVDShop
             // 
