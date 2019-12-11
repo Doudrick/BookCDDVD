@@ -111,10 +111,9 @@ namespace BookCDDVD
             }
         }
 
-        public bool updateProduct(int UPC, out IDictionary<string, string> param, out string type)
+        public bool updateProduct(int UPC, IDictionary<string, string> param, string type)
         {
-            type = "";
-            param = new Dictionary<string, string>();
+            
             string selectString = "UPDATE Product SET " + "fldPrice = " + param["productPrice"] + "fldTitle = " +
                 param["productTitle"] + "fldQuantity = " + param["productQuantity"] + "WHERE fldUPC =" + UPC;
 
