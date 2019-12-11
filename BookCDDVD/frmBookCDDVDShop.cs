@@ -83,7 +83,7 @@ namespace BookCDDVD
 
             string type = "BookCIS";
 
-     /*       IDictionary<string, string> param = new Dictionary<string, string>();
+            IDictionary<string, string> param = new Dictionary<string, string>();
             param["productPrice"] = "200";
             param["productTitle"] = "if I see this mean it work";
             param["productQuantity"] = "120";
@@ -92,8 +92,8 @@ namespace BookCDDVD
             param["BookPages"] = "420";
             param["BookCISAea"] = "Programmingss";
 
-            dbTest.updateProduct(66666, out param, out type);
-      */     
+            dbTest.updateProduct(66666, param, type);
+          
         } // end frmBookCDDVDShop_Load
 
 
@@ -347,7 +347,7 @@ namespace BookCDDVD
             {
                 //The update button was pressed!, use the updateProduct method to send the UPDATE statements to the DB.
 
-                dbTest.updateProduct(foundUPC, out param, out type);
+                dbTest.updateProduct(foundUPC, param, type);
 
                 //Hide the delete button since they're no longer editing
                 btnDelete.Visible = false;
