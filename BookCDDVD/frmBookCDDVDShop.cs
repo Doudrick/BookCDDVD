@@ -81,18 +81,7 @@ namespace BookCDDVD
             //Initialize the control tooltips
             setToolTips();
 
-            string type = "BookCIS";
-
-            IDictionary<string, string> param = new Dictionary<string, string>();
-            param["productPrice"] = "200";
-            param["productTitle"] = "if I see this mean it work";
-            param["productQuantity"] = "120";
-            param["BookISBN"] = "123456";
-            param["BookAuthor"] = "Tai Nguyen";
-            param["BookPages"] = "420";
-            param["BookCISAea"] = "Programmingss";
-
-            dbTest.updateProduct(66666, param, type);
+            lblUniqProducts.Text = dbTest.getRowCount().ToString();
           
         } // end frmBookCDDVDShop_Load
 

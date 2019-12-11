@@ -28,6 +28,7 @@ namespace BookCDDVD
         public frmSearchDialog()
         {
             InitializeComponent();
+            txtUPC.Focus();
         }
 
         private string UPC = "";
@@ -38,6 +39,7 @@ namespace BookCDDVD
             //Set the dialog result of this to OK, and close.
             UPC = txtUPC.Text;
             txtUPC.Text = "";
+            txtUPC.Focus();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -63,6 +65,11 @@ namespace BookCDDVD
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmSearchDialog_Load(object sender, EventArgs e)
+        {
+            txtUPC.Focus();
         }
     } // end frmSearchDialog
 } // end namespace BookCDDVD
