@@ -30,8 +30,6 @@ namespace BookCDDVD
         private List<Button> buttonList = new List<Button>(5);
 
         private ProductDB dbProducts = new ProductDB();
-        private NewDBHandler dbTest = new NewDBHandler();
-
 
         private bool editingTrigger = false;
         private int foundUPC = 0;
@@ -80,11 +78,11 @@ namespace BookCDDVD
             //Initialize the control tooltips
             setToolTips();
 
-            lblUniqProducts.Text = dbTest.getRowCount().ToString();
+            lblUniqProducts.Text = dbProducts.getRowCount().ToString();
 
 
-            dbTest.deleteProduct(12345, "CDOrchestra");
-            dbTest.deleteProduct(12345, "CDClassical");
+            dbProducts.deleteProduct(12345, "CDOrchestra");
+            dbProducts.deleteProduct(12345, "CDClassical");
 
 
         } // end frmBookCDDVDShop_Load
@@ -323,7 +321,7 @@ namespace BookCDDVD
             string outString = "";
             if (!editingTrigger)
             {
-                if (dbTest.InsertProduct(type, param, ref outString))
+                if (dbProducts.InsertProduct(type, param, ref outString))
                 {
                     MessageBox.Show(outString, "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -340,7 +338,7 @@ namespace BookCDDVD
             {
                 //The update button was pressed!, use the updateProduct method to send the UPDATE statements to the DB.
 
-                dbTest.updateProduct(foundUPC, param, type);
+                dbProducts.updateProduct(foundUPC, param, type);
 
                 //Hide the delete button since they're no longer editing
                 btnDelete.Visible = false;
@@ -382,7 +380,7 @@ namespace BookCDDVD
                         if (SearchDialog.getUPC().ToString().Length == 5 && Int32.TryParse(SearchDialog.getUPC(), out enteredUPC))
                         {
 
-                            if (dbTest.getProduct(enteredUPC, out string type, out IDictionary<string, string> outDict))
+                            if (dbProducts.getProduct(enteredUPC, out string type, out IDictionary<string, string> outDict))
                             {
 
                                 //Import the data from the Product table into the form
@@ -487,7 +485,7 @@ namespace BookCDDVD
             //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
 
             //Remove the product from the DB
-            if(dbTest.deleteProduct(foundUPC, foundType))
+            if(dbProducts.deleteProduct(foundUPC, foundType))
             {
                 lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) - 1).ToString();
                 //Clear the form. The product is now removed.

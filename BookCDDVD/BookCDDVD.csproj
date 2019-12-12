@@ -54,7 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\NewDBHandler.cs" />
+    <Compile Include="Classes\ProductDB.cs" />
     <Compile Include="Classes\Validation.cs" />
     <Compile Include="Dialog\frmSearchDialog.cs">
       <SubType>Form</SubType>
@@ -68,7 +68,6 @@
     <Compile Include="frmBookCDDVDShop.Designer.cs">
       <DependentUpon>frmBookCDDVDShop.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\ProductDB.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Dialog\frmSearchDialog.resx">
