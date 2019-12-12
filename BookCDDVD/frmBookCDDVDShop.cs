@@ -486,13 +486,8 @@ namespace BookCDDVD
             //Remove one product from the number of products we have using the return from the removeProduct method
             //lblUniqProducts.Text = (InStock.removeProduct(indexToDelete).ToString());
 
-            //Inform the user of what's going on
-            MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
-            //Hide the delete button
-            btnDelete.Visible = false;
-
             //Remove the product from the DB
-            if (dbTest.deleteProduct(foundUPC, foundType))
+            if(dbTest.deleteProduct(foundUPC, foundType))
             {
                 lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) - 1).ToString();
                 //Clear the form. The product is now removed.
@@ -508,6 +503,9 @@ namespace BookCDDVD
                 foundType = "";
                 //Hide the delete button
                 btnDelete.Visible = false;
+
+                //Inform the user of what's going on
+                MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
             }
         } // end btnDelete_Click
     } // end frmBookCDDVDShop

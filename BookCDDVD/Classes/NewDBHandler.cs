@@ -213,9 +213,6 @@ namespace BookCDDVD
                         case "DVD":
                             command.CommandText = "DELETE FROM DVD " + "' WHERE fldUPC = " + UPC;
                             break;
-                        case "CDClassical":
-                            command.CommandText = "DELETE FROM CDClassical " + "' WHERE fldUPC = " + UPC;
-                            break;
                         case "CDOrchestra":
                             command.CommandText = "DELETE FROM CDClassical " + "' WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
