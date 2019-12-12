@@ -180,7 +180,7 @@ namespace BookCDDVD
             return false;
         }
 
-        public bool deleteProduct(int UPC)
+        public bool deleteProduct(int UPC, string type)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -197,17 +197,43 @@ namespace BookCDDVD
                     command.Connection = connection;
                     command.Transaction = transaction;
 
-                    command.CommandText = "DELETE FROM Product" + "WHERE fldUPC =" + UPC;
+                    command.CommandText = "DELETE FROM Product" + "' WHERE fldUPC =" + UPC;
 
                     command.ExecuteNonQuery();
-                    
+                    switch (type)
+                    {
+                        case "Book":
+                            command.CommandText = "DELETE FROM Book" + "' WHERE fldUPC = " + UPC;
+                            break;
+                        case "BookCIS":
+                            command.CommandText = "DELETE FROM BookCIS" + "' WHERE fldUPC = " + UPC;
+                            command.ExecuteNonQuery();
+                            command.CommandText = "DELETE FROM Book" + "' WHERE fldUPC = " + UPC;
+                            break;
+                        case "DVD":
+                            command.CommandText = "DELETE FROM DVD " + "' WHERE fldUPC = " + UPC;
+                            break;
+                        case "CDClassical":
+                            command.CommandText = "DELETE FROM CDClassical " + "' WHERE fldUPC = " + UPC;
+                            break;
+                        case "CDOrchestra":
+                            command.CommandText = "DELETE FROM CDClassical " + "' WHERE fldUPC = " + UPC;
+                            command.ExecuteNonQuery();
+                            command.CommandText = "DELETE FROM CDOrchestra " + "' WHERE fldUPC = " + UPC;
+                            break;
+                        case "CDChamber":
+                            command.CommandText = "DELETE FROM CDClassical " + "'WHERE fldUPC = " + UPC;
+                            command.ExecuteNonQuery();
+                            command.CommandText = "DELETE FROM CDChamber " + "' WHERE fldUPC = " + UPC;
+                            break;
+                    }
                     command.ExecuteNonQuery();
                     transaction.Commit();
                     return true;
                 }
                 catch
                 {
-                    //nothing to update
+                    //nothing to catch
                 }
             }
             return false;
