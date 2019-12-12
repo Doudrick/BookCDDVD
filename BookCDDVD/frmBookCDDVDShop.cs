@@ -64,7 +64,6 @@ namespace BookCDDVD
             cbBookCISArea.Items.Add("Computer Sciences");
             cbBookCISArea.Items.Add("Information Sciences");
 
-
         } // end frmBookCDDVDShop
 
 
@@ -82,7 +81,12 @@ namespace BookCDDVD
             setToolTips();
 
             lblUniqProducts.Text = dbTest.getRowCount().ToString();
-          
+
+
+            dbTest.deleteProduct(12345, "CDOrchestra");
+            dbTest.deleteProduct(12345, "CDClassical");
+
+
         } // end frmBookCDDVDShop_Load
 
 
@@ -488,9 +492,9 @@ namespace BookCDDVD
             btnDelete.Visible = false;
 
             //Remove the product from the DB
-            //  Assuming it successfully happens, clear the form and inform the user.
-            if (dbTest.deleteProduct(foundUPC))
+            if (dbTest.deleteProduct(foundUPC, foundType))
             {
+                lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) - 1).ToString();
                 //Clear the form. The product is now removed.
                 clearForm();
 
