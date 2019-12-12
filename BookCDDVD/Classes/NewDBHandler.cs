@@ -197,25 +197,25 @@ namespace BookCDDVD
                     command.Connection = connection;
                     command.Transaction = transaction;
 
-                    command.CommandText = "DELETE FROM Product" + "' WHERE fldUPC =" + UPC;
+                    command.CommandText = "DELETE FROM Product" + " WHERE fldUPC =" + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM Book" + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM Book" + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM BookCIS" + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM BookCIS" + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM DVD " + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM DVD " + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM CDClassical " + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM CDClassical " + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM CDOrchestra " + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM CDOrchestra " + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
-                    command.CommandText = "DELETE FROM CDChamber " + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "DELETE FROM CDChamber " + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
                   
                   
