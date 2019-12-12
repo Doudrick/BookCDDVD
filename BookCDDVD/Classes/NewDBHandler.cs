@@ -201,13 +201,12 @@ namespace BookCDDVD
 
                     command.ExecuteNonQuery();
                     
-                    command.ExecuteNonQuery();
                     transaction.Commit();
                     return true;
                 }
-                catch
+                catch(OleDbException ex)
                 {
-                    //nothing to update
+                    MessageBox.Show("FAULT! SQL ERROR: " + ex.Message);
                 }
             }
             return false;
