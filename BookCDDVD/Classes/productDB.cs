@@ -11,8 +11,10 @@ namespace BookCDDVD
 {
     class ProductDB
     {
+	// createa a string that connec to the database
         string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../../ProductDB.accdb";
-
+	
+	// creating a insert method to insert product into the database
         public bool InsertProduct(string type, IDictionary<string, string> param, ref string outString)
         {
             int UPC = Int32.Parse(param["ProductUPC"]);
@@ -78,7 +80,7 @@ namespace BookCDDVD
                             command.CommandText = "INSERT INTO CDChamber (fldUPC, fldInstrumentList) " +
                                   "VALUES(" + UPC + ", '" + param["CDChamberInstrumentList"] + "');";
                             break;
-                    }
+                    } // end switch
                     
                     command.ExecuteNonQuery();
 
@@ -86,7 +88,8 @@ namespace BookCDDVD
                     transaction.Commit();
                     outString = "Product of type " + type + " with UPC of "+UPC+" added to database.";
                     return true;
-                }
+                } // end try
+
                 catch (OleDbException ex)
                 {
                     if(ex.Errors[0].SQLState.Equals(3022.ToString()))
@@ -105,12 +108,14 @@ namespace BookCDDVD
                         // Do nothing here; transaction is not active.
                     }
                     return false;
-                }
+                } // end catch
+
                 // The connection is automatically closed when the
                 // code exits the using block.
-            }
-        }
+            } // end using
+        } // end InsertProduct
 
+	// creating an update method to update the database information
         public bool updateProduct(int UPC, IDictionary<string, string> param, string type)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -127,11 +132,14 @@ namespace BookCDDVD
 
                     command.Connection = connection;
                     command.Transaction = transaction;
-
+			
+		    // update the product price, quantity, title
                     command.CommandText = "UPDATE Product SET " + "fldPrice = '" + param["ProductPrice"] + "', fldTitle = '" +
                         param["ProductTitle"] + "', fldQuantity = '" + param["ProductQuantity"] + "' WHERE fldUPC = " + UPC;
 
                     command.ExecuteNonQuery();
+	            
+		    // depend on the product the method will update whatever categories the product is
                     switch (type)
                     {
                         case "Book":
@@ -167,18 +175,25 @@ namespace BookCDDVD
                             command.CommandText = "UPDATE CDChamber SET " + "fldInstrumentList = '" + param["CDChamberInstrumentList"]
                                 + "' WHERE fldUPC = " + UPC;
                             break;    
-                    }
+                    } // end switch
+
                     command.ExecuteNonQuery();
+
+		    // commit transaction
                     transaction.Commit();
                     return true;
-                } catch (OleDbException ex)
+                } // end try
+
+		catch (OleDbException ex)
                 {
                     MessageBox.Show("SQL Error: " + ex.Message);
-                }
-            }
+                } // end catch
+            } // end using
             return false;
-        }
+        } // end updateProduct
+	
 
+	// this method delete the product in the database
         public bool deleteProduct(int UPC, string type)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -187,7 +202,8 @@ namespace BookCDDVD
                 OleDbTransaction transaction = null;
 
                 command.Connection = connection;
-
+		
+		// delete the product
                 try
                 {
                     connection.Open();
@@ -216,18 +232,21 @@ namespace BookCDDVD
                   
                     command.CommandText = "DELETE FROM CDChamber " + " WHERE fldUPC = " + UPC;
                     command.ExecuteNonQuery();
-                  
+                    
+		    // commit transaction
                     transaction.Commit();
                     return true;
-                }
+                } // end try
+
                 catch(OleDbException ex)
                 {
                     MessageBox.Show("SQL Error: " + ex.Message);
-                }
-            }
+                } // end catch
+            } // end using
             return false;
-        }
+        } // end deleteProduct
 
+	// this method get the information from the database to display on the form
         public bool getProduct(int UPC, out string type, out IDictionary<string, string> outDict)
         {
             type = "";
@@ -308,14 +327,15 @@ namespace BookCDDVD
                                 outDict["CDChamberInstrumentList"] = reader["fldInstrumentList"].ToString();
                             }
                             break;
-                    }
+                    } // end switch
                     return true;
-                }
+                } // end if
                 reader.Close();
-            }
+            } // end using
             return false;
+        } // end get product
 
-        }
+	// count how many product is in the database
         public int getRowCount()
         {
             string selectString = "SELECT COUNT(*) FROM Product;";
@@ -333,9 +353,9 @@ namespace BookCDDVD
                     return reader.GetInt32(0);
                 }
                 reader.Close();
-            }
+            } // end using
             return 0;
 
-        }
-    }
-}
+        } // end getRowCount
+    } // end class productDB
+} // end namespace BookCDDVD

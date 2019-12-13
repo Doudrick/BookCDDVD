@@ -21,8 +21,7 @@ using BookCDDVD;
 namespace BookCDDVD
 {
     public static class Validator
-    {
-       
+    {       
 
         // this method search the group categories user is looking for and show them
         public static void hideGroups(GroupBox toShow, List<GroupBox> groupList, Button delete, GroupBox product)
@@ -269,9 +268,5 @@ namespace BookCDDVD
             }
             return false;
         } // end checkOrchestralConductor
-
-    }
-    
-    
-
-}
+    } // end validator
+} // end namespace BookCDDVD
