@@ -141,7 +141,6 @@ namespace BookCDDVD
 
             // clear the form
             clearForm();
-
         } // end btnCreateaBookCIS
 
         // this method hide and enable textboxes for Create DVD button
@@ -168,7 +167,6 @@ namespace BookCDDVD
 
             // clear the form
             clearForm();
-
         } // end btnCreateaCDOrchestra
 
         // this method only show and enable textboxes for createa CD Chamber button
@@ -350,6 +348,7 @@ namespace BookCDDVD
             clearForm();
         }
 
+        // this button will insert product into the database after being click
         private void btnInsert_Click(object sender, EventArgs e)
         {
             // Validator the visible groupbox
@@ -368,6 +367,7 @@ namespace BookCDDVD
             frmSearchDialog SearchDialog = new frmSearchDialog();
 
             int enteredUPC = 0;
+
             //The searchbox will return a dialogresult of OK when the search button within it is clicked
             DialogResult result = DialogResult.Retry;
             while (result == DialogResult.Retry)
@@ -433,7 +433,7 @@ namespace BookCDDVD
                                         txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
                                         txtCDChamberInstrumentList.Text = outDict["CDChamberInstrumentList"];
                                         break;
-                                }
+                                } // end switch
                                 //Show the delete button and set the trigger for editing
                                 //
                                 //
@@ -451,32 +451,31 @@ namespace BookCDDVD
                             else
                             {
                                 throw new Exception("The UPC was not found in the Database");
-                            }
-                        }
+                            } // end else
+                        } // end if
                         else
                         {
                             throw new Exception("Invalid UPC Was Entered.");
-                        }
-                    }
+                        } // end else
+                    } // 
                     else
                     {
                         throw new Exception("Search Cancelled.");
-                    }
+                    } // end else
                     break;
-
-                }
+                } // end try
                 catch(Exception ex)
                 {
                     result = MessageBox.Show(ex.Message, "Search Failed!", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation);
 
                     if (result == DialogResult.Cancel) break;
-                }
-            }
+                } // end catch
+            } // end while
             //Dispose of the search dialog since we're done with it
             SearchDialog.Dispose();
         } // end btnSearch_Click
 
-
+        // this button delete a product from the database
         private void btnDelete_Click(object sender, EventArgs e)
         {
             clearForm();

@@ -115,7 +115,7 @@ namespace BookCDDVD
             } // end using
         } // end InsertProduct
 
-	// creating an update method to update the database information
+	    // creating an update method to update the database information
         public bool updateProduct(int UPC, IDictionary<string, string> param, string type)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -123,23 +123,28 @@ namespace BookCDDVD
                 OleDbCommand command = new OleDbCommand();
                 OleDbTransaction transaction = null;
 
+                // Set the Connection to the new OleDbConnection.
                 command.Connection = connection;
 
                 try
                 {
+                    // open a connection
                     connection.Open();
+
+                    // Start a local transaction with ReadCommitted isolation level.
                     transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
 
+                    // Assign transaction object for a pending local transaction.
                     command.Connection = connection;
                     command.Transaction = transaction;
-			
-		    // update the product price, quantity, title
+
+                    // Execute the commands.
                     command.CommandText = "UPDATE Product SET " + "fldPrice = '" + param["ProductPrice"] + "', fldTitle = '" +
                         param["ProductTitle"] + "', fldQuantity = '" + param["ProductQuantity"] + "' WHERE fldUPC = " + UPC;
 
                     command.ExecuteNonQuery();
 	            
-		    // depend on the product the method will update whatever categories the product is
+		            // depend on the product the method will update whatever categories the product is
                     switch (type)
                     {
                         case "Book":
@@ -179,7 +184,7 @@ namespace BookCDDVD
 
                     command.ExecuteNonQuery();
 
-		    // commit transaction
+		            // commit transaction
                     transaction.Commit();
                     return true;
                 } // end try
@@ -193,7 +198,7 @@ namespace BookCDDVD
         } // end updateProduct
 	
 
-	// this method delete the product in the database
+	    // this method delete the product in the database
         public bool deleteProduct(int UPC, string type)
         {
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -201,17 +206,22 @@ namespace BookCDDVD
                 OleDbCommand command = new OleDbCommand();
                 OleDbTransaction transaction = null;
 
+                // Set the Connection to the new OleDbConnection.
                 command.Connection = connection;
 		
-		// delete the product
+		        // delete the product
                 try
                 {
+                    // open a connection
                     connection.Open();
+
+                    // Start a local transaction with ReadCommitted isolation level.
                     transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     command.Connection = connection;
                     command.Transaction = transaction;
 
+                    // Execute the commands.
                     command.CommandText = "DELETE FROM Product" + " WHERE fldUPC =" + UPC;
                     command.ExecuteNonQuery();
                   
