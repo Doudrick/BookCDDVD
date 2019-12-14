@@ -24,15 +24,15 @@ namespace BookCDDVD
 {
     public partial class frmSearchDialog : Form
     {
-       
         public frmSearchDialog()
         {
             InitializeComponent();
             txtUPC.Focus();
-        }
+        } // end frmSearchDialog
 
         private string UPC = "";
 
+        // this button search after being click
         private void btnSearchSubmit_Click(object sender, EventArgs e)
         {
             //When the search button is clicked, set the public variable equal to the entered UPC.
@@ -42,7 +42,7 @@ namespace BookCDDVD
             txtUPC.Focus();
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
+        } // end btnSearchSubmit
 
         //You're searching for 5 UPCs, or you aren't searching at all.
         private void txtUPC_TextChanged(object sender, EventArgs e)
@@ -54,22 +54,25 @@ namespace BookCDDVD
             else
             {
                 btnSearchSubmit.Enabled = false;
-            }
+            } // end else
         } // end txtUPC_TextChanged 
 
+        // return a upc
         public string getUPC()
         {
             return UPC;
-        }
+        } // end getUPC
 
+        // this button cancel the search
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
+        } // end btnCancel_Click
 
+        // load search form
         private void frmSearchDialog_Load(object sender, EventArgs e)
         {
             txtUPC.Focus();
-        }
+        } // end frmSearchDialog_Load
     } // end frmSearchDialog
 } // end namespace BookCDDVD
