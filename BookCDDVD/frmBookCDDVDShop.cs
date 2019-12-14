@@ -474,7 +474,6 @@ namespace BookCDDVD
                     if (result == DialogResult.Cancel) break;
                 }
             }
-            
             //Dispose of the search dialog since we're done with it
             SearchDialog.Dispose();
         } // end btnSearch_Click
@@ -490,8 +489,6 @@ namespace BookCDDVD
             if(dbTest.deleteProduct(foundUPC, foundType))
             {
                 lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) - 1).ToString();
-                //Clear the form. The product is now removed.
-                clearForm();
 
                 MessageBox.Show("Product removed from inventory.");
 
