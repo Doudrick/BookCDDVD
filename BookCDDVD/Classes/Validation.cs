@@ -8,6 +8,8 @@
  * Project 4: BookCDDVDShop
  * 
  * 
+ * Updated 12/13/2019 - Fix leading zeros being allowed : Tyler Doudrick
+ * 
  */
 
 using System;
@@ -128,19 +130,21 @@ namespace BookCDDVD
             string checkQuantity = Convert.ToString(Quantity.Text);
 
             // return an error message if the input is empty, longer or shorter then 5, or is a letter
-            if (checkUPC.Equals("") || checkUPC.Length < 5 || (!int.TryParse(checkUPC, out num)))
+
+            //Also check if the parsed int also has a length of 5 (handles leading zeros)
+            if (checkUPC.Equals("") || checkUPC.Length != 5 || (!int.TryParse(checkUPC, out num)) || num.ToString().Length != 5)
             {
                 UPC.Clear();
                 MessageBox.Show("Please Enter A Valid, 5 Digit UPC");
             }
             // return an error message if the input is empty or is a letter
-            else if (checkPrice.Equals("") || (!decimal.TryParse(checkPrice, out num1)))
+            else if (checkPrice.Equals("") || (!decimal.TryParse(checkPrice, out num1)) || num <= 0)
             {
                 Price.Clear();
                 MessageBox.Show("Please Enter a valid Price");
             }
             // return an error message if the input is empty or is a letter
-            else if (checkQuantity.Equals("") || (!int.TryParse(checkQuantity, out num)))
+            else if (checkQuantity.Equals("") || (!int.TryParse(checkQuantity, out num)) || num <= 0)
             {
                 Quantity.Clear();
                 MessageBox.Show("Please Enter a valid Quantity");
@@ -168,14 +172,18 @@ namespace BookCDDVD
 
             // return a error message if user is not inputing information or the input is 
             // long then 3, shorter then 3, or a letter
-            if (checkISBNL.Equals("") || checkISBNL.Length < 3 || (!int.TryParse(checkISBNL, out num)))
+
+            //Also check if the parsed int also has a length of 3 (handles leading zeros)
+            if (checkISBNL.Equals("") || checkISBNL.Length < 3 || (!int.TryParse(checkISBNL, out num)) || num.ToString().Length != 3)
             {
                 ISBNL.Clear();
                 MessageBox.Show("Please Enter a Valid, 3 Digit ISBN in the Left text box");
             }
             // return a error message if user is not inputing information or the input is 
             // long then 3, shorter then 3, or a letter
-            else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || (!int.TryParse(checkISBNR, out num)))
+
+            //Also check if the parsed int also has a length of 3 (handles leading zeros)
+            else if (checkISBNR.Equals("") || checkISBNR.Length < 3 || (!int.TryParse(checkISBNR, out num)) || num.ToString().Length != 3)
             {
                 ISBNR.Clear();
                 MessageBox.Show("Please Enter a Valid, 3 Digit ISBN in the Right text box");
@@ -187,7 +195,7 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a valid Author name");
             }
             // return the error message if the input is empty or is a letter
-            else if (checkPages.Equals("") || (!int.TryParse(checkPages, out num)))
+            else if (checkPages.Equals("") || (!int.TryParse(checkPages, out num)) || num <= 0)
             {
                 Pages.Clear();
                 MessageBox.Show("Please Enter a Valid Page Number");
@@ -204,7 +212,6 @@ namespace BookCDDVD
         {
             int num = -1;
             string checkLeadActor = Convert.ToString(leadActor.Text);
-            int checkrunTime = Convert.ToInt32(runTime.Text);
 
             // return an error message if the leadactor textbox are empty or is a number
             if (checkLeadActor.Equals(""))
@@ -213,8 +220,7 @@ namespace BookCDDVD
                 MessageBox.Show("Please Enter a Valid Lead Actor name");
             }
             // return an error message if  the run time is empty, less then 0 or more  then 120 minutes
-            else if (checkrunTime.Equals("") || checkrunTime < 0 || checkrunTime > 120 ||
-                (!int.TryParse(checkrunTime.ToString(), out num)))
+            else if (runTime.Text.Equals("") || (!int.TryParse(runTime.Text, out num)) || num <= 0 || num > 120)
             {
                 runTime.Clear();
                 MessageBox.Show("Please enter a Valid Run Time");

@@ -1,12 +1,32 @@
 ﻿
 /*
  * 
+ * 
  * Tyler Doudrick
  * Tai Nguyen
  * 11/23/2019
- * Codebehind for main Form
+ * Codebehind for Main Form
  * Project 4: BookCDDVDShop Stage II
  * 
+ * 
+ * ******NOTE TO GRADERS******
+ * 
+ * This Project doesn't require classes for the different types of products now that the database has been introduced.
+ *          This fact was confirmed with Frank, so now our program does not use product classes or their children.
+ *          Instead, the database handler was rewritten, and everything is handled using dictionaries.
+ *          
+ *          This saves the useless step of grabbing information from the DB, building an object from it,
+ *          and then immediately destructuring the object to add its contents to the form.
+ *          
+ *          The DB Handler was rewritten to be more efficient using transactions where possible instead
+ *          of opening and reopening the SQL connections, and SQL connections are opened/closed via the 
+ *          'using' keyword.
+ *          
+ *          Methods to insert a product have been condensed into one, making it much more palatable. 
+ * 
+ * Anyway, we have permission from Frank to do it this way due to ambigious requirements at the start.
+ * 
+ * Cheers :)
  * 
  */
 
@@ -241,10 +261,10 @@ namespace BookCDDVD
 
             if (Validator.checkProduct(txtProductUPC, txtProductPrice, txtProductTitle, txtProductQuantity))
             {
-                dict["ProductUPC"] = txtProductUPC.Text;
-                dict["ProductPrice"] = txtProductPrice.Text;
-                dict["ProductTitle"] = txtProductTitle.Text;
-                dict["ProductQuantity"] = txtProductQuantity.Text;
+                dict["fldUPC"] = txtProductUPC.Text;
+                dict["fldPrice"] = txtProductPrice.Text;
+                dict["fldTitle"] = txtProductTitle.Text;
+                dict["fldQuantity"] = txtProductQuantity.Text;
 
                 // if groupbox book are visible or groupbox book and bookCIS are visible, check the input validation
                 //After checking validation, set the values in the dictionary. Then create the product.
@@ -253,14 +273,13 @@ namespace BookCDDVD
                 {
                     if (Validator.checkBook(txtBookISBNLeft, txtBookISBNRight, txtBookAuthor, txtBookPages))
                     {
-                        dict["ISBNLeft"] = txtBookISBNLeft.Text;
-                        dict["ISBNRight"] = txtBookISBNRight.Text;
-                        dict["BookAuthor"] = txtBookAuthor.Text;
-                        dict["BookPages"] = txtBookPages.Text;
+                        dict["fldISBN"] = txtBookISBNLeft.Text + txtBookISBNRight.Text;
+                        dict["fldAuthor"] = txtBookAuthor.Text;
+                        dict["fldPages"] = txtBookPages.Text;
 
                         if (Validator.checkVisibleGroup(grpBookCIS))
                         {
-                            dict["BookCISArea"] = cbBookCISArea.Text;
+                            dict["fldCISArea"] = cbBookCISArea.Text;
                             createProduct("BookCIS", dict);
                         }
                         else
@@ -277,9 +296,9 @@ namespace BookCDDVD
                 {
                     if (Validator.checkDVD(txtDVDLeadActor, txtDVDRunTime))
                     {
-                        dict["DVDLeadActor"] = txtDVDLeadActor.Text;
-                        dict["DVDReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
-                        dict["DVDRuntime"] = txtDVDRunTime.Text;
+                        dict["fldLeadActor"] = txtDVDLeadActor.Text;
+                        dict["fldReleaseDate"] = dtDVDReleaseDate.Value.ToShortDateString();
+                        dict["fldRunTime"] = txtDVDRunTime.Text;
                         createProduct("DVD", dict);
                     }
                 }
@@ -290,9 +309,9 @@ namespace BookCDDVD
                 {
                     if (Validator.checkCDClassical(txtCDClassicalLabel, txtCDClassicalArtists))
                     {
-                        dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
-                        dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
-                        dict["CDChamberInstrumentList"] = txtCDChamberInstrumentList.Text;
+                        dict["fldLabel"] = txtCDClassicalLabel.Text;
+                        dict["fldArtists"] = txtCDClassicalArtists.Text;
+                        dict["fldInstrumentList"] = txtCDChamberInstrumentList.Text;
                         createProduct("CDChamber", dict);
                     }
                 }
@@ -303,9 +322,9 @@ namespace BookCDDVD
                 {
                     if (Validator.checkOrchestralConductor(txtCDOrchestraConductor))
                     {
-                        dict["CDClassicalLabel"] = txtCDClassicalLabel.Text;
-                        dict["CDClassicalArtists"] = txtCDClassicalArtists.Text;
-                        dict["CDOrchestraConductor"] = txtCDOrchestraConductor.Text;
+                        dict["fldLabel"] = txtCDClassicalLabel.Text;
+                        dict["fldArtists"] = txtCDClassicalArtists.Text;
+                        dict["fldConductor"] = txtCDOrchestraConductor.Text;
                         createProduct("CDOrchestra", dict);
                     }
                 }
@@ -385,9 +404,9 @@ namespace BookCDDVD
 
                                 //Import the data from the Product table into the form
                                 txtProductUPC.Text = enteredUPC.ToString();
-                                txtProductTitle.Text = outDict["ProductTitle"];
-                                txtProductQuantity.Text = outDict["ProductQuantity"];
-                                txtProductPrice.Text = outDict["ProductPrice"];
+                                txtProductTitle.Text = outDict["fldTitle"];
+                                txtProductQuantity.Text = outDict["fldQuantity"];
+                                txtProductPrice.Text = outDict["fldPrice"];
 
                                 foundUPC = enteredUPC;
                                 foundType = type;
@@ -401,37 +420,41 @@ namespace BookCDDVD
 
                                     case "Book":
                                         Validator.hideGroups(grpBook, groupList, btnDelete, grpProduct);
-                                        txtBookAuthor.Text = outDict["BookAuthor"];
-                                        txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
-                                        txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
-                                        txtBookPages.Text = outDict["BookPages"];
+                                        txtBookAuthor.Text = outDict["fldAuthor"];
+                                        txtBookISBNLeft.Text = outDict["fldISBN"].Substring(0, 3);
+                                        txtBookISBNRight.Text = outDict["fldISBN"].Substring(3);
+                                        txtBookPages.Text = outDict["fldPages"];
                                         break;
                                     case "BookCIS":
                                         Validator.hideGroups(grpBook, grpBookCIS, groupList, btnDelete, grpProduct);
-                                        txtBookAuthor.Text = outDict["BookAuthor"];
-                                        txtBookISBNLeft.Text = outDict["BookISBN"].Substring(0, 3);
-                                        txtBookISBNRight.Text = outDict["BookISBN"].Substring(3);
-                                        txtBookPages.Text = outDict["BookPages"];
-                                        cbBookCISArea.SelectedIndex = cbBookCISArea.FindStringExact(outDict["BookCISArea"]);
+                                        txtBookAuthor.Text = outDict["fldAuthor"];
+                                        txtBookISBNLeft.Text = outDict["fldISBN"].Substring(0, 3);
+                                        txtBookISBNRight.Text = outDict["fldISBN"].Substring(3);
+                                        MessageBox.Show(outDict["fldISBN"]);
+                                        txtBookPages.Text = outDict["fldPages"];
+                                        cbBookCISArea.SelectedIndex = cbBookCISArea.FindStringExact(outDict["fldCISArea"]);
+                                        
                                         break;
                                     case "DVD":
                                         Validator.hideGroups(grpDVD, groupList, btnDelete, grpProduct);
-                                        txtDVDLeadActor.Text = outDict["DVDLeadActor"];
-                                        txtDVDRunTime.Text = outDict["DVDRunTime"];
-                                        dtDVDReleaseDate.Value = DateTime.ParseExact(outDict["DVDReleaseDate"], "dd/MM/yyyy", null);
+                                        txtDVDLeadActor.Text = outDict["fldLeadActor"];
+                                        txtDVDRunTime.Text = outDict["fldRunTime"];
+
+                                        outDict["fldReleaseDate"] = Convert.ToDateTime(outDict["fldReleaseDate"]).ToString("dd/MM/yyyy");
+                                        dtDVDReleaseDate.Value = DateTime.ParseExact(outDict["fldReleaseDate"], "dd/MM/yyyy", null);
                                         break;
                                     case "CDOrchestra":
                                         Validator.hideGroups(grpCDClassical, grpCDOrchestra, groupList, btnDelete, grpProduct);
-                                        txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
-                                        txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
-                                        txtCDOrchestraConductor.Text = outDict["CDOrchestraConductor"];
+                                        txtCDClassicalLabel.Text = outDict["fldLabel"];
+                                        txtCDClassicalArtists.Text = outDict["fldArtists"];
+                                        txtCDOrchestraConductor.Text = outDict["fldConductor"];
 
                                         break;
                                     case "CDChamber":
                                         Validator.hideGroups(grpCDClassical, grpCDChamber, groupList, btnDelete, grpProduct);
-                                        txtCDClassicalLabel.Text = outDict["CDClassicalLabel"];
-                                        txtCDClassicalArtists.Text = outDict["CDClassicalArtists"];
-                                        txtCDChamberInstrumentList.Text = outDict["CDChamberInstrumentList"];
+                                        txtCDClassicalLabel.Text = outDict["fldLabel"];
+                                        txtCDClassicalArtists.Text = outDict["fldArtists"];
+                                        txtCDChamberInstrumentList.Text = outDict["fldInstrumentList"];
                                         break;
                                 } // end switch
                                 //Show the delete button and set the trigger for editing
@@ -487,7 +510,7 @@ namespace BookCDDVD
             {
                 lblUniqProducts.Text = (Int32.Parse(lblUniqProducts.Text) - 1).ToString();
 
-                MessageBox.Show("Product removed from inventory.");
+                MessageBox.Show("Product removed from inventory. There are now " + lblUniqProducts.Text +" products in inventory.");
 
                 //Reset the upc value found before
                 foundUPC = 0;
@@ -498,8 +521,6 @@ namespace BookCDDVD
                 //Hide the delete button
                 btnDelete.Visible = false;
 
-                //Inform the user of what's going on
-                MessageBox.Show("Successfully removed this product from Inventory.\n If you would like to edit it, do so now.\nOtherwise, clear the form.");
             }
         } // end btnDelete_Click
     } // end frmBookCDDVDShop

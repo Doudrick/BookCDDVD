@@ -8,6 +8,8 @@
  * Project 4: BookCDDVDShop
  * 
  * 
+ * Dialog Box for Searching
+ * 
  */
 
 using System;

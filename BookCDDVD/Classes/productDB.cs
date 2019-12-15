@@ -1,4 +1,29 @@
-﻿using System;
+﻿/*
+ * 
+ * Tyler Doudrick
+ * Tai Nguyen
+ * 11/23/2019
+ * DB Handler
+ * Project 4: BookCDDVDShop
+ * 
+ * The original DB class given by Frank was a total mess of code.
+ * My plan was to rewrite it using transactions and method overriding
+ *      
+ *      {Ex. public void insertProduct(Product input)
+ *      public void insertProduct(Book input)
+ *      public void insertProduct(BookCIS input)}
+ *      
+ *      in order to avoid calling 20 different methods and trying to figure it all out.
+ *      
+ *      Once we came to the conclusion that we don't need the classes, I ended up with this,
+ *      which is super easy. -- Tyler
+ *     
+ * 
+ */
+
+
+
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
@@ -11,22 +36,26 @@ namespace BookCDDVD
 {
     class ProductDB
     {
-	// createa a string that connec to the database
+	// Connection string for the DB using the OLEDB 12 Provider.
         string connectionString = "provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=../../ProductDB.accdb";
 	
-	// creating a insert method to insert product into the database
+	// Insert a Product into the DB. Takes the producct type and a dictionary of parameters. Has a ref
+    //      string which is useful for passing info back to the form
         public bool InsertProduct(string type, IDictionary<string, string> param, ref string outString)
         {
-            int UPC = Int32.Parse(param["ProductUPC"]);
-            decimal price = Decimal.Parse(param["ProductPrice"]);
-            string title = param["ProductTitle"];
-            int quantity = Int32.Parse(param["ProductQuantity"]);
+            int UPC = Int32.Parse(param["fldUPC"]);
+            decimal price = Decimal.Parse(param["fldPrice"]);
+            string title = param["fldTitle"];
+            int quantity = Int32.Parse(param["fldQuantity"]);
 
             outString = "";
+
             using (OleDbConnection connection =
                        new OleDbConnection(connectionString))
             {
                 OleDbCommand command = new OleDbCommand();
+
+                //Create a transaction to store all queries until a commit occurs. 
                 OleDbTransaction transaction = null;
 
                 // Set the Connection to the new OleDbConnection.
@@ -53,32 +82,32 @@ namespace BookCDDVD
                         //For each type, execute the insert(s) for that table
                         case "Book":
                             command.CommandText = "INSERT INTO Book (fldUPC, fldISBN, fldAuthor, fldPages) " +
-                                "VALUES(" + UPC + ", '" + (param["ISBNLeft"]+param["ISBNRight"]) + "', '" + param["BookAuthor"] + "', " + param["BookPages"] + " );";
+                                "VALUES(" + UPC + ", '" + (param["fldISBN"]) + "', '" + param["fldAuthor"] + "', " + param["fldPages"] + " );";
                             break;
                         case "BookCIS":
                             command.CommandText = "INSERT INTO Book (fldUPC, fldISBN, fldAuthor, fldPages) " +
-                                "VALUES(" + UPC + ", '" + (param["ISBNLeft"] + param["ISBNRight"]) + "', '" + param["BookAuthor"] + "', " + param["BookPages"] + " );";
+                                "VALUES(" + UPC + ", '" + (param["fldISBN"]) + "', '" + param["fldAuthor"] + "', " + param["fldPages"] + " );";
                             command.ExecuteNonQuery();
                             command.CommandText = "INSERT INTO BookCIS (fldUPC, fldCISArea) " +
-                                "VALUES(" + UPC + ", '" + param["BookCISArea"] + "' );";
+                                "VALUES(" + UPC + ", '" + param["fldCISArea"] + "' );";
                             break;
                         case "DVD":
                             command.CommandText = "INSERT INTO DVD (fldUPC, fldLeadActor, fldReleaseDate, fldRunTime) " +
-                                 "VALUES(" + UPC + ", '" + param["DVDLeadActor"] + "', '" + param["DVDReleaseDate"] + "', " + param["DVDRuntime"] + " );";
+                                 "VALUES(" + UPC + ", '" + param["fldLeadActor"] + "', '" + param["fldReleaseDate"] + "', " + param["fldRunTime"] + " );";
                             break;
                         case "CDOrchestra":
                             command.CommandText = "INSERT INTO CDClassical (fldUPC, fldLabel, fldArtists) " +
-                                 "VALUES(" + UPC + ", '" + param["CDClassicalLabel"] + "', '" + param["CDClassicalArtists"] + "' );";
+                                 "VALUES(" + UPC + ", '" + param["fldLabel"] + "', '" + param["fldArtists"] + "' );";
                             command.ExecuteNonQuery();
                             command.CommandText = "INSERT INTO CDOrchestra (fldUPC, fldConductor) " +
-                                 "VALUES(" + UPC + ", '" + param["CDOrchestraConductor"] + "') ;";
+                                 "VALUES(" + UPC + ", '" + param["fldConductor"] + "') ;";
                             break;
                         case "CDChamber":
                             command.CommandText = "INSERT INTO CDClassical (fldUPC, fldLabel, fldArtists) " +
-                                  "VALUES(" + UPC + ", '" + param["CDClassicalLabel"] + "', '" + param["CDClassicalArtists"] + "' );";
+                                  "VALUES(" + UPC + ", '" + param["fldLabel"] + "', '" + param["fldArtists"] + "' );";
                             command.ExecuteNonQuery();
                             command.CommandText = "INSERT INTO CDChamber (fldUPC, fldInstrumentList) " +
-                                  "VALUES(" + UPC + ", '" + param["CDChamberInstrumentList"] + "');";
+                                  "VALUES(" + UPC + ", '" + param["fldInstrumentList"] + "');";
                             break;
                     } // end switch
                     
@@ -86,12 +115,17 @@ namespace BookCDDVD
 
                     // Commit the transaction.
                     transaction.Commit();
+
+                    //If it worked, the out string is now set to tell the user that it worked.
+
                     outString = "Product of type " + type + " with UPC of "+UPC+" added to database.";
                     return true;
                 } // end try
 
                 catch (OleDbException ex)
                 {
+                    //Something broke! If the Error Number is 3022 in particular, it means that the primary key already exists
+                    //      Meaning the UPC already exists in the system.
                     if(ex.Errors[0].SQLState.Equals(3022.ToString()))
                     {
                         outString = "Failed to insert product.\nThe UPC entered already exists in the database.\nPlease enter a unique UPC!";
@@ -139,8 +173,8 @@ namespace BookCDDVD
                     command.Transaction = transaction;
 
                     // Execute the commands.
-                    command.CommandText = "UPDATE Product SET " + "fldPrice = '" + param["ProductPrice"] + "', fldTitle = '" +
-                        param["ProductTitle"] + "', fldQuantity = '" + param["ProductQuantity"] + "' WHERE fldUPC = " + UPC;
+                    command.CommandText = "UPDATE Product SET " + "fldPrice = '" + param["fldPrice"] + "', fldTitle = '" +
+                        param["fldTitle"] + "', fldQuantity = '" + param["fldQuantity"] + "' WHERE fldUPC = " + UPC;
 
                     command.ExecuteNonQuery();
 	            
@@ -148,36 +182,36 @@ namespace BookCDDVD
                     switch (type)
                     {
                         case "Book":
-                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["BookAuthor"] + 
-                                "', fldPages = '" + param["BookPages"] + "' WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["fldAuthor"] +
+                                "', fldPages = '" + param["fldPages"] + "', fldISBN = '" + param["fldISBN"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "BookCIS":
-                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["BookAuthor"] +
-                                "', fldPages = '" + param["BookPages"] + "' WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE Book SET " + "fldAuthor = '" + param["fldAuthor"] +
+                            "', fldPages = '" + param["fldPages"] + "', fldISBN = '" + param["fldISBN"] + "' WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE BookCIS SET " + "fldCISArea = '" + param["BookCISArea"]
+                            command.CommandText = "UPDATE BookCIS SET " + "fldCISArea = '" + param["fldCISArea"]
                                 + "' WHERE fldUPC = " + UPC;
                             break;
                         case "DVD":
-                            command.CommandText = "UPDATE DVD Set " + "fldLeadActor = '" + param["DVDLeadActor"]
-                                + "', fldReleaseDate = '" + param["DVDReleaseDate"] + "', fldRunTime = '" + param["DVDRuntime"]
+                            command.CommandText = "UPDATE DVD Set " + "fldLeadActor = '" + param["fldLeadActor"]
+                                + "', fldReleaseDate = '" + param["fldReleaseDate"] + "', fldRunTime = '" + param["fldRunTime"]
                                 + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDClassical":
-                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
-                                + "', fldArtists = '" + param["CDClassicalArtists"] + "' WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["fldLabel"]
+                                + "', fldArtists = '" + param["fldArtists"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDOrchestra":
-                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
-                                + "', fldArtists = '" + param["CDClassicalArtists"] + "'WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["fldLabel"]
+                                + "', fldArtists = '" + param["fldArtists"] + "'WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE CDOrchestra SET " + "fldConductor = '" + param["CDOrchestraConductor"] + "' WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDOrchestra SET " + "fldConductor = '" + param["fldConductor"] + "' WHERE fldUPC = " + UPC;
                             break;
                         case "CDChamber":
-                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["CDClassicalLabel"]
-                                + "', fldArtists = '" + param["CDClassicalArtists"] + "'WHERE fldUPC = " + UPC;
+                            command.CommandText = "UPDATE CDClassical Set " + "fldLabel = '" + param["fldLabel"]
+                                + "', fldArtists = '" + param["fldArtists"] + "'WHERE fldUPC = " + UPC;
                             command.ExecuteNonQuery();
-                            command.CommandText = "UPDATE CDChamber SET " + "fldInstrumentList = '" + param["CDChamberInstrumentList"]
+                            command.CommandText = "UPDATE CDChamber SET " + "fldInstrumentList = '" + param["fldInstrumentList"]
                                 + "' WHERE fldUPC = " + UPC;
                             break;    
                     } // end switch
@@ -209,7 +243,7 @@ namespace BookCDDVD
                 // Set the Connection to the new OleDbConnection.
                 command.Connection = connection;
 		
-		        // delete the product
+		        // Carpet bomb all of the tables. We don't care if the product is in that table or not.
                 try
                 {
                     // open a connection
@@ -269,75 +303,50 @@ namespace BookCDDVD
 
                 connection.Open();
                 OleDbDataReader reader = command.ExecuteReader();
+                //No transaction for this one. The type of product is queried from the products table first
+                //That product type is used for a case/switch to determine which query gets used
+                //To make it simple, the queries use inner joins for products that exist on more than one table.
 
+                //The SQL string is first set, then at the end of the switch, it is executed.
                 if (reader.Read())
                 {
-                    type = reader["fldProductType"].ToString();
 
-                    outDict["ProductUPC"] = UPC.ToString();
-                    outDict["ProductPrice"] = reader["fldPrice"].ToString();
-                    outDict["ProductTitle"] = reader["fldTitle"].ToString();
-                    outDict["ProductQuantity"] = reader["fldQuantity"].ToString();
-                    switch (type)
+                    //The dictionary gets filled with the table values using the field names as keys for consistency.
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            outDict[reader.GetName(i)] = reader[i].ToString();
+                        }
+                    type = outDict["fldProductType"];
+                    switch (outDict["fldProductType"])
                     {
                         case "Book":
                             selectString = "SELECT * FROM Book WHERE fldUPC=" + UPC;
-                            command = new OleDbCommand(selectString, connection);
-                            reader = command.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                outDict["BookISBN"] = reader["fldISBN"].ToString();
-                                outDict["BookAuthor"] = reader["fldAuthor"].ToString();
-                                outDict["BookPages"] = reader["fldPages"].ToString();
-                            }
                             break;
                         case "BookCIS":
                             selectString = "SELECT * FROM BookCIS INNER JOIN BOOK ON BOOKCIS.fldUPC = BOOK.fldUPC WHERE BookCIS.fldUPC="+UPC;
-                            command = new OleDbCommand(selectString, connection);
-                            reader = command.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                outDict["BookISBN"] = reader["fldISBN"].ToString();
-                                outDict["BookAuthor"] = reader["fldAuthor"].ToString();
-                                outDict["BookPages"] = reader["fldPages"].ToString();
-                                outDict["BookCISArea"] = reader["fldCISArea"].ToString();
-                                outDict["BookPages"] = reader["fldPages"].ToString();
-                            }
                             break;
                         case "DVD":
                             selectString = "SELECT * FROM DVD WHERE fldUPC=" + UPC;
-                            command = new OleDbCommand(selectString, connection);
-                            reader = command.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                outDict["DVDLeadActor"] = reader["fldLeadActor"].ToString();
-                                outDict["DVDReleaseDate"] = Convert.ToDateTime(reader["fldReleaseDate"]).ToString("dd/MM/yyyy");
-                                outDict["DVDRunTime"] = reader["fldRunTime"].ToString();
-                            }
                             break;
                         case "CDOrchestra":
                             selectString = "SELECT * FROM CDOrchestra INNER JOIN CDClassical ON CDOrchestra.fldUPC = CDClassical.fldUPC WHERE CDOrchestra.fldUPC=" + UPC;
-                            command = new OleDbCommand(selectString, connection);
-                            reader = command.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                outDict["CDClassicalLabel"] = reader["fldLabel"].ToString();
-                                outDict["CDClassicalArtists"] = reader["fldArtists"].ToString();
-                                outDict["CDOrchestraConductor"] = reader["fldConductor"].ToString();
-                            }
                             break;
                         case "CDChamber":
                             selectString = "SELECT * FROM CDChamber INNER JOIN CDClassical ON CDChamber.fldUPC = CDClassical.fldUPC WHERE CDChamber.fldUPC=" + UPC;
-                            command = new OleDbCommand(selectString, connection);
-                            reader = command.ExecuteReader();
-                            if (reader.Read())
-                            {
-                                outDict["CDClassicalLabel"] = reader["fldLabel"].ToString();
-                                outDict["CDClassicalArtists"] = reader["fldArtists"].ToString();
-                                outDict["CDChamberInstrumentList"] = reader["fldInstrumentList"].ToString();
-                            }
                             break;
                     } // end switch
+                    command = new OleDbCommand(selectString, connection);
+                    reader = command.ExecuteReader();
+
+
+                    //Execute, and fill the dictionary with the product information.
+                    if (reader.Read())
+                    {
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            outDict[reader.GetName(i)] = reader[i].ToString();
+                        }
+                    }
                     return true;
                 } // end if
                 reader.Close();
